@@ -42,7 +42,7 @@ stage0-build:
 	@cd ansible; ansible-playbook pve_build_template.yml
 
 stage0-destroy:
-	@cd ansible; ansible-playbook pve_destroy_template.yml -e "vm_id=8999"
+	@cd ansible; ansible-playbook pve_destroy_template.yml -e "vm_id=${STAGE0_VM_ID}"
 
 stage0-build-force: stage0-destroy
 	@cd ansible; ansible-playbook pve_build_template.yml
@@ -51,7 +51,7 @@ stage1-build:
 	@cd packer; packer build .
 
 stage1-destroy:
-	@cd ansible; ansible-playbook pve_destroy_template.yml -e "vm_id=9000"
+	@cd ansible; ansible-playbook pve_destroy_template.yml -e "vm_id=${STAGE1_VM_ID}"
 
 stage1-build-force: stage1-destroy
 	@cd packer; packer build .

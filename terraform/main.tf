@@ -24,10 +24,10 @@ provider "proxmox" {
 
 resource "proxmox_vm_qemu" "tf-test" {
   count       = 1
-  target_node = "spmaxi"
+  target_node = var.pve_node
   name        = "tf-test-0${count.index}"
   desc        = "Created with Terraform"
-  clone       = "tpl-ubuntu-2004-min"
+  clone       = var.template_name
   vmid        = "810${count.index}"
 
   cpu     = "kvm64"

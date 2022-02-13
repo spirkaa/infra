@@ -1,14 +1,14 @@
 ---
-- hosts: spmaxi
+- hosts: "{{ lookup('env','TF_VAR_pve_node') }}"
   gather_facts: no
 
   vars:
     image_name: ubuntu-20.04-minimal-cloudimg-amd64.img
     image_url: https://cloud-images.ubuntu.com/minimal/releases/focal/release/{{ image_name }}
     image_path: /tmp/{{ image_name }}
-    vm_id: 8999
+    vm_id: "{{ lookup('env','STAGE0_VM_ID') }}"
     vm_id_string: "vmid: {{ vm_id }}"
-    vm_name: ubuntu-2004-min
+    vm_name: "{{ lookup('env','STAGE0_VM_NAME') }}"
     vm_cores: 2
     vm_memory: 2048
     vm_disk_size: 10

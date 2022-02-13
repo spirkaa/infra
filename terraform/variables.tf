@@ -19,3 +19,13 @@ variable "ssh_key" {
   description = "Public SSH key"
   type        = string
 }
+
+variable "pve_node" {
+  description = "The name of the Proxmox Node on which to place the VM"
+  type        = string
+}
+
+variable "template_name" {
+  description = "The base VM from which to clone to create the new VM"
+  type        = string
+}

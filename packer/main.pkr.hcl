@@ -7,54 +7,37 @@ packer {
   }
 }
 
-variable "proxmox_url" {
-  description = "URL to the Proxmox API, including the full path"
-  type        = string
-  default     = env("TF_VAR_proxmox_url")
-}
-
-variable "proxmox_username" {
-  description = "Username when authenticating to Proxmox, including the realm"
-  type        = string
-  sensitive   = true
-  default     = env("TF_VAR_proxmox_username")
-}
-
-variable "proxmox_token" {
-  description = "Token for authenticating API calls"
-  type        = string
-  sensitive   = true
-  default     = env("TF_VAR_proxmox_token")
-}
-
 source "proxmox-clone" "ubuntu-2004-min" {
   insecure_skip_tls_verify = true
   proxmox_url              = var.proxmox_url
   username                 = var.proxmox_username
   token                    = var.proxmox_token
-  node                     = "spmaxi"
-  clone_vm                 = "ubuntu-2004-min"
+  node                     = var.node
+  clone_vm                 = var.clone_vm
 
-  template_name        = "tpl-ubuntu-2004-min"
-  template_description = "Created with Packer"
-  vm_id                = "9000"
+  template_name        = var.template_name
+  template_description = "Built with Packer on ${timestamp()}"
+  vm_id                = var.vm_id
+
+  cpu_type = "kvm64"
+  cores    = 2
+  sockets  = 1
+  memory   = 2048
 
   os              = "l26"
-  cores           = "2"
-  memory          = "2048"
-  cpu_type        = "kvm64"
   scsi_controller = "virtio-scsi-pci"
 
   ssh_username = "ubuntu"
 
-  vga {
-    type = "serial0"
+  network_adapters {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    vlan_tag = 13
   }
 
-  network_adapters {
-    bridge   = "vmbr1"
-    model    = "virtio"
-    vlan_tag = "13"
+  vga {
+    memory = 0
+    type   = "serial0"
   }
 }
 
