@@ -15,19 +15,10 @@
     vm_disk_storage: local-lvm
     vm_net_br: vmbr1
     vm_net_vlan: 13
-    force: no
 
   tasks:
-    - name: Template - Destroy
-      command: >
-        qm destroy {{ vm_id }}
-      when: force | bool
-
-    - name: Get resources list from Proxmox
-      command: >
-        pvesh get /cluster/resources --type vm --output-format yaml
-      register: vm_list
-      changed_when: false
+    - name: include pve_util_vm_list.yml
+      include_tasks: tasks/pve_util_vm_list.yml
 
     - block:
         - name: Packages - install

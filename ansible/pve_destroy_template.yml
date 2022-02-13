@@ -1,0 +1,10 @@
+---
+- hosts: spmaxi
+  gather_facts: no
+
+  vars:
+    vm_id_string: "vmid: {{ vm_id }}"
+
+  tasks:
+    - name: include pve_util_destroy.yml
+      include_tasks: tasks/pve_util_destroy.yml

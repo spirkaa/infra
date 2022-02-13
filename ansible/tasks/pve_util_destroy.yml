@@ -1,0 +1,8 @@
+---
+- name: include pve_util_vm_list.yml
+  include_tasks: pve_util_vm_list.yml
+
+- name: Proxmox - Destroy VM/Template
+  command: >
+    qm destroy {{ vm_id }}
+  when: vm_id_string in vm_list.stdout
