@@ -1,0 +1,87 @@
+---
+- hosts: spmaxi
+  gather_facts: no
+
+  vars:
+    image_name: ubuntu-20.04-minimal-cloudimg-amd64.img
+    image_url: https://cloud-images.ubuntu.com/minimal/releases/focal/release/{{ image_name }}
+    image_path: /tmp/{{ image_name }}
+    vm_id: 8999
+    vm_id_string: "vmid: {{ vm_id }}"
+    vm_name: ubuntu-2004-min
+    vm_cores: 2
+    vm_memory: 2048
+    vm_disk_size: 10
+    vm_disk_storage: local-lvm
+    vm_net_br: vmbr1
+    vm_net_vlan: 13
+    force: no
+
+  tasks:
+    - name: Template - Destroy
+      command: >
+        qm destroy {{ vm_id }}
+      when: force | bool
+
+    - name: Get resources list from Proxmox
+      command: >
+        pvesh get /cluster/resources --type vm --output-format yaml
+      register: vm_list
+      changed_when: false
+
+    - block:
+        - name: Packages - install
+          package:
+            state: present
+            name:
+              - libguestfs-tools
+
+        - name: Image - Download
+          get_url:
+            url: "{{ image_url }}"
+            dest: "{{ image_path }}"
+
+        - name: Image - Customize
+          command: >
+            virt-customize -a {{ image_path }}
+              --install qemu-guest-agent
+
+        - name: VM - Create
+          command: >
+            qm create {{ vm_id }}
+              --name {{ vm_name }}
+              --cores {{ vm_cores }}
+              --memory {{ vm_memory }}
+              --ostype l26
+              --agent 1,fstrim_cloned_disks=1
+              --net0 virtio,bridge={{ vm_net_br }},tag={{ vm_net_vlan }}
+              --ipconfig0 ip=dhcp
+
+        - name: VM - Import image
+          command: >
+            qm importdisk {{ vm_id }} {{ image_path }} {{ vm_disk_storage }}
+
+        - name: VM - Confige hardware
+          command: >
+            qm set {{ vm_id }}
+              --scsihw virtio-scsi-pci
+              --scsi0 {{ vm_disk_storage }}:vm-{{ vm_id }}-disk-0,discard=on
+              --ide2 {{ vm_disk_storage }}:cloudinit
+              --bootdisk scsi0
+              --boot c
+              --serial0 socket
+              --vga serial0
+
+        - name: VM - Resize disk
+          command: >
+            qm resize {{ vm_id }} scsi0 {{ vm_disk_size }}G
+
+        - name: VM - Convert to Template
+          command: >
+            qm template {{ vm_id }}
+
+        - name: Image - Delete
+          file:
+            path: "{{ image_path }}"
+            state: absent
+      when: vm_id_string not in vm_list.stdout
