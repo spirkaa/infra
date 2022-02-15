@@ -3,12 +3,13 @@
   gather_facts: no
 
   vars:
-    image_name: ubuntu-20.04-minimal-cloudimg-amd64.img
-    image_url: https://cloud-images.ubuntu.com/minimal/releases/focal/release/{{ image_name }}
+    image_name: ubuntu-20.04-server-cloudimg-amd64.img
+    image_url: https://cloud-images.ubuntu.com/releases/focal/release/{{ image_name }}
     image_path: /tmp/{{ image_name }}
     vm_id: "{{ lookup('env','STAGE0_VM_ID') }}"
     vm_id_string: "vmid: {{ vm_id }}"
     vm_name: "{{ lookup('env','STAGE0_VM_NAME') }}"
+    vm_description: Built with Ansible
     vm_cores: 2
     vm_memory: 2048
     vm_disk_size: 10
@@ -41,6 +42,7 @@
           command: >
             qm create {{ vm_id }}
               --name {{ vm_name }}
+              --description "{{ vm_description }}"
               --cores {{ vm_cores }}
               --memory {{ vm_memory }}
               --ostype l26

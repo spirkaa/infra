@@ -1,0 +1,4 @@
+---
+roles:
+  - src: spirkaa.zsh_prezto
+collections: []

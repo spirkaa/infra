@@ -3,6 +3,3 @@ Thumbs.db
 
 *.log
 .env
-
-.cache
-*.retry

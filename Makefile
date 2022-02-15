@@ -9,7 +9,7 @@ all: help
 
 help:
 	@echo "make commands"
-	@echo "    init                           Init Packer and Terraform"
+	@echo "    init                           Init environment for Ansible, Packer and Terraform"
 	@echo "    fmt                            Format Packer and Terraform files"
 	@echo "    validate                       Validate Packer and Terraform files"
 	@echo "    stage0-build                   Build stage0 Proxmox template from cloud-init image"
@@ -27,6 +27,7 @@ help:
 	@echo "    show                           [terraform] Show the current state or a saved plan"
 
 init:
+	@cd ansible; ansible-galaxy install -r requirements.yml
 	@cd packer; packer init .
 	@cd terraform; terraform init
 

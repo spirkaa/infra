@@ -4,10 +4,14 @@ packer {
       source  = "github.com/hashicorp/proxmox"
       version = "1.0.4"
     }
+    ansible = {
+      source  = "github.com/hashicorp/ansible"
+      version = "1.0.1"
+    }
   }
 }
 
-source "proxmox-clone" "ubuntu-2004-min" {
+source "proxmox-clone" "ubuntu-2004" {
   insecure_skip_tls_verify = true
   proxmox_url              = var.proxmox_url
   username                 = var.proxmox_username
@@ -42,10 +46,16 @@ source "proxmox-clone" "ubuntu-2004-min" {
 }
 
 build {
-  sources = ["source.proxmox-clone.ubuntu-2004-min"]
+  sources = ["source.proxmox-clone.ubuntu-2004"]
 
   provisioner "shell" {
     inline = ["while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"]
+  }
+
+  provisioner "ansible" {
+    playbook_file    = "../ansible/packer_provisioner.yml"
+    ansible_env_vars = ["ANSIBLE_CONFIG=../ansible/ansible.cfg", "ANSIBLE_FORCE_COLOR=True"]
+    user             = "ubuntu"
   }
 
   provisioner "shell" {

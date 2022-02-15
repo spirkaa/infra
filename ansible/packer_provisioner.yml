@@ -1,0 +1,10 @@
+---
+- hosts: all
+  gather_facts: yes
+
+  vars:
+    zsh_prezto_repo: https://github.com/spirkaa/prezto.git
+    zsh_prezto_repo_version: 12f6ac6
+
+  roles:
+    - spirkaa.zsh_prezto
