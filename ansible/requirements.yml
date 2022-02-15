@@ -1,4 +1,5 @@
 ---
 roles:
+  - src: spirkaa.nano
   - src: spirkaa.zsh_prezto
 collections: []
