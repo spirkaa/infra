@@ -7,5 +7,6 @@
     zsh_prezto_repo_version: 12f6ac6
 
   roles:
-    - spirkaa.zsh_prezto
-    - spirkaa.nano
+    - { role: timezone, become: true }
+    - { role: spirkaa.zsh_prezto }
+    - { role: spirkaa.nano }
