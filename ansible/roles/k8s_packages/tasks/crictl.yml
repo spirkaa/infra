@@ -1,0 +1,17 @@
+---
+- name: crictl - download
+  unarchive:
+    src: "{{ crictl_url }}"
+    dest: "{{ bin_dir }}"
+    mode: 0755
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: crictl - copy config
+  template:
+    src: crictl.yaml.j2
+    dest: /etc/crictl.yaml
+    mode: 0644
+    owner: root
+    group: root

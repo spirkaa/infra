@@ -53,9 +53,10 @@ build {
   }
 
   provisioner "ansible" {
+    user             = "ubuntu"
     playbook_file    = "../ansible/packer_provisioner.yml"
     ansible_env_vars = ["ANSIBLE_CONFIG=../ansible/ansible.cfg", "ANSIBLE_FORCE_COLOR=True"]
-    user             = "ubuntu"
+    # extra_arguments = [ "-v" ]
   }
 
   provisioner "shell" {

@@ -1,0 +1,33 @@
+---
+- name: nerdctl - download
+  unarchive:
+    src: "{{ nerdctl_url }}"
+    dest: "{{ bin_dir }}"
+    mode: 0755
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: nerdctl - delete rootless scripts
+  file:
+    path: "{{ bin_dir }}/{{ item }}"
+    state: absent
+  loop:
+    - containerd-rootless.sh
+    - containerd-rootless-setuptool.sh
+
+- name: nerdctl - create dir
+  file:
+    dest: "{{ nerdctl_cfg_dir }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: nerdctl - copy config
+  template:
+    src: nerdctl.toml.j2
+    dest: "{{ nerdctl_cfg_dir }}/nerdctl.toml"
+    mode: 0644
+    owner: root
+    group: root

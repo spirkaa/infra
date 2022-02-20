@@ -1,0 +1,47 @@
+---
+- name: containerd - download
+  unarchive:
+    src: "{{ containerd_url }}"
+    dest: "{{ bin_dir }}"
+    mode: 0755
+    owner: root
+    group: root
+    remote_src: yes
+    extra_opts:
+      - --strip-components=1
+  notify: containerd - restart
+
+- name: containerd - copy systemd service
+  template:
+    src: containerd.service.j2
+    dest: /etc/systemd/system/containerd.service
+    mode: 0644
+    owner: root
+    group: root
+  notify: containerd - restart
+
+- name: containerd - create dir
+  file:
+    dest: "{{ containerd_cfg_dir }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: containerd - copy config
+  template:
+    src: containerd-config.toml.j2
+    dest: "{{ containerd_cfg_dir }}/config.toml"
+    mode: 0640
+    owner: root
+    group: root
+  notify: containerd - restart
+
+- name: containerd - flush handlers
+  meta: flush_handlers
+
+- name: containerd - enable and start
+  service:
+    name: containerd
+    enabled: yes
+    state: started

@@ -11,3 +11,4 @@
     - { role: packages, become: true }
     - { role: spirkaa.zsh_prezto }
     - { role: spirkaa.nano }
+    - { role: k8s_packages, become: true }

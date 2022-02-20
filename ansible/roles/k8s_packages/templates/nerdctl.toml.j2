@@ -1,0 +1,10 @@
+debug             = false
+debug_full        = false
+address           = "unix:///run/containerd/containerd.sock"
+namespace         = "k8s.io"
+snapshotter       = "native"
+cni_path          = "{{ cni_bin_dir }}"
+cni_netconfpath   = "{{ cni_cfg_dir }}"
+cgroup_manager    = "systemd"
+insecure_registry = false
+hosts_dir         = ["/etc/containerd/certs.d"]

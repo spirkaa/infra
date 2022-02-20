@@ -1,0 +1,12 @@
+---
+- name: containerd - restart
+  service:
+    name: containerd
+    state: restarted
+    daemon_reload: yes
+
+- name: kubelet - restart
+  service:
+    name: kubelet
+    state: restarted
+    daemon_reload: yes
