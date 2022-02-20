@@ -1,0 +1,20 @@
+---
+packages_base:
+  - mc
+  - tmux
+  - rsync
+  - wget
+  - curl
+  - git
+  - jq
+  - net-tools
+  - tcpdump
+  - mtr-tiny
+  - bmon
+  - iftop
+  - iotop
+  - htop
+  - ncdu
+  - bzip2
+  - zip
+  - unzip
