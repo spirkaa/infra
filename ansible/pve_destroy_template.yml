@@ -1,5 +1,5 @@
 ---
-- hosts: spmaxi
+- hosts: "{{ lookup('env','TF_VAR_pve_node') }}"
   gather_facts: no
 
   vars:

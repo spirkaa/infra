@@ -11,7 +11,7 @@ help:
 	@echo "make commands"
 	@echo "    init                           Init environment for Ansible, Packer and Terraform"
 	@echo "    fmt                            Format Packer and Terraform files"
-	@echo "    validate                       Validate Packer and Terraform files"
+	@echo "    validate                       Validate Packer and Terraform files, lint Ansible files"
 	@echo "    stage0-build                   Build stage0 Proxmox template from cloud-init image"
 	@echo "    stage0-destroy                 ! Destroy stage0 template"
 	@echo "    stage0-build-force             Recreate (Destroy + Build) stage0 template"
@@ -36,6 +36,7 @@ fmt:
 	@cd terraform; terraform fmt
 
 validate:
+	@cd ansible; ansible-lint
 	@cd packer; packer validate .
 	@cd terraform; terraform validate
 
@@ -46,7 +47,7 @@ stage0-destroy:
 	@cd ansible; ansible-playbook pve_destroy_template.yml -e "vm_id=${STAGE0_VM_ID}"
 
 stage0-build-force: stage0-destroy
-	@cd ansible; ansible-playbook pve_build_template.yml
+	@make stage0-build --no-print-directory
 
 stage1-build:
 	@cd packer; packer build .
@@ -55,7 +56,7 @@ stage1-destroy:
 	@cd ansible; ansible-playbook pve_destroy_template.yml -e "vm_id=${STAGE1_VM_ID}"
 
 stage1-build-force: stage1-destroy
-	@cd packer; packer build .
+	@make stage1-build --no-print-directory
 
 build:
 	@make stage0-build --no-print-directory
