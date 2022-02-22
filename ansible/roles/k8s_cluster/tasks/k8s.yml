@@ -32,17 +32,17 @@
       become: true
       when: not k8s_cluster_admin_conf.stat.exists
 
-    - name: kubectl credentials - create dir
+    - name: kubectl credentials - create user dir
       file:
         path: "{{ k8s_cluster_user_home }}"
         state: directory
-        mode: 0755
+        mode: 0700
 
-    - name: kubectl credentials - copy to user dir
+    - name: kubectl credentials - copy admin.conf to user dir
       copy:
         src: /etc/kubernetes/admin.conf
         dest: "{{ k8s_cluster_user_home }}/config"
-        mode: 0644
+        mode: 0600
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         remote_src: yes
