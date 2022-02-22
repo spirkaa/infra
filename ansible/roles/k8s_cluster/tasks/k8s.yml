@@ -1,0 +1,114 @@
+---
+- name: check if admin.conf exists (cluster initialized)
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: k8s_cluster_admin_conf
+
+- name: check if kubelet.conf exists (node in cluster)
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: k8s_cluster_kubelet_conf
+
+- name: first control plane node - cluster init tasks
+  block:
+    - name: kubeadm - create dir
+      file:
+        path: "{{ k8s_cluster_kubeadm_config | dirname }}"
+        state: directory
+        mode: 0755
+      become: true
+
+    - name: kubeadm - copy config
+      template:
+        src: kubeadm-config.yml.j2
+        dest: "{{ k8s_cluster_kubeadm_config }}"
+        mode: 0644
+      become: true
+
+    - name: kubeadm - init cluster
+      command: >
+        kubeadm init
+          --config {{ k8s_cluster_kubeadm_config }}
+      become: true
+      when: not k8s_cluster_admin_conf.stat.exists
+
+    - name: kubectl credentials - create dir
+      file:
+        path: "{{ k8s_cluster_user_home }}"
+        state: directory
+        mode: 0755
+
+    - name: kubectl credentials - copy to user dir
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: "{{ k8s_cluster_user_home }}/config"
+        mode: 0644
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        remote_src: yes
+      become: true
+
+    - name: kubectl credentials - fetch to ansible host
+      fetch:
+        src: "{{ k8s_cluster_user_home }}/config"
+        dest: "{{ lookup('env', 'HOME') }}/.kube/config"
+        flat: yes
+
+    - name: pod network - download manifest
+      get_url:
+        url: "{{ k8s_cluster_pod_network_manifest_url }}"
+        dest: "{{ k8s_cluster_pod_network_manifest }}"
+        mode: 0644
+      register: k8s_cluster_download_manifest
+
+    - name: pod network - apply manifest
+      command: >
+        kubectl apply -f {{ k8s_cluster_pod_network_manifest }}
+      register: k8s_cluster_network_result
+      changed_when: "'created' or 'configured' in k8s_cluster_network_result.stdout"
+      when: k8s_cluster_download_manifest.changed
+
+    - name: kubeadm - register cluster join command
+      command: kubeadm token create --print-join-command
+      changed_when: false
+      register: k8s_cluster_join_command_result
+
+    - name: kubeadm - upload certs and register key
+      command: kubeadm init phase upload-certs --upload-certs
+      changed_when: false
+      register: k8s_cluster_certs_key_result
+      become: true
+  run_once: true
+  when: inventory_hostname == groups[k8s_cluster_controlplane_group][0]
+
+- name: set kubeadm join command for all hosts
+  set_fact:
+    k8s_cluster_join_command: >
+      {{ k8s_cluster_join_command_result.stdout }}
+    k8s_cluster_certs_key: >
+      {{ k8s_cluster_certs_key_result.stdout_lines[-1] }}
+  delegate_to: "{{ item }}"
+  run_once: true
+  loop: "{{ ansible_play_hosts }}"
+  when: >
+    k8s_cluster_join_command_result.stdout is defined and
+    k8s_cluster_certs_key_result.stdout is defined
+
+- name: kubeadm - control plane nodes - join cluster
+  command: >
+    {{ k8s_cluster_join_command }}
+    --control-plane
+    --certificate-key {{ k8s_cluster_certs_key }}
+  become: true
+  when: >
+    k8s_cluster_controlplane_group in group_names and
+    not k8s_cluster_kubelet_conf.stat.exists and
+    inventory_hostname != groups[k8s_cluster_controlplane_group][0]
+
+- name: kubeadm - worker nodes - join cluster
+  command: >
+    {{ k8s_cluster_join_command }}
+  become: true
+  when: >
+    k8s_cluster_workers_group in group_names and
+    not k8s_cluster_kubelet_conf.stat.exists

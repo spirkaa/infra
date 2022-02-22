@@ -1,0 +1,31 @@
+---
+- name: lb - install packages
+  package:
+    name:
+      - haproxy
+      - keepalived
+    state: present
+  become: true
+
+- name: lb - set sysctl entries
+  sysctl:
+    sysctl_file: /etc/sysctl.d/keepalived.conf
+    name: net.ipv4.ip_nonlocal_bind
+    value: '1'
+    reload: yes
+    state: present
+  become: true
+
+- name: lb - copy configs
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  loop:
+    - { src: haproxy.cfg.j2, dest: /etc/haproxy/haproxy.cfg }
+    - { src: keepalived.conf.j2, dest: /etc/keepalived/keepalived.conf }
+  notify: lb - restart services
+  become: true
+
+- name: lb - flush handlers
+  meta: flush_handlers

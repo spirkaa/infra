@@ -1,0 +1,6 @@
+---
+- hosts: all
+  gather_facts: yes
+
+  roles:
+    - { role: k8s_cluster }

@@ -1,0 +1,33 @@
+global_defs {
+  router_id LVS_DEVEL
+  enable_script_security
+  script_user root
+}
+
+vrrp_script check_haproxy {
+  script "/usr/bin/pgrep haproxy"
+  interval 2
+  fall 3
+  rise 2
+}
+
+{% for vrrpiname, vrrpiopts in k8s_cluster_lb_keepalived_interface.items() | list %}
+vrrp_instance {{ vrrpiname }} {
+  {% for key, value in vrrpiopts.items() | list -%}
+  {{ key }}
+    {%- if value is string %} {{ value }}
+    {%- elif value is mapping %} {
+      {% for vk, vv in value.items() | list -%}
+  {{ vk }} {{ vv }}
+      {% endfor %}
+}
+    {%- elif value is sequence %} {
+      {% for v in value -%}
+  {{ v }}
+      {% endfor %}
+  }
+    {%- endif %}
+
+  {% endfor -%}
+}
+{% endfor %}

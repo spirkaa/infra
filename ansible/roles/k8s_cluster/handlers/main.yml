@@ -1,0 +1,9 @@
+---
+- name: lb - restart services
+  service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - haproxy
+    - keepalived
+  become: true
