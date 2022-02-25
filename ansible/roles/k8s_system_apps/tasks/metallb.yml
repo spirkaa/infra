@@ -1,0 +1,23 @@
+---
+- name: metallb - create namespace
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: "{{ metallb_namespace }}"
+    state: "{{ metallb_state }}"
+
+- name: metallb - create configmap
+  k8s:
+    definition: "{{ lookup('template', 'metallb_configmap.yaml.j2') | from_yaml }}"
+    state: "{{ metallb_state }}"
+
+- name: metallb - download manifest
+  get_url:
+    url: "{{ metallb_manifest_url }}"
+    dest: "{{ metallb_manifest_dest }}"
+    mode: 0644
+
+- name: metallb - apply manifest
+  k8s:
+    src: "{{ metallb_manifest_dest }}"
+    state: "{{ metallb_state }}"

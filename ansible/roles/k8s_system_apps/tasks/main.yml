@@ -1,0 +1,14 @@
+---
+- name: metallb
+  include_tasks: metallb.yml
+
+- name: ingress-nginx
+  include_tasks: ingress_nginx.yml
+
+- name: longhorn
+  include_tasks: longhorn.yml
+
+- name: test - hello-kubernetes app - apply manifest
+  k8s:
+    definition: "{{ lookup('file', 'test-hello-kubernetes.yaml') }}"
+    state: present

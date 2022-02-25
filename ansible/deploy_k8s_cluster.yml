@@ -4,3 +4,9 @@
 
   roles:
     - { role: k8s_cluster }
+
+- hosts: localhost
+  gather_facts: no
+
+  roles:
+    - { role: k8s_system_apps }

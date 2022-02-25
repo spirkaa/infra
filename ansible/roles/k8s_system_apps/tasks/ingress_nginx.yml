@@ -1,0 +1,11 @@
+---
+- name: ingress-nginx - download manifest
+  get_url:
+    url: "{{ ingress_nginx_manifest_url }}"
+    dest: "{{ ingress_nginx_manifest_dest }}"
+    mode: 0644
+
+- name: ingress-nginx - apply manifest
+  k8s:
+    src: "{{ ingress_nginx_manifest_dest }}"
+    state: "{{ ingress_nginx_state }}"
