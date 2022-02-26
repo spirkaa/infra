@@ -34,10 +34,9 @@ resource "null_resource" "ansible" {
     command     = "ansible-playbook ${local.ansible_playbook}"
     working_dir = "../ansible"
     environment = {
-      ANSIBLE_INVENTORY   = local.ansible_inventory
-      ANSIBLE_CONFIG      = local.ansible_config
-      ANSIBLE_FORCE_COLOR = "True"
-      ANSIBLE_VERBOSITY   = "0"
+      ANSIBLE_INVENTORY = local.ansible_inventory
+      ANSIBLE_CONFIG    = local.ansible_config
+      ANSIBLE_VERBOSITY = "0"
     }
   }
 }
