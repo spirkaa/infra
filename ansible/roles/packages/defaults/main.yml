@@ -18,3 +18,5 @@ packages_base:
   - bzip2
   - zip
   - unzip
+  - nfs-common
+  - open-iscsi
