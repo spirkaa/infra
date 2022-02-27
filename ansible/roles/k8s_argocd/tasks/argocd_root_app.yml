@@ -1,0 +1,32 @@
+---
+- name: argocd - root app - secret
+  k8s:
+    definition: "{{ lookup('template', 'argocd_root_app_secret.yml.j2') | from_yaml }}"
+    state: "{{ argocd_state }}"
+
+- name: argocd - root app - helm template
+  command: >
+    helm template
+      root
+      --include-crds
+      --namespace argocd
+      --set repo={{ argocd_root_app_repo_url }}
+      ../cluster/bootstrap/root
+  register: argocd_root_app_template_result
+  changed_when: false
+
+- name: argocd - root app - apply helm template
+  k8s:
+    namespace: argocd
+    definition: "{{ argocd_root_app_template_result.stdout }}"
+    state: "{{ argocd_state }}"
+
+- name: argocd - root app - wait for applicationsets
+  command: >
+    kubectl -n argocd wait --timeout=300s --for condition=ResourcesUpToDate
+      applicationset/system
+      applicationset/platform
+      applicationset/apps
+  register: argocd_root_app_wait_result
+  changed_when: false
+  when: argocd_state == "present"

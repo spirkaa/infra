@@ -10,3 +10,4 @@
 
   roles:
     - { role: k8s_system_apps }
+    - { role: k8s_argocd }

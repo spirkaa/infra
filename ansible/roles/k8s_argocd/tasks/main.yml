@@ -1,0 +1,46 @@
+---
+- name: argocd - root app - uninstall
+  include_tasks: argocd_root_app.yml
+  when: argocd_state == "absent"
+
+- name: argocd - namespace
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: argocd
+    state: "{{ argocd_state }}"
+
+- name: argocd - init - helm dependency update
+  command: >
+    helm dependency update {{ argocd_chart }}
+  register: result
+  changed_when: "'Successfully' in result.stdout"
+
+- name: argocd - init - helm template
+  command: >
+    helm template
+      argocd
+      --include-crds
+      --namespace argocd
+      {{ argocd_chart }}
+  register: argocd_init_helm_template_result
+  changed_when: false
+
+- name: argocd - init - apply helm template
+  k8s:
+    namespace: argocd
+    definition: "{{ argocd_init_helm_template_result.stdout }}"
+    state: "{{ argocd_state }}"
+
+- name: argocd - init - wait for crds
+  command: >
+    kubectl -n argocd wait --timeout=60s --for condition=Established
+      crd/applications.argoproj.io
+      crd/applicationsets.argoproj.io
+  register: argocd_init_wait_result
+  changed_when: false
+  when: argocd_state == "present"
+
+- name: argocd - root app - install
+  include_tasks: argocd_root_app.yml
+  when: argocd_state == "present"
