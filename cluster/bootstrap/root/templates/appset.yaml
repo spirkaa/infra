@@ -1,29 +1,29 @@
-{{- range $index, $stack := .Values.stacks }}
+{{- range $index, $appset := .Values.appsets }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: {{ $stack.name }}
+  name: {{ $appset.name }}
   namespace: {{ $.Release.Namespace }}
 spec:
   generators:
-    - git:
-        repoURL: {{ $.Values.repo }}
-        revision: {{ $.Values.revision }}
-        directories:
-          - path: cluster/{{ $stack.name }}/*
+  - git:
+      repoURL: {{ $.Values.repo }}
+      revision: {{ $.Values.revision }}
+      directories:
+      - path: cluster/{{ $appset.name }}/*
   template:
     metadata:
       name: '{{ `{{path.basename}}` }}'
     spec:
-      destination:
-        name: in-cluster
-        namespace: '{{ default `{{path.basename}}` $stack.namespace }}'
       project: default
       source:
         repoURL: {{ $.Values.repo }}
-        path: '{{ `{{path}}` }}'
         targetRevision: {{ $.Values.revision }}
+        path: '{{ `{{path}}` }}'
+      destination:
+        name: in-cluster
+        namespace: '{{ default `{{path.basename}}` $appset.namespace }}'
       syncPolicy:
         automated:
           prune: true
@@ -36,4 +36,5 @@ spec:
             maxDuration: 16m
         syncOptions:
           - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
 {{- end }}

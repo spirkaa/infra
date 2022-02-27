@@ -1,6 +1,7 @@
 repo: https://github.com/spirkaa/infra
 revision: main
-stacks:
+
+appsets:
   - name: bootstrap
     namespace: argocd
   - name: system
