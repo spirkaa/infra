@@ -2,9 +2,8 @@ longhorn:
   defaultSettings:
     defaultReplicaCount: 3
     nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-    priorityClass: high-priority
+    priorityClass: system-node-critical
     replicaAutoBalance: best-effort
-    storageMinimalAvailablePercentage: 10
   persistence:
     defaultClass: true
     defaultClassReplicaCount: 3
