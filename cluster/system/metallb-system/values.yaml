@@ -1,2 +1,2 @@
 metallb:
-  existingConfigMap: config
+  existingConfigMap: metallb-config
