@@ -54,7 +54,7 @@
           command: >
             qm importdisk {{ vm_id }} {{ image_path }} {{ vm_disk_storage }}
 
-        - name: VM - Confige hardware
+        - name: VM - Configure hardware
           command: >
             qm set {{ vm_id }}
               --scsihw virtio-scsi-pci
