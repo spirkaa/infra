@@ -9,5 +9,5 @@
   gather_facts: no
 
   roles:
-    - { role: k8s_system_apps }
+    - { role: k8s_metallb_config }
     - { role: k8s_argocd }
