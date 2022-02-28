@@ -4,6 +4,7 @@ kind: ClusterConfiguration
 networking:
   podSubnet: "{{ k8s_cluster_pod_network }}"
 controlPlaneEndpoint: "{{ k8s_cluster_control_plane_endpoint }}"
+clusterName: "{{ k8s_cluster_name }}"
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
