@@ -1,0 +1,17 @@
+longhorn:
+  defaultSettings:
+    defaultReplicaCount: 3
+    nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+    priorityClass: high-priority
+    replicaAutoBalance: best-effort
+    storageMinimalAvailablePercentage: 10
+  persistence:
+    defaultClass: true
+    defaultClassReplicaCount: 3
+    reclaimPolicy: Retain
+  ingress:
+    enabled: true
+    host: longhorn.home.devmem.ru
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: 10000m
