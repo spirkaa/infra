@@ -3,6 +3,19 @@
   k8s:
     definition: "{{ lookup('template', 'argocd_root_app_secret.yml.j2') | from_yaml }}"
     state: "{{ argocd_state }}"
+  no_log: true
+
+- name: argocd - root app - check main repo
+  uri:
+    url: "{{ argocd_root_app_repo_url }}"
+    timeout: 10
+  register: argocd_root_app_check_main_repo
+  ignore_errors: true
+
+- name: argocd - root app - set mirror repo as helm value
+  set_fact:
+    argocd_root_app_set_repo: --set repo={{ argocd_root_app_repo_mirror_url }}
+  when: argocd_root_app_check_main_repo.status != 200
 
 - name: argocd - root app - helm template
   command: >
@@ -10,7 +23,7 @@
       root
       --include-crds
       --namespace argocd
-      --set repo={{ argocd_root_app_repo_url }}
+      {{ argocd_root_app_set_repo | default('', true) }}
       ../cluster/bootstrap/root
   register: argocd_root_app_template_result
   changed_when: false

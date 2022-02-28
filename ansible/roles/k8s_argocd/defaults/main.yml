@@ -1,6 +1,7 @@
 ---
 argocd_state: present
 argocd_chart: ../cluster/bootstrap/argocd
-argocd_root_app_repo_url: "{{ lookup('env','ARGOCD_ROOT_APP_REPO_URL') }}"
+argocd_root_app_repo_url: https://git.devmem.ru/piv/infra
 argocd_root_app_repo_user: "{{ lookup('env','ARGOCD_ROOT_APP_REPO_USER') }}"
 argocd_root_app_repo_pass: "{{ lookup('env','ARGOCD_ROOT_APP_REPO_PASS') }}"
+argocd_root_app_repo_mirror_url: https://github.com/spirkaa/infra
