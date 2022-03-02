@@ -1,3 +1,6 @@
 ingress-nginx:
   controller:
     replicaCount: 2
+    use-forwarded-headers: "true"
+    service:
+      externalTrafficPolicy: Local
