@@ -1,11 +1,28 @@
 # Infra
 
+## Компоненты кластера Kubernetes
+
+### Сеть
+
+* [Calico](https://github.com/projectcalico/calico)
+* [MetalLB](https://github.com/metallb/metallb)
+* [ingress-nginx](https://github.com/kubernetes/ingress-nginx)
+* [cert-manager](https://github.com/cert-manager/cert-manager)
+
+### Хранилище
+
+* [Longhorn](https://github.com/longhorn/longhorn)
+
+### GitOps
+
+* [ArgoCD](https://github.com/argoproj/argo-cd)
+
 ## Базовый шаблон ВМ (cloud-init)
 
 Подготовка выполняется в 2 этапа:
 
-  1. [Ansible](https://www.ansible.com/) скачивает образ Ubuntu Cloud с сайта, с помощью `virt-customize` устанавливает в него пакет `qemu-guest-agent`, создает ВМ и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
-  2. [Packer](https://www.packer.io/) клонирует шаблон из п.1, запускает, настраивает, преобразует обратно в шаблон.
+1. [Ansible](https://www.ansible.com/) скачивает образ Ubuntu Cloud с сайта, с помощью `virt-customize` устанавливает в него пакет `qemu-guest-agent`, создает ВМ и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
+2. [Packer](https://www.packer.io/) клонирует шаблон из п.1, запускает, настраивает с помощью Ansible, преобразует в шаблон.
 
 Разворачивание ВМ из шаблона выполняется с помощью [Terraform](https://www.terraform.io/).
 
