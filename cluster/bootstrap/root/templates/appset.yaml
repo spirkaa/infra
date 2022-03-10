@@ -31,10 +31,10 @@ spec:
         retry:
           limit: 10
           backoff:
-            duration: 1m
+            duration: 10s
             factor: 2
-            maxDuration: 16m
+            maxDuration: 10m
         syncOptions:
           - CreateNamespace=true
-          - ApplyOutOfSyncOnly=true
+          # - ApplyOutOfSyncOnly=true
 {{- end }}
