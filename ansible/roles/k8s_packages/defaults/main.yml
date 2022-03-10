@@ -4,19 +4,19 @@ bin_dir: /usr/local/bin
 runc_version: 1.1.0
 runc_url: https://github.com/opencontainers/runc/releases/download/v{{ runc_version }}/runc.amd64
 
-cni_version: 1.0.1
+cni_version: 1.1.0
 cni_url: https://github.com/containernetworking/plugins/releases/download/v{{ cni_version }}/cni-plugins-linux-amd64-v{{ cni_version }}.tgz
 cni_bin_dir: /opt/cni/bin
 cni_cfg_dir: /etc/cni/net.d
 
-containerd_version: 1.6.0
+containerd_version: 1.6.1
 containerd_url: https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-amd64.tar.gz
 containerd_cfg_dir: /etc/containerd
 
 crictl_version: 1.23.0
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ crictl_version }}/crictl-v{{ crictl_version }}-linux-amd64.tar.gz
 
-nerdctl_version: 0.17.0
+nerdctl_version: 0.17.1
 nerdctl_url: https://github.com/containerd/nerdctl/releases/download/v{{ nerdctl_version }}/nerdctl-{{ nerdctl_version }}-linux-amd64.tar.gz
 nerdctl_cfg_dir: /etc/nerdctl
 

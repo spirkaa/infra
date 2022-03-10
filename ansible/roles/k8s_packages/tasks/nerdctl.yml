@@ -8,14 +8,6 @@
     group: root
     remote_src: yes
 
-- name: nerdctl - delete rootless scripts
-  file:
-    path: "{{ bin_dir }}/{{ item }}"
-    state: absent
-  loop:
-    - containerd-rootless.sh
-    - containerd-rootless-setuptool.sh
-
 - name: nerdctl - create dir
   file:
     dest: "{{ nerdctl_cfg_dir }}"
