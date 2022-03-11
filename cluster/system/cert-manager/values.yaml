@@ -1,2 +1,4 @@
 cert-manager:
   installCRDs: true
+cert-manager-webhook-selectel:
+  fullnameOverride: cert-manager-webhook-selectel

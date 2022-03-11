@@ -4,7 +4,7 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: piv@devmem.ru
+    email: cert-manager@devmem.ru
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-prod-account-key
@@ -12,3 +12,14 @@ spec:
       - http01:
           ingress:
             class: nginx
+      - dns01:
+          webhook:
+            groupName: acme.selectel.ru
+            solverName: selectel
+            config:
+              apiKeySecretRef:
+                name: selectel-api-key
+                key: api-key
+        selector:
+          dnsZones:
+            - "k8s.devmem.ru"
