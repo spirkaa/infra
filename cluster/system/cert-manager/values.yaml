@@ -1,4 +1,7 @@
 cert-manager:
   installCRDs: true
+  extraArgs:
+    - --default-issuer-name=letsencrypt-prod
+    - --default-issuer-kind=ClusterIssuer
 cert-manager-webhook-selectel:
   fullnameOverride: cert-manager-webhook-selectel
