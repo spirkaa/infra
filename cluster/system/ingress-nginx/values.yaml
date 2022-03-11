@@ -4,3 +4,6 @@ ingress-nginx:
     use-forwarded-headers: "true"
     service:
       externalTrafficPolicy: Local
+    extraArgs:
+      default-ssl-certificate: cert-manager/k8s-devmem-ru-tls
+      enable-ssl-passthrough: "true"
