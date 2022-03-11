@@ -1,9 +1,10 @@
 argo-cd:
+  global:
+    image:
+      tag: v2.2.7
   server:
-    extraArgs:
-      - --insecure
     config:
-      statusbadge.enabled: 'true'
+      statusbadge.enabled: "true"
       resource.customizations.health.argoproj.io_Application: |
         hs = {}
         hs.status = "Progressing"
@@ -19,6 +20,15 @@ argo-cd:
         return hs
     ingress:
       enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       ingressClassName: nginx
+      https: true
       hosts:
-        - argocd.home.devmem.ru
+      - argocd.k8s.devmem.ru
+      tls:
+      - hosts:
+        - argocd.k8s.devmem.ru
+        secretName: argocd-server-tls
