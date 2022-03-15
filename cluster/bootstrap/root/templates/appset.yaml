@@ -21,6 +21,8 @@ spec:
         repoURL: {{ $.Values.repo }}
         targetRevision: {{ $.Values.revision }}
         path: '{{ `{{path}}` }}'
+        plugin:
+          name: argocd-lovely-plugin
       destination:
         name: in-cluster
         namespace: '{{ default `{{path.basename}}` $appset.namespace }}'

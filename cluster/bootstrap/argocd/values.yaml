@@ -2,8 +2,27 @@ argo-cd:
   global:
     image:
       tag: v2.2.7
+  repoServer:
+    volumeMounts:
+    - name: custom-tools
+      mountPath: /usr/local/bin/argocd-lovely-plugin
+      subPath: argocd-lovely-plugin
+    volumes:
+    - name: custom-tools
+      emptyDir: {}
+    initContainers:
+    - name: argocd-lovely-plugin-download
+      image: ghcr.io/crumbhole/argocd-lovely-plugin:latest
+      imagePullPolicy: Always
+      volumeMounts:
+      - mountPath: /custom-tools
+        name: custom-tools
   server:
     config:
+      configManagementPlugins: |-
+        - name: argocd-lovely-plugin
+          generate:
+            command: ["argocd-lovely-plugin"]
       statusbadge.enabled: "true"
       resource.customizations.health.argoproj.io_Application: |
         hs = {}
