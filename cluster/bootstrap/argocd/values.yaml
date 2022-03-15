@@ -19,6 +19,7 @@ argo-cd:
         name: custom-tools
   server:
     config:
+      url: https://argocd.k8s.devmem.ru
       configManagementPlugins: |-
         - name: argocd-lovely-plugin
           generate:
