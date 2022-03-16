@@ -1,5 +1,6 @@
 ---
-- hosts: "{{ lookup('env','TF_VAR_pve_node') }}"
+- name: pve template - destroy
+  hosts: "{{ lookup('env','TF_VAR_pve_node') }}"
   gather_facts: no
 
   vars:
