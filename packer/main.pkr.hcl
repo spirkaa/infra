@@ -53,9 +53,10 @@ build {
   }
 
   provisioner "ansible" {
-    user             = "ubuntu"
-    playbook_file    = "../ansible/packer_provisioner.yml"
-    ansible_env_vars = ["ANSIBLE_CONFIG=../ansible/ansible.cfg"]
+    user                   = "ubuntu"
+    playbook_file          = "../ansible/pve_template_packer.yml"
+    ansible_env_vars       = ["ANSIBLE_CONFIG=../ansible/ansible.cfg"]
+    ansible_ssh_extra_args = ["-o HostKeyAlgorithms=+ssh-rsa,ssh-dss -o PubkeyAcceptedKeyTypes=+ssh-rsa,ssh-dss"]
     # extra_arguments = [ "-v" ]
   }
 

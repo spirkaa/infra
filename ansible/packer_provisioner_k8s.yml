@@ -1,0 +1,7 @@
+---
+- name: packer provisioner - k8s
+  hosts: all
+  gather_facts: yes
+
+  roles:
+    - { role: k8s_packages, become: true }

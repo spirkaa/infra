@@ -1,0 +1,14 @@
+---
+- name: packer provisioner - base
+  hosts: all
+  gather_facts: yes
+
+  vars:
+    zsh_prezto_repo: https://github.com/spirkaa/prezto.git
+    zsh_prezto_repo_version: 12f6ac6
+
+  roles:
+    - { role: timezone, become: true }
+    - { role: packages, become: true }
+    - { role: spirkaa.zsh_prezto }
+    - { role: spirkaa.nano }
