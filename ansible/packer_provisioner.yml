@@ -1,3 +1,6 @@
 ---
 - import_playbook: packer_provisioner_base.yml
+  tags: [base, k8s]
+
 - import_playbook: packer_provisioner_k8s.yml
+  tags: [k8s]

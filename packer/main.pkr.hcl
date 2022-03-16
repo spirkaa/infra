@@ -11,7 +11,7 @@ packer {
   }
 }
 
-source "proxmox-clone" "ubuntu-2004" {
+source "proxmox-clone" "template" {
   insecure_skip_tls_verify = true
   proxmox_url              = var.proxmox_url
   username                 = var.proxmox_username
@@ -19,9 +19,7 @@ source "proxmox-clone" "ubuntu-2004" {
   node                     = var.node
   clone_vm                 = var.clone_vm
 
-  template_name        = var.template_name
   template_description = "Built with Packer on ${timestamp()}"
-  vm_id                = var.vm_id
 
   cpu_type = "kvm64"
   cores    = 2
@@ -46,7 +44,17 @@ source "proxmox-clone" "ubuntu-2004" {
 }
 
 build {
-  sources = ["source.proxmox-clone.ubuntu-2004"]
+  source "proxmox-clone.template" {
+    name          = "base"
+    template_name = "${var.template_name}-${source.name}"
+    vm_id         = var.vm_id_base
+  }
+
+  source "proxmox-clone.template" {
+    name          = "k8s"
+    template_name = "${var.template_name}-${source.name}"
+    vm_id         = var.vm_id_k8s
+  }
 
   provisioner "shell" {
     inline = ["while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"]
@@ -57,10 +65,18 @@ build {
     playbook_file          = "../ansible/packer_provisioner.yml"
     ansible_env_vars       = ["ANSIBLE_CONFIG=../ansible/ansible.cfg"]
     ansible_ssh_extra_args = ["-o HostKeyAlgorithms=+ssh-rsa,ssh-dss -o PubkeyAcceptedKeyTypes=+ssh-rsa,ssh-dss"]
-    # extra_arguments = [ "-v" ]
+    extra_arguments        = ["-t ${source.name}"]
   }
 
   provisioner "shell" {
-    inline = ["sudo cloud-init clean"]
+    execute_command = "sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    scripts = [
+      "scripts/packer-virt-sysprep/sysprep-op-cloud-init.sh",
+      "scripts/packer-virt-sysprep/sysprep-op-logfiles.sh",
+      "scripts/packer-virt-sysprep/sysprep-op-machine-id.sh",
+      "scripts/packer-virt-sysprep/sysprep-op-package-manager-cache.sh",
+      "scripts/packer-virt-sysprep/sysprep-op-package-manager-db.sh",
+      "scripts/packer-virt-sysprep/sysprep-op-tmp-files.sh"
+    ]
   }
 }

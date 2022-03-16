@@ -1,6 +1,6 @@
 ---
 - name: packer provisioner - base
-  hosts: all
+  hosts: default
   gather_facts: yes
 
   vars:

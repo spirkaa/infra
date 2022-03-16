@@ -16,9 +16,9 @@ help:
 	@echo "    stage0-build                   Build stage0 Proxmox template from cloud-init image"
 	@echo "    stage0-destroy                 ! Destroy stage0 template"
 	@echo "    stage0-build-force             Recreate (Destroy + Build) stage0 template"
-	@echo "    stage1-build                   Build stage1 Proxmox template with Packer"
-	@echo "    stage1-destroy                 ! Destroy stage1 template"
-	@echo "    stage1-build-force             Recreate (Destroy + Build) stage1 template"
+	@echo "    stage1-build                   Build stage1 Proxmox templates with Packer"
+	@echo "    stage1-destroy                 ! Destroy stage1 templates"
+	@echo "    stage1-build-force             Recreate (Destroy + Build) stage1 templates"
 	@echo "    build                          Build all templates"
 	@echo "    build-force                    Recreate (Destroy + Build) all templates"
 	@echo "    templates-destroy              ! Destroy all templates"
@@ -57,7 +57,8 @@ stage1-build:
 	@cd packer; packer build .
 
 stage1-destroy:
-	@cd ansible; ansible-playbook pve_template_destroy.yml -e "vm_id=${STAGE1_VM_ID}"
+	@cd ansible; ansible-playbook pve_template_destroy.yml -e "vm_id=${STAGE1_VM_ID_BASE}"
+	@cd ansible; ansible-playbook pve_template_destroy.yml -e "vm_id=${STAGE1_VM_ID_K8S}"
 
 stage1-build-force: stage1-destroy
 	@make stage1-build --no-print-directory

@@ -52,7 +52,7 @@
 
 1. Клонировать репозиторий
 
-    `git clone https://github.com/spirkaa/infra`
+    `git clone --recurse-submodules https://github.com/spirkaa/infra`
 
 1. Перейти в каталог
 

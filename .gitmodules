@@ -1,0 +1,3 @@
+[submodule "packer/scripts/packer-virt-sysprep"]
+	path = packer/scripts/packer-virt-sysprep
+	url = https://github.com/spirkaa/packer-virt-sysprep.git

@@ -1,6 +1,6 @@
 ---
 - name: packer provisioner - k8s
-  hosts: all
+  hosts: default
   gather_facts: yes
 
   roles:

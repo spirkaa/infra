@@ -3,7 +3,7 @@ resource "proxmox_vm_qemu" "k8s_lb" {
   target_node = var.pve_node
   name        = "k8s-lb-0${count.index + 1}"
   desc        = "Load Balancer"
-  clone       = var.template_name
+  clone       = "${var.template_name}-base"
   vmid        = "812${count.index + 1}"
 
   cpu     = "kvm64"
@@ -57,9 +57,10 @@ EOF
     inline = ["while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"]
 
     connection {
-      host    = self.default_ipv4_address
-      user    = local.vm_user
-      timeout = "10s"
+      host        = self.default_ipv4_address
+      user        = local.vm_user
+      timeout     = "10s"
+      private_key = file("~/.ssh/id_rsa")
     }
   }
 }

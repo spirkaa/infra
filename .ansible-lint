@@ -1,2 +1,7 @@
+exclude_paths:
+  - cluster/
+  - packer/
+  - terraform/
+  - tools/
 warn_list:
   - meta-no-info

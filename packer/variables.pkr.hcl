@@ -24,10 +24,16 @@ variable "node" {
   default     = env("TF_VAR_pve_node")
 }
 
-variable "vm_id" {
-  description = "The ID used to reference the virtual machine"
+variable "vm_id_base" {
+  description = "The ID used to reference the virtual machine for base template"
   type        = number
-  default     = env("STAGE1_VM_ID")
+  default     = env("STAGE1_VM_ID_BASE")
+}
+
+variable "vm_id_k8s" {
+  description = "The ID used to reference the virtual machine for k8s template"
+  type        = number
+  default     = env("STAGE1_VM_ID_K8S")
 }
 
 variable "clone_vm" {
