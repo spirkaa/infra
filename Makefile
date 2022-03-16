@@ -1,4 +1,4 @@
-.PHONY: all help init fmt validate stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply destroy show
+.PHONY: all help tools init fmt validate stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply destroy show cluster
 
 ifneq (,$(wildcard ./.env))
 sinclude .env
@@ -9,6 +9,7 @@ all: help
 
 help:
 	@echo "make commands"
+	@echo "    tools                          Build and start local docker container 'infra-tools'"
 	@echo "    init                           Init environment for Ansible, Packer and Terraform"
 	@echo "    fmt                            Format Packer and Terraform files"
 	@echo "    validate                       Validate Packer and Terraform files, lint Ansible files"
@@ -25,6 +26,9 @@ help:
 	@echo "    apply                          [terraform] Create or update infrastructure"
 	@echo "    destroy                        [terraform] Destroy previously-created infrastructure"
 	@echo "    show                           [terraform] Show the current state or a saved plan"
+
+tools:
+	@make -C tools --no-print-directory
 
 init:
 	@cd ansible; ansible-galaxy install -r requirements.yml
@@ -81,3 +85,8 @@ destroy:
 
 show:
 	@cd terraform; terraform show
+
+cluster:
+	@make init --no-print-directory
+	@make build --no-print-directory
+	@make apply --no-print-directory
