@@ -1,6 +1,6 @@
-# Роль Ansible: Kubernetes Packages
+# Роль Ansible: Kubernetes Host Packages
 
-Роль Ansible, которая подготавливает пакеты и исполняемые файлы, необходимые для работы Kubrenetes.
+Роль Ansible, которая устанавливает пакеты и исполняемые файлы, необходимые для работы Kubrenetes.
 
 * [runc](https://github.com/opencontainers/runc/releases)
 * [cni](https://github.com/containernetworking/plugins/releases)

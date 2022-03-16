@@ -1,0 +1,15 @@
+---
+- name: k8s cluster init
+  hosts: all
+  gather_facts: yes
+
+  roles:
+    - { role: k8s/cluster_init }
+
+- name: k8s apps
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - { role: k8s_apps/metallb_config }
+    - { role: k8s_apps/argocd }

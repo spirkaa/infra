@@ -4,4 +4,4 @@
   gather_facts: yes
 
   roles:
-    - { role: k8s_packages, become: true }
+    - { role: k8s/host_packages, become: true }
