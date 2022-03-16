@@ -1,0 +1,18 @@
+vault:
+  injector:
+    enabled: false
+  ui:
+    enabled: true
+  server:
+    dataStorage:
+      storageClass: longhorn
+      size: 1Gi
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - host: vault.k8s.devmem.ru
+      tls:
+        - hosts:
+            - vault.k8s.devmem.ru
+          secretName: null

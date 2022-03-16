@@ -27,6 +27,7 @@
 
 * [ArgoCD](https://github.com/argoproj/argo-cd)
 * [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin)
+* [Vault](https://github.com/hashicorp/vault)
 
 ## Базовый шаблон ВМ (cloud-init)
 
