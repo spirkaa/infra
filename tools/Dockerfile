@@ -13,6 +13,7 @@ RUN pacman --sync --refresh --noconfirm \
         openssh \
         packer \
         python \
+        python-jmespath \
         python-kubernetes \
         python-pip \
         sops \
