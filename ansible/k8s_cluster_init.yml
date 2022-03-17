@@ -11,5 +11,5 @@
   gather_facts: no
 
   roles:
-    - { role: k8s_apps/metallb_config }
+    - { role: k8s_apps/metallb }
     - { role: k8s_apps/argocd }
