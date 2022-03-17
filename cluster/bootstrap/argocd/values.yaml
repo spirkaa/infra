@@ -1,7 +1,4 @@
 argo-cd:
-  global:
-    image:
-      tag: v2.2.7
   repoServer:
     volumeMounts:
     - name: custom-tools
