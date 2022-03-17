@@ -14,6 +14,7 @@ run:
 		--tty \
 		--network host \
 		--cap-add=CAP_IPC_LOCK \
+		--env "TZ=Europe/Moscow" \
 		--env "TERM=${TERM}" \
 		--env "HOME=${HOME}" \
 		--volume "${HOME}:${HOME}" \
