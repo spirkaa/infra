@@ -1,18 +1,24 @@
-.PHONY: all help tools init fmt validate stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply destroy show cluster
+.PHONY: all help tools init fmt validate cleanup stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply destroy show cluster
 
 ifneq (,$(wildcard ./.env))
 sinclude .env
 export
 endif
 
+K8S_NAMES = k8s-controlplane-01 k8s-controlplane-02 k8s-controlplane-03 k8s-worker-01 k8s-worker-02 k8s-worker-03 k8s-lb-01 k8s-lb-02
+K8S_IPS = 01 02 03 11 12 13 21 22 40 54
+
 all: help
 
 help:
-	@echo "make commands"
-	@echo "    tools                          Build and start local docker container 'infra-tools'"
-	@echo "    init                           Init environment for Ansible, Packer and Terraform"
+	@echo "    cluster                        All-in-one command for cluster deployment"
+	@echo ""
+	@echo "    tools                          Build local docker image 'infra-tools' and start container"
+	@echo "    init                           Init environment of Ansible, Packer and Terraform"
 	@echo "    fmt                            Format Packer and Terraform files"
 	@echo "    validate                       Validate Packer and Terraform files, lint Ansible files"
+	@echo "    cleanup                        Cleanup init"
+	@echo ""
 	@echo "    stage0-build                   Build stage0 Proxmox template from cloud-init image"
 	@echo "    stage0-destroy                 ! Destroy stage0 template"
 	@echo "    stage0-build-force             Recreate (Destroy + Build) stage0 template"
@@ -22,6 +28,7 @@ help:
 	@echo "    build                          Build all templates"
 	@echo "    build-force                    Recreate (Destroy + Build) all templates"
 	@echo "    templates-destroy              ! Destroy all templates"
+	@echo ""
 	@echo "    plan                           [terraform] Show changes required by the current configuration"
 	@echo "    apply                          [terraform] Create or update infrastructure"
 	@echo "    destroy                        [terraform] Destroy previously-created infrastructure"
@@ -43,6 +50,11 @@ validate:
 	@cd ansible; ansible-lint
 	@cd packer; packer validate .
 	@cd terraform; terraform validate
+
+cleanup:
+	@rm -rf ansible/roles_galaxy
+	@rm -rf terraform/.terraform
+	@rm -rf ~/.config/packer
 
 stage0-build:
 	@cd ansible; ansible-playbook pve_template_build.yml
@@ -83,6 +95,12 @@ apply:
 
 destroy:
 	@cd terraform; terraform destroy
+	@for name in $(K8S_NAMES); do \
+		ssh-keygen -f ~/.ssh/known_hosts -R $$name; \
+	done
+	@for ip in $(K8S_IPS); do \
+		ssh-keygen -f ~/.ssh/known_hosts -R 192.168.13.2$$ip; \
+	done
 
 show:
 	@cd terraform; terraform show
@@ -90,4 +108,4 @@ show:
 cluster:
 	@make init --no-print-directory
 	@make build --no-print-directory
-	@make apply --no-print-directory
+	@cd terraform; terraform apply -auto-approve
