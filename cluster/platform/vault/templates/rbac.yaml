@@ -1,0 +1,73 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: vault-bootstrap
+  namespace: vault
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - "pods"
+  verbs:
+  - "get"
+  - "list"
+  - "watch"
+- apiGroups:
+  - ""
+  resources:
+  - "secrets"
+  verbs:
+  - "get"
+  - "list"
+  - "watch"
+  - "create"
+- apiGroups:
+  - ""
+  resources:
+  - "serviceaccounts"
+  verbs:
+  - "get"
+  - "list"
+  - "watch"
+- apiGroups:
+  - "batch"
+  resources:
+  - "jobs"
+  verbs:
+  - "get"
+  - "list"
+  - "watch"
+  - "create"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: role-vault-bootstrap-binding
+  namespace: vault
+subjects:
+- kind: ServiceAccount
+  name: vault
+  namespace: vault
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: vault-bootstrap
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-external-secrets
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: role-tokenreview-binding
+subjects:
+- kind: ServiceAccount
+  name: vault-external-secrets
+  namespace: vault
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
