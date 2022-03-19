@@ -38,6 +38,9 @@ tools:
 	@make -C tools --no-print-directory
 
 init:
+	@packer version
+	@terraform version
+	@ansible --version
 	@cd ansible; ansible-galaxy install -r requirements.yml
 	@cd packer; packer init .
 	@cd terraform; terraform init
@@ -108,4 +111,5 @@ show:
 cluster:
 	@make init --no-print-directory
 	@make build --no-print-directory
+	@sleep 10
 	@cd terraform; terraform apply -auto-approve

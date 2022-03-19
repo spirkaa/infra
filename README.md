@@ -16,8 +16,7 @@
 * [Calico](https://github.com/projectcalico/calico)
 * [MetalLB](https://github.com/metallb/metallb)
 * [ingress-nginx](https://github.com/kubernetes/ingress-nginx)
-* [cert-manager](https://github.com/cert-manager/cert-manager)
-* [cert-manager-webhook-selectel](https://github.com/selectel/cert-manager-webhook-selectel)
+* [cert-manager](https://github.com/cert-manager/cert-manager) + [cert-manager-webhook-selectel](https://github.com/selectel/cert-manager-webhook-selectel)
 
 ### Хранилище
 
@@ -25,9 +24,8 @@
 
 ### GitOps
 
-* [ArgoCD](https://github.com/argoproj/argo-cd)
-* [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin)
-* [Vault](https://github.com/hashicorp/vault)
+* [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin)
+* [Vault](https://github.com/hashicorp/vault) + [vault-bootstrap](https://github.com/spirkaa/vault-bootstrap)
 
 ## Запуск
 
