@@ -1,0 +1,44 @@
+---
+- name: vault - create namespace
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: "{{ vault_namespace }}"
+    state: present
+
+- name: vault - wait for pod Ready condition (initialized and unsealed)
+  command: >
+    kubectl -n {{ vault_namespace }} wait
+      pod vault-0
+      --timeout=600s
+      --for=condition=Ready
+  register: _vault_pod_condition
+  until: '"condition met" in _vault_pod_condition.stdout'
+  retries: 60
+  delay: 10
+  failed_when: >
+    (_vault_pod_condition.rc >= 1) and
+    ("NotFound" not in _vault_pod_condition.stdout)
+  changed_when: false
+
+- name: vault - get token
+  command: >
+    kubectl -n {{ vault_namespace }} get secret
+      vault-root-token -o jsonpath="{.data.vaultData}"
+  register: _vault_token
+  no_log: true
+  changed_when: false
+
+- name: vault - set fact
+  set_fact:
+    vault_token: "{{ _vault_token.stdout | b64decode }}"
+  no_log: true
+
+- name: vault - create secrets
+  command: >
+    kubectl -n {{ vault_namespace }} exec vault-0 --
+      sh -c 'VAULT_TOKEN={{ vault_token }} vault kv put -format=json \
+      secret/{{ item.path }} {{ item.name }}={{ item.value }}'
+  loop: "{{ vault_secrets }}"
+  no_log: true
+  changed_when: true

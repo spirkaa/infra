@@ -1,0 +1,9 @@
+---
+vault_namespace: vault
+vault_secret_name: vault-init
+vault_token: "{{ lookup('env','VAULT_TOKEN') }}"
+
+vault_secrets:
+  - path: cert-manager
+    name: selectel-api-key
+    value: "{{ lookup('env','SELECTEL_API_KEY') }}"
