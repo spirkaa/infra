@@ -73,8 +73,6 @@ build {
       "scripts/packer-virt-sysprep/sysprep-op-cloud-init.sh",
       "scripts/packer-virt-sysprep/sysprep-op-logfiles.sh",
       "scripts/packer-virt-sysprep/sysprep-op-machine-id.sh",
-      "scripts/packer-virt-sysprep/sysprep-op-package-manager-cache.sh",
-      "scripts/packer-virt-sysprep/sysprep-op-package-manager-db.sh",
       "scripts/packer-virt-sysprep/sysprep-op-tmp-files.sh"
     ]
   }
