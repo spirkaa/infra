@@ -54,7 +54,7 @@ EOF
   }
 
   provisioner "remote-exec" {
-    inline = ["while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"]
+    inline = ["while [ ! -f /var/lib/cloud/instance/boot-finished ]; do sleep 1; done"]
 
     connection {
       host        = self.default_ipv4_address
