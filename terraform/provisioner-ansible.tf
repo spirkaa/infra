@@ -36,7 +36,6 @@ resource "null_resource" "ansible" {
     environment = {
       ANSIBLE_INVENTORY = local.ansible_inventory
       ANSIBLE_CONFIG    = local.ansible_config
-      ANSIBLE_VERBOSITY = "0"
     }
   }
 }
