@@ -1,51 +1,46 @@
 ---
 - name: vault - create namespace
-  k8s:
+  kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
     name: "{{ vault_namespace }}"
     state: present
 
 - name: vault - wait for pod Ready condition (initialized and unsealed)
-  command: >
-    kubectl -n {{ vault_namespace }}
-      wait pod
-      {{ vault_pod }}
-      --timeout=600s
-      --for=condition=Ready
+  kubernetes.core.k8s:
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: "{{ vault_pod }}"
+        namespace: "{{ vault_namespace }}"
+    wait: yes
+    wait_condition:
+      type: Ready
+      status: True
+    wait_timeout: 1200
   register: _vault_pod_condition
-  until: '"condition met" in _vault_pod_condition.stdout'
-  retries: 60
+  until: _vault_pod_condition is not failed
+  retries: 120
   delay: 10
-  failed_when: >
-    (_vault_pod_condition.rc >= 1) and
-    ("NotFound" not in _vault_pod_condition.stdout)
-  changed_when: false
 
 - block:
     - name: vault - get token from k8s secret
-      command: >
-        kubectl -n {{ vault_namespace }}
-          get secret
-          {{ vault_token_k8s_secret.name }}
-          -o jsonpath="{.data.{{ vault_token_k8s_secret.key }}}"
-      register: _vault_token
-      changed_when: false
+      set_fact:
+        _vault_token_query: "{{ query('kubernetes.core.k8s', kind='Secret', namespace=vault_namespace, resource_name=vault_token_k8s_secret.name) }}"
 
     - name: vault - set token as fact
       set_fact:
-        vault_token: "{{ _vault_token.stdout | b64decode }}"
+        vault_token: "{{ _vault_token_query[0].data[vault_token_k8s_secret.key] | b64decode }}"
   no_log: true
   when: not vault_token
 
 - name: vault - put secrets
-  command: >
-    kubectl -n {{ vault_namespace }}
-      exec
-      {{ vault_pod }}
-      --
+  kubernetes.core.k8s_exec:
+    namespace: "{{ vault_namespace }}"
+    pod: "{{ vault_pod }}"
+    command: >
       sh -c 'VAULT_TOKEN={{ vault_token }} vault kv put -format=json \
       {{ item.path }} {{ item.name }}={{ item.value }}'
-  loop: "{{ vault_secrets }}"
   no_log: true
-  changed_when: true
+  loop: "{{ vault_secrets }}"
