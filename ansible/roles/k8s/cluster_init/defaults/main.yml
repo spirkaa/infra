@@ -10,7 +10,8 @@ k8s_cluster_name: infra
 k8s_cluster_pod_network: 10.244.0.0/16
 k8s_cluster_control_plane_endpoint: 192.168.13.254
 
-k8s_cluster_pod_network_manifest_url: https://projectcalico.docs.tigera.io/v3.22/manifests/calico.yaml
+k8s_cluster_pod_network_version: 3.22
+k8s_cluster_pod_network_manifest_url: https://projectcalico.docs.tigera.io/v{{ k8s_cluster_pod_network_version }}/manifests/calico.yaml
 k8s_cluster_pod_network_manifest: "{{ k8s_cluster_user_home }}/calico.yaml"
 
 k8s_cluster_lb_keepalived_interface:
