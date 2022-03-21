@@ -1,2 +1,9 @@
 metallb:
   existingConfigMap: metallb-config
+  prometheus:
+    serviceAccount: prometheus-operator
+    namespace: monitoring
+    podMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
