@@ -51,6 +51,11 @@ spec:
               - hosts:
                   - prometheus.k8s.devmem.ru
                 secretName: null
+          prometheusSpec:
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            probeSelectorNilUsesHelmValues: false
         prometheusOperator:
           fullnameOverride: prometheus-operator
         prometheus-node-exporter:
