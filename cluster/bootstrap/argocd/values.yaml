@@ -14,6 +14,10 @@ argo-cd:
       volumeMounts:
       - mountPath: /custom-tools
         name: custom-tools
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
   server:
     config:
       url: https://argocd.k8s.devmem.ru
@@ -49,3 +53,19 @@ argo-cd:
       - hosts:
         - argocd.k8s.devmem.ru
         secretName: argocd-server-tls
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+  controller:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+  applicationSet:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+  dex:
+    enabled: false
