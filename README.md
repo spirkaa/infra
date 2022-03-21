@@ -22,6 +22,11 @@
 
 * [Longhorn](https://github.com/longhorn/longhorn)
 
+
+### Мониторинг
+
+* [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts)
+
 ### GitOps
 
 * [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin)

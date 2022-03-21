@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 34.1.1
+    chart: kube-prometheus-stack
+    helm:
+      skipCrds: true
+      values: |
+        fullnameOverride: prometheus
+        alertmanager:
+          fullnameOverride: alertmanager
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - alertmanager.k8s.devmem.ru
+            tls:
+              - hosts:
+                  - alertmanager.k8s.devmem.ru
+                secretName: null
+        grafana:
+          fullnameOverride: grafana
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - grafana.k8s.devmem.ru
+            tls:
+              - hosts:
+                  - grafana.k8s.devmem.ru
+                secretName: null
+        prometheus:
+          fullnameOverride: prometheus
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - prometheus.k8s.devmem.ru
+            tls:
+              - hosts:
+                  - prometheus.k8s.devmem.ru
+                secretName: null
+        prometheusOperator:
+          fullnameOverride: prometheus-operator
+        prometheus-node-exporter:
+          fullnameOverride: node-exporter
+        kube-state-metrics:
+          fullnameOverride: kube-state-metrics
+        kubeEtcd:
+          service:
+            port: 2381
+            targetPort: 2381
+  destination:
+    name: in-cluster
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
