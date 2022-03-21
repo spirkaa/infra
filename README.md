@@ -22,7 +22,6 @@
 
 * [Longhorn](https://github.com/longhorn/longhorn)
 
-
 ### Мониторинг
 
 * [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts)

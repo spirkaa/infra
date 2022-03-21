@@ -7,3 +7,7 @@ ingress-nginx:
     extraArgs:
       default-ssl-certificate: cert-manager/k8s-devmem-ru-tls
       enable-ssl-passthrough: "true"
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
