@@ -1,11 +1,26 @@
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
+kubernetesVersion: v{{ inventory__kubernetes_version }}
 networking:
-  podSubnet: "{{ k8s_cluster_pod_network }}"
-controlPlaneEndpoint: "{{ k8s_cluster_control_plane_endpoint }}"
-clusterName: "{{ k8s_cluster_name }}"
+  podSubnet: {{ k8s_cluster_pod_network }}
+controlPlaneEndpoint: {{ k8s_cluster_control_plane_endpoint }}
+clusterName: {{ k8s_cluster_name }}
+controllerManager:
+  extraArgs:
+    bind-address: 0.0.0.0
+scheduler:
+  extraArgs:
+    bind-address: 0.0.0.0
+etcd:
+  local:
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 cgroupDriver: systemd
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+bindAddress: 0.0.0.0

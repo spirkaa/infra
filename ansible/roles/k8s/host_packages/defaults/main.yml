@@ -20,7 +20,7 @@ nerdctl_version: 0.17.1
 nerdctl_url: https://github.com/containerd/nerdctl/releases/download/v{{ nerdctl_version }}/nerdctl-{{ nerdctl_version }}-linux-amd64.tar.gz
 nerdctl_cfg_dir: /etc/nerdctl
 
-kubernetes_version: 1.23.4
+kubernetes_version: "{{ inventory__kubernetes_version }}"
 kubernetes_repo: https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64
 kubernetes_bins:
   - "{{ kubernetes_repo }}/kubelet"
