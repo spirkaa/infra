@@ -40,6 +40,9 @@ spec:
               - hosts:
                   - grafana.k8s.devmem.ru
                 secretName: null
+          sidecar:
+            dashboards:
+              searchNamespace: ALL
         prometheus:
           fullnameOverride: prometheus
           ingress:
