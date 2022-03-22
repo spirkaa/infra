@@ -93,6 +93,14 @@ spec:
               loki-promtail:
                 url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/promtail/dashboards/promtail.json
                 datasource: Prometheus
+              loki-promtail:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/promtail/dashboards/promtail.json
+                datasource: Prometheus
+              ingress-nginx:
+                url: https://grafana.com/api/dashboards/9614/revisions/1/download
+                datasource: Prometheus
+              ingress-nginx-loki:
+                url: https://grafana.com/api/dashboards/12559/revisions/11/download
         prometheus:
           fullnameOverride: prometheus
           ingress:
