@@ -101,6 +101,8 @@ spec:
                 datasource: Prometheus
               ingress-nginx-loki:
                 url: https://grafana.com/api/dashboards/12559/revisions/11/download
+              argocd:
+                url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
         prometheus:
           fullnameOverride: prometheus
           ingress:
