@@ -1,0 +1,20 @@
+hajimari:
+  env:
+    TZ: Europe/Moscow
+  hajimari:
+    defaultEnable: true
+    namespaceSelector:
+      any: true
+  ingress:
+    main:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - host: &host k8s.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: null
+          hosts:
+            - *host
