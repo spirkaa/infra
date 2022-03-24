@@ -1,0 +1,18 @@
+---
+- name: permission - check if already exist
+  command: >
+    pveum user permission {{ pve_api_user }} --output-format json
+  register: _permission_check
+  changed_when: false
+
+- name: permission - add
+  command: >
+    pveum acl modify {{ pve_api_permission_path }}
+      -user {{ pve_api_user }}
+      -role {{ pve_api_role_name }}
+  changed_when: true
+  when: not (_permission_check.stdout |
+    from_json |
+    dict2items(key_name='path', value_name='privs') |
+    selectattr('path', 'equalto', pve_api_permission_path) |
+    list)

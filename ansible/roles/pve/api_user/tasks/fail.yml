@@ -1,0 +1,11 @@
+---
+- name: fail - token already exist in proxmox but not set in env vars
+  fail:
+    msg: |
+      Change default value of 'pve_api_token_name' to generate new token
+      or
+      add existing token to environment variables / ansible host .env file:
+      {{ pve_api_token_id_env }} and {{ pve_api_token_value_env }}
+  when: >
+    not pve_api_token_id or
+    not pve_api_token_value

@@ -1,0 +1,12 @@
+---
+- name: user - check if already exist
+  command: >
+    pveum user list --output-format json
+  register: _user_check
+  changed_when: false
+
+- name: user - add
+  command: >
+    pveum user add {{ pve_api_user }} -comment "{{ pve_api_user_comment }}"
+  changed_when: true
+  when: not (_user_check.stdout | from_json | selectattr('userid', 'equalto', pve_api_user) | list)

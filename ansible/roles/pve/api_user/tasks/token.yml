@@ -1,0 +1,30 @@
+---
+- name: token - check if already exist
+  command: >
+    pveum user token list {{ pve_api_user }} --output-format json
+  register: _token_check
+  changed_when: false
+
+- block:
+    - name: token - add
+      command: >
+        pveum user token add {{ pve_api_user }} {{ pve_api_token_name }} --privsep 0 --output-format json
+      register: _token_result
+      changed_when: true
+
+    - name: token - set fact
+      set_fact:
+        pve_api_token_id: "{{ _token_result.stdout | from_json | json_query('\"full-tokenid\"') }}"
+        pve_api_token_value: "{{ _token_result.stdout | from_json | json_query('value') }}"
+
+    - name: token - save to ansible host .env file
+      lineinfile:
+        dest: ../.env
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regexp: "^TF_VAR_proxmox_username", line: "TF_VAR_proxmox_username={{ pve_api_token_id }}" }
+        - { regexp: "^TF_VAR_proxmox_token", line: "TF_VAR_proxmox_token={{ pve_api_token_value }}" }
+      delegate_to: localhost
+  no_log: true
+  when: not (_token_check.stdout | from_json | selectattr('tokenid', 'equalto', pve_api_token_name) | list)
