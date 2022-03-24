@@ -22,9 +22,16 @@
 
 * [Longhorn](https://github.com/longhorn/longhorn)
 
-### Мониторинг
+### Observability (логи, метрики, трейсы)
 
 * [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts)
+  * Prometheus
+  * Alertmanager
+  * Grafana
+
+* [loki-stack](https://github.com/grafana/helm-charts/tree/main/charts/loki-stack)
+  * Loki
+  * Promtail
 
 ### GitOps
 
@@ -36,7 +43,7 @@
 ### Требования
 
 * Сервер Proxmox
-* Клиент Linux/macOS с установленным git и docker для запуска контейнера с утилитами
+* Клиент Linux/macOS с установленными git и docker для запуска контейнера с утилитами
 
 ### Пользователь для API Proxmox
 
