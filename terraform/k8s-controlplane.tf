@@ -26,7 +26,7 @@ EOF
     slot    = 0
     type    = "scsi"
     storage = "local-lvm"
-    size    = "10G"
+    size    = "15G"
     discard = "on"
     ssd     = 1
   }
