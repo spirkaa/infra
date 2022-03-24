@@ -1,0 +1,100 @@
+---
+- name: role - check if already exist
+  command: >
+    pveum role list --output-format json
+  register: _role_check
+  changed_when: false
+
+- name: role - set check fact
+  set_fact:
+    role_exists: "{{ _role_check.stdout | from_json | selectattr('roleid', 'equalto', pve_api_role_name) | list }}"
+
+- name: role - add
+  command: >
+    pveum role add {{ pve_api_role_name }} -privs "{{ pve_api_role_privs }}"
+  changed_when: true
+  when: not role_exists
+
+- name: user - check if already exist
+  command: >
+    pveum user list --output-format json
+  register: _user_check
+  changed_when: false
+
+- name: user - set check fact
+  set_fact:
+    pve_user_exists: "{{ _user_check.stdout | from_json | selectattr('userid', 'equalto', pve_api_user) | list }}"
+
+- name: user - add
+  command: >
+    pveum user add {{ pve_api_user }} -comment "{{ pve_api_user_comment }}"
+  changed_when: true
+  when: not pve_user_exists
+
+- name: permission - check if already exist
+  command: >
+    pveum user permission {{ pve_api_user }} --output-format json
+  register: _permission_check
+  changed_when: false
+
+- name: permission - set check fact
+  set_fact:
+    permission_exists: "{{ _permission_check.stdout |
+      from_json |
+      dict2items(key_name='path', value_name='privs') |
+      selectattr('path', 'equalto', pve_api_permission_path) |
+      list }}"
+
+- name: permission - add
+  command: >
+    pveum acl modify {{ pve_api_permission_path }}
+      -user {{ pve_api_user }}
+      -role {{ pve_api_role_name }}
+  changed_when: true
+  when: not permission_exists
+
+- name: token - check if already exist
+  command: >
+    pveum user token list {{ pve_api_user }} --output-format json
+  register: _token_check
+  changed_when: false
+
+- name: token - set check fact
+  set_fact:
+    token_exists: "{{ _token_check.stdout | from_json | selectattr('tokenid', 'equalto', pve_api_token_name) | list }}"
+
+- block:
+    - name: token - add
+      command: >
+        pveum user token add {{ pve_api_user }} {{ pve_api_token_name }} --privsep 0 --output-format json
+      register: _token_result
+      changed_when: true
+      when: not token_exists
+
+    - name: token - set fact
+      set_fact:
+        pve_api_token_id: "{{ _token_result.stdout | from_json | json_query('\"full-tokenid\"') }}"
+        pve_api_token_value: "{{ _token_result.stdout | from_json | json_query('value') }}"
+
+    - name: token - save to ansible host .env file
+      lineinfile:
+        dest: ../.env
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regexp: "^TF_VAR_proxmox_username", line: "TF_VAR_proxmox_username={{ pve_api_token_id }}" }
+        - { regexp: "^TF_VAR_proxmox_token", line: "TF_VAR_proxmox_token={{ pve_api_token_value }}" }
+      delegate_to: localhost
+  no_log: true
+  when: not token_exists
+
+- name: fail - token already exist in proxmox but not found in env vars
+  fail:
+    msg: |
+      "Change 'pve_api_token_name' default value to generate new token
+      OR
+      add existing token to ansible environment variables or host .env file:
+      {{ pve_api_token_id_env }} and {{ pve_api_token_value_env }}"
+  when: >
+    not pve_api_token_id or
+    not pve_api_token_value

@@ -1,4 +1,4 @@
-.PHONY: all help tools init fmt validate cleanup stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply destroy show cluster
+.PHONY: all help tools init fmt validate cleanup pve-api-user stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply destroy show cluster
 
 ifneq (,$(wildcard ./.env))
 sinclude .env
@@ -19,6 +19,7 @@ help:
 	@echo "    validate                       Validate Packer and Terraform files, lint Ansible files"
 	@echo "    cleanup                        Cleanup init"
 	@echo ""
+	@echo "    pve-api-user                   Create Proxmox API user for Packer and Terraform"
 	@echo "    stage0-build                   Build stage0 Proxmox template from cloud-init image"
 	@echo "    stage0-destroy                 ! Destroy stage0 template"
 	@echo "    stage0-build-force             Recreate (Destroy + Build) stage0 template"
@@ -59,6 +60,9 @@ cleanup:
 	@rm -rf terraform/.terraform
 	@rm -rf ~/.config/packer
 
+pve-api-user:
+	@cd ansible; ansible-playbook pve_api_user.yml
+
 stage0-build:
 	@cd ansible; ansible-playbook pve_template_build.yml
 
@@ -79,6 +83,7 @@ stage1-build-force: stage1-destroy
 	@make stage1-build --no-print-directory
 
 build:
+	@pve-api-user --no-print-directory
 	@make stage0-build --no-print-directory
 	@make stage1-build --no-print-directory
 

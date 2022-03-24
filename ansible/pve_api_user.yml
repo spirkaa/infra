@@ -1,0 +1,7 @@
+---
+- name: pve api user
+  hosts: "{{ lookup('env','TF_VAR_pve_node') }}"
+  gather_facts: no
+
+  roles:
+    - { role: pve/api_user }
