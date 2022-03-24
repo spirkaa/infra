@@ -1,0 +1,73 @@
+---
+- name: include util_resource_facts.yml
+  include_tasks: util_resource_facts.yml
+
+- block:
+    - name: packages - install
+      package:
+        state: present
+        name:
+          - libguestfs-tools
+
+    - name: image - download
+      get_url:
+        url: "{{ pve_template_image_url }}"
+        dest: "{{ pve_template_image_path }}"
+      register: _get_url_result
+      retries: 3
+      delay: 5
+      until: _get_url_result is not failed
+
+    - name: image - customize
+      command: >
+        virt-customize -a {{ pve_template_image_path }} {{ item }}
+      changed_when: true
+      loop:
+        - --install qemu-guest-agent
+        - --run-command "echo -n > /etc/machine-id"
+
+    - name: vm - create
+      command: >
+        qm create {{ pve_template_vmid }}
+          --name {{ pve_template_name }}
+          --description "{{ pve_template_description }}"
+          --cores {{ pve_template_cores }}
+          --memory {{ pve_template_memory }}
+          --ostype l26
+          --agent 1,fstrim_cloned_disks=1
+          --net0 virtio,bridge={{ pve_template_net_br }},tag={{ pve_template_net_vlan }}
+          --ipconfig0 ip=dhcp
+      changed_when: true
+
+    - name: vm - import image
+      command: >
+        qm importdisk {{ pve_template_vmid }} {{ pve_template_image_path }} {{ pve_template_disk_storage }}
+      changed_when: true
+
+    - name: vm - configure hardware
+      command: >
+        qm set {{ pve_template_vmid }}
+          --scsihw virtio-scsi-pci
+          --scsi0 {{ pve_template_disk_storage }}:vm-{{ pve_template_vmid }}-disk-0,discard=on
+          --ide2 {{ pve_template_disk_storage }}:cloudinit
+          --bootdisk scsi0
+          --boot c
+          --serial0 socket
+          --vga serial0
+      changed_when: true
+
+    - name: vm - resize disk
+      command: >
+        qm resize {{ pve_template_vmid }} scsi0 {{ pve_template_disk_size }}G
+      changed_when: true
+
+    - name: vm - convert to template
+      command: >
+        qm template {{ pve_template_vmid }}
+      changed_when: true
+
+    - name: image - delete
+      file:
+        path: "{{ pve_template_image_path }}"
+        state: absent
+  when: not pve_resource_exists

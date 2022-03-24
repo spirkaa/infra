@@ -1,0 +1,11 @@
+---
+- name: resources - get list
+  command: >
+    pvesh get /cluster/resources --type vm --output-format yaml
+  register: _resource_list
+  changed_when: false
+
+- name: resources - set facts
+  set_fact:
+    pve_resource_exists: "{{ _resource_list.stdout | from_yaml | selectattr('vmid', 'equalto', pve_template_vmid|int) | list }}"
+    pve_resource_list: "{{ _resource_list.stdout | from_yaml }}"

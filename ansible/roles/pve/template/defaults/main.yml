@@ -1,0 +1,14 @@
+---
+pve_template_image_url: https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.img
+pve_template_image_path: /tmp/{{ pve_template_image_url | basename }}
+pve_template_vmid: "{{ lookup('env','STAGE0_VM_ID') }}"
+pve_template_name: "{{ lookup('env','STAGE0_VM_NAME') }}"
+pve_template_description: Built with Ansible
+pve_template_cores: 2
+pve_template_memory: 2048
+pve_template_disk_size: 5
+pve_template_disk_storage: local-lvm
+pve_template_net_br: vmbr1
+pve_template_net_vlan: 13
+
+pve_template_destroy: false

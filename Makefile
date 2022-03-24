@@ -63,7 +63,7 @@ stage0-build:
 	@cd ansible; ansible-playbook pve_template_build.yml
 
 stage0-destroy:
-	@cd ansible; ansible-playbook pve_template_destroy.yml -e "vm_id=${STAGE0_VM_ID}"
+	@cd ansible; ansible-playbook pve_template_destroy.yml -e "pve_template_vmid=${STAGE0_VM_ID}"
 
 stage0-build-force: stage0-destroy
 	@make stage0-build --no-print-directory
@@ -72,8 +72,8 @@ stage1-build:
 	@cd packer; packer build .
 
 stage1-destroy:
-	@cd ansible; ansible-playbook pve_template_destroy.yml -e "vm_id=${STAGE1_VM_ID_BASE}"
-	@cd ansible; ansible-playbook pve_template_destroy.yml -e "vm_id=${STAGE1_VM_ID_K8S}"
+	@cd ansible; ansible-playbook pve_template_destroy.yml -e "pve_template_vmid=${STAGE1_VM_ID_BASE}"
+	@cd ansible; ansible-playbook pve_template_destroy.yml -e "pve_template_vmid=${STAGE1_VM_ID_K8S}"
 
 stage1-build-force: stage1-destroy
 	@make stage1-build --no-print-directory

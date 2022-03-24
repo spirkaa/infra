@@ -1,0 +1,8 @@
+---
+- name: template build tasks
+  include_tasks: template_build.yml
+  when: not pve_template_destroy
+
+- name: template destroy tasks
+  include_tasks: template_destroy.yml
+  when: pve_template_destroy

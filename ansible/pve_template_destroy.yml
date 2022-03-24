@@ -4,8 +4,7 @@
   gather_facts: no
 
   vars:
-    vm_id_string: "vmid: {{ vm_id }}"
+    pve_template_destroy: true
 
-  tasks:
-    - name: include pve_util_destroy.yml
-      include_tasks: tasks/pve_util_destroy.yml
+  roles:
+    - { role: pve/template }
