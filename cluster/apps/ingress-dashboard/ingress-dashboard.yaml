@@ -100,11 +100,11 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: 100Mi
-              cpu: 100m
+              memory: 50Mi
+              cpu: 250m
             limits:
-              memory: 200Mi
-              cpu: 200m
+              memory: 100Mi
+              cpu: 500m
       serviceAccountName: ingress-dashboard
 ---
 apiVersion: networking.k8s.io/v1
