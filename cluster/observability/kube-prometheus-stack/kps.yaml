@@ -68,9 +68,6 @@ spec:
               node-exporter-full:
                 url: https://grafana.com/api/dashboards/1860/revisions/22/download
                 datasource: Prometheus
-              cert-manager:
-                url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
-                datasource: Prometheus
               ingress-nginx:
                 url: https://grafana.com/api/dashboards/9614/revisions/1/download
                 datasource: Prometheus
