@@ -65,6 +65,9 @@ spec:
                     path: /var/lib/grafana/dashboards/default
           dashboards:
             default:
+              longhorn:
+                url: https://grafana.com/api/dashboards/13032/revisions/6/download
+                datasource: Prometheus
               node-exporter-full:
                 url: https://grafana.com/api/dashboards/1860/revisions/22/download
                 datasource: Prometheus
