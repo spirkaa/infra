@@ -1,19 +1,19 @@
 argo-cd:
   repoServer:
     volumeMounts:
-    - name: custom-tools
-      mountPath: /usr/local/bin/argocd-lovely-plugin
-      subPath: argocd-lovely-plugin
+      - name: custom-tools
+        mountPath: /usr/local/bin/argocd-lovely-plugin
+        subPath: argocd-lovely-plugin
     volumes:
-    - name: custom-tools
-      emptyDir: {}
+      - name: custom-tools
+        emptyDir: {}
     initContainers:
-    - name: argocd-lovely-plugin-download
-      image: ghcr.io/crumbhole/argocd-lovely-plugin:latest
-      imagePullPolicy: Always
-      volumeMounts:
-      - mountPath: /custom-tools
-        name: custom-tools
+      - name: argocd-lovely-plugin-download
+        image: ghcr.io/crumbhole/argocd-lovely-plugin:0.3.2
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /custom-tools
+            name: custom-tools
     metrics:
       enabled: true
       serviceMonitor:
@@ -21,10 +21,28 @@ argo-cd:
   server:
     config:
       url: https://argocd.k8s.devmem.ru
-      configManagementPlugins: |-
+      configManagementPlugins: |
         - name: argocd-lovely-plugin
           generate:
             command: ["argocd-lovely-plugin"]
+        - name: kustomized-helm
+          init:
+            command: ["sh", "-c"]
+            args: ["helm dependency build || true"]
+          generate:
+            command: ["sh", "-c"]
+            args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - > all.yaml && kustomize build"]
+        - name: helm
+          init:
+            command: ["sh", "-c"]
+            args: ["helm dependency build || true"]
+          generate:
+            command: ["sh", "-c"]
+            args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f -"]
+        - name: kustomize
+          generate:
+            command: ["sh", "-c"]
+            args: ["kustomize build ."]
       statusbadge.enabled: "true"
       resource.customizations.health.argoproj.io_Application: |
         hs = {}
@@ -48,11 +66,11 @@ argo-cd:
       ingressClassName: nginx
       https: true
       hosts:
-      - argocd.k8s.devmem.ru
-      tls:
-      - hosts:
         - argocd.k8s.devmem.ru
-        secretName: argocd-server-tls
+      tls:
+        - hosts:
+            - argocd.k8s.devmem.ru
+          secretName: argocd-server-tls
     metrics:
       enabled: true
       serviceMonitor:
@@ -63,6 +81,11 @@ argo-cd:
       serviceMonitor:
         enabled: true
   applicationSet:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+  notifications:
     metrics:
       enabled: true
       serviceMonitor:
