@@ -1,0 +1,5 @@
+kured:
+  metrics:
+    create: true
+  service:
+    create: true

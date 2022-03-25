@@ -38,6 +38,10 @@
 * [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin)
 * [Vault](https://github.com/hashicorp/vault) + [vault-bootstrap](https://github.com/spirkaa/vault-bootstrap)
 
+### Утилиты
+
+* [Kured](https://github.com/weaveworks/kured)
+
 ## Запуск
 
 ### Требования
