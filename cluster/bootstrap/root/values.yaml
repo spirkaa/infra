@@ -5,5 +5,7 @@ appsets:
   - name: bootstrap
     namespace: argocd
   - name: system
+  - name: observability
+    namespace: observability
   - name: platform
   - name: apps

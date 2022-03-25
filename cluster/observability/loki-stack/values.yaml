@@ -1,0 +1,13 @@
+loki-stack:
+  loki:
+    fullnameOverride: loki
+    serviceMonitor:
+      enabled: true
+  promtail:
+    fullnameOverride: promtail
+    serviceMonitor:
+      enabled: true
+    loki:
+      serviceName: loki
+    pipelineStages:
+      - cri: {}

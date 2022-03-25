@@ -1,0 +1,140 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kps
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 34.1.1
+    chart: kube-prometheus-stack
+    helm:
+      skipCrds: true
+      values: |
+        fullnameOverride: kps
+        alertmanager:
+          fullnameOverride: alertmanager
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - alertmanager.k8s.devmem.ru
+            tls:
+              - hosts:
+                  - alertmanager.k8s.devmem.ru
+                secretName: null
+        grafana:
+          fullnameOverride: grafana
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - grafana.k8s.devmem.ru
+            tls:
+              - hosts:
+                  - grafana.k8s.devmem.ru
+                secretName: null
+          sidecar:
+            dashboards:
+              searchNamespace: ALL
+          dashboardProviders:
+            dashboardproviders.yaml:
+              apiVersion: 1
+              providers:
+                - name: "default"
+                  orgId: 1
+                  folder: ""
+                  type: file
+                  disableDeletion: false
+                  editable: true
+                  options:
+                    path: /var/lib/grafana/dashboards/default
+          dashboards:
+            default:
+              cert-manager:
+                url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+                datasource: Prometheus
+              loki-chunks:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-chunks.json
+                datasource: Prometheus
+              loki-deletion:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-deletion.json
+                datasource: Prometheus
+              loki-logs:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-logs.json
+                datasource: Prometheus
+              loki-mixin-recording-rules:
+                url: lhttps://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-mixin-recording-rules.json
+                datasource: Prometheus
+              loki-operational:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-operational.json
+                datasource: Prometheus
+              loki-reads-resources:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-reads-resources.json
+                datasource: Prometheus
+              loki-reads:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-reads.json
+                datasource: Prometheus
+              loki-retention:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-retention.json
+                datasource: Prometheus
+              loki-writes-resources:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-writes-resources.json
+                datasource: Prometheus
+              loki-writes:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/loki/dashboards/loki-writes.json
+                datasource: Prometheus
+              loki-promtail:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/promtail/dashboards/promtail.json
+                datasource: Prometheus
+              loki-promtail:
+                url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/promtail/dashboards/promtail.json
+                datasource: Prometheus
+              ingress-nginx:
+                url: https://grafana.com/api/dashboards/9614/revisions/1/download
+                datasource: Prometheus
+              ingress-nginx-nextgen:
+                url: https://grafana.com/api/dashboards/14314/revisions/2/download
+                datasource: Prometheus
+              ingress-nginx-loki:
+                url: https://grafana.com/api/dashboards/12559/revisions/11/download
+              argocd:
+                url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
+        prometheus:
+          fullnameOverride: prometheus
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - prometheus.k8s.devmem.ru
+            tls:
+              - hosts:
+                  - prometheus.k8s.devmem.ru
+                secretName: null
+          prometheusSpec:
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            probeSelectorNilUsesHelmValues: false
+        prometheusOperator:
+          fullnameOverride: prometheus-operator
+        prometheus-node-exporter:
+          fullnameOverride: node-exporter
+        kube-state-metrics:
+          fullnameOverride: kube-state-metrics
+        kubeEtcd:
+          service:
+            port: 2381
+            targetPort: 2381
+  destination:
+    name: in-cluster
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

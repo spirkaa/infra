@@ -38,6 +38,7 @@
   command: >
     kubectl -n argocd wait --timeout=300s --for condition=ResourcesUpToDate
       applicationset/system
+      applicationset/observability
       applicationset/platform
       applicationset/apps
   register: argocd_root_app_wait_result
