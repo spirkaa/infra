@@ -13,9 +13,11 @@ RUN pacman --sync --refresh --noconfirm \
         openssh \
         packer \
         python \
+        python-hvac \
         python-jmespath \
         python-kubernetes \
         python-pip \
+        python-pre-commit \
         sops \
         sudo \
         terraform \
