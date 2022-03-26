@@ -7,22 +7,16 @@
     state: present
 
 - name: vault - wait for pod Ready condition (initialized and unsealed)
-  kubernetes.core.k8s:
-    definition:
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        name: "{{ vault_pod }}"
-        namespace: "{{ vault_namespace }}"
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    name: "{{ vault_pod }}"
+    namespace: "{{ vault_namespace }}"
     wait: yes
     wait_condition:
       type: Ready
-      status: True
+      status: "True"
     wait_timeout: 1200
-  register: _vault_pod_condition
-  until: _vault_pod_condition is not failed
-  retries: 120
-  delay: 10
 
 - block:
     - name: vault - get token from k8s secret
