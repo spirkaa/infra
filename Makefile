@@ -1,4 +1,4 @@
-.PHONY: all help tools init fmt validate cleanup pve-api-user stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply destroy show cluster
+.PHONY: all help tools init fmt validate cleanup pve-api-user stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply refresh destroy show cluster
 
 ifneq (,$(wildcard ./.env))
 sinclude .env
@@ -42,7 +42,7 @@ init:
 	@packer version
 	@terraform version
 	@ansible --version
-	@cd ansible; ansible-galaxy install -r requirements.yml
+	@cd ansible; ansible-galaxy install -r requirements.yml; ansible-galaxy collection install -r requirements.yml
 	@cd packer; packer init .
 	@cd terraform; terraform init
 
@@ -57,6 +57,7 @@ validate:
 
 cleanup:
 	@rm -rf ansible/roles_galaxy
+	@rm -rf ~/.ansible/collections
 	@rm -rf terraform/.terraform
 	@rm -rf ~/.config/packer
 
@@ -83,7 +84,7 @@ stage1-build-force: stage1-destroy
 	@make stage1-build --no-print-directory
 
 build:
-	@pve-api-user --no-print-directory
+	@make pve-api-user --no-print-directory
 	@make stage0-build --no-print-directory
 	@make stage1-build --no-print-directory
 
@@ -99,7 +100,10 @@ plan:
 	@cd terraform; terraform plan
 
 apply:
-	@cd terraform; terraform apply
+	@cd terraform; terraform apply && terraform refresh
+
+refresh:
+	@cd terraform; terraform refresh
 
 destroy:
 	@cd terraform; terraform destroy
@@ -117,4 +121,4 @@ cluster:
 	@make init --no-print-directory
 	@make build --no-print-directory
 	@sleep 10
-	@cd terraform; terraform apply -auto-approve
+	@cd terraform; terraform apply -auto-approve && terraform refresh

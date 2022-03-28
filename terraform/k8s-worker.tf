@@ -1,23 +1,24 @@
 resource "proxmox_vm_qemu" "k8s_worker" {
-  count       = 3
-  target_node = var.pve_node
-  name        = "k8s-worker-0${count.index + 1}"
-  desc        = "Kubernetes worker node"
-  clone       = "${var.template_name}-k8s"
-  vmid        = "811${count.index + 1}"
+  for_each = local.k8s_worker
+
+  name        = each.key
+  target_node = each.value.target_node
+  desc        = "Kubernetes worker"
+  clone       = local.k8s_common.clone_k8s
+  vmid        = each.value.vmid
 
   cpu     = "kvm64"
-  cores   = 4
   sockets = 1
-  memory  = 8192
+  cores   = each.value.cores
+  memory  = each.value.memory
 
   os_type = "cloud-init"
   qemu_os = "l26"
   agent   = 1
   scsihw  = "virtio-scsi-pci"
 
-  ssh_forward_ip = "192.168.13.21${count.index + 1}"
-  ipconfig0      = "ip=192.168.13.21${count.index + 1}/24,gw=192.168.13.1"
+  ssh_forward_ip = each.value.ip
+  ipconfig0      = "ip=${each.value.ip}/24,gw=${local.k8s_common.gw}"
   sshkeys        = <<EOF
   ${var.ssh_key}
 EOF
@@ -25,8 +26,17 @@ EOF
   disk {
     slot    = 0
     type    = "scsi"
+    storage = each.value.storage_clone_to
+    size    = each.value.disk
+    discard = "on"
+    ssd     = 1
+  }
+
+  disk {
+    slot    = 1
+    type    = "scsi"
     storage = "local-lvm"
-    size    = "20G"
+    size    = "150G"
     discard = "on"
     ssd     = 1
   }
@@ -49,7 +59,8 @@ EOF
 
   lifecycle {
     ignore_changes = [
-      ciuser
+      ciuser,
+      disk[0].storage
     ]
   }
 
@@ -62,5 +73,19 @@ EOF
       timeout     = "10s"
       private_key = file("~/.ssh/id_rsa")
     }
+  }
+
+  # Move disk from shared to local storage
+  provisioner "local-exec" {
+    command = <<EOT
+      curl --silent --insecure \
+        ${var.proxmox_url}/nodes/${each.value.target_node}/qemu/${each.value.vmid}/move_disk \
+        --header "Authorization: PVEAPIToken=${var.proxmox_username}=${var.proxmox_token}" \
+        --data-urlencode node="${each.value.target_node}" \
+        --data-urlencode vmid=${each.value.vmid} \
+        --data-urlencode disk="${local.k8s_common.bus_id}" \
+        --data-urlencode storage="${local.k8s_common.storage_move_to}" \
+        --data-urlencode delete=1
+    EOT
   }
 }
