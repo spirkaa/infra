@@ -41,14 +41,18 @@
 
     - name: vm - import image
       command: >
-        qm importdisk {{ pve_template_vmid }} {{ pve_template_image_path }} {{ pve_template_disk_storage }}
+        qm importdisk
+          {{ pve_template_vmid }}
+          {{ pve_template_image_path }}
+          {{ pve_template_disk_storage }}
+          --format qcow2
       changed_when: true
 
     - name: vm - configure hardware
       command: >
         qm set {{ pve_template_vmid }}
           --scsihw virtio-scsi-pci
-          --scsi0 {{ pve_template_disk_storage }}:vm-{{ pve_template_vmid }}-disk-0,discard=on
+          --scsi0 {{ pve_template_disk_name }},discard=on
           --ide2 {{ pve_template_disk_storage }}:cloudinit
           --bootdisk scsi0
           --boot c
