@@ -1,6 +1,10 @@
 loki-stack:
   loki:
     fullnameOverride: loki
+    persistence:
+      enabled: true
+      storageClassName: longhorn
+      size: 10Gi
     serviceMonitor:
       enabled: true
   promtail:
