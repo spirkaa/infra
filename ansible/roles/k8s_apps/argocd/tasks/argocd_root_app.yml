@@ -1,8 +1,8 @@
 ---
 - name: argocd - root app - secret
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'argocd_root_app_secret.yml.j2') | from_yaml }}"
-    state: "{{ argocd_state }}"
+    state: present
   no_log: true
 
 - name: argocd - root app - check main repo
@@ -20,27 +20,29 @@
 - name: argocd - root app - helm template
   command: >
     helm template
-      root
+      {{ argocd_root_app_chart }}
+      --name-template root
+      --namespace {{ argocd_namespace }}
       --include-crds
-      --namespace argocd
       {{ argocd_root_app_set_repo | default('', true) }}
-      ../cluster/bootstrap/root
   register: argocd_root_app_template_result
   changed_when: false
 
 - name: argocd - root app - apply helm template
-  k8s:
-    namespace: argocd
+  kubernetes.core.k8s:
+    namespace: "{{ argocd_namespace }}"
     definition: "{{ argocd_root_app_template_result.stdout }}"
-    state: "{{ argocd_state }}"
+    state: present
 
 - name: argocd - root app - wait for applicationsets
-  command: >
-    kubectl -n argocd wait --timeout=300s --for condition=ResourcesUpToDate
-      applicationset/system
-      applicationset/observability
-      applicationset/platform
-      applicationset/apps
-  register: argocd_root_app_wait_result
-  changed_when: false
-  when: argocd_state == "present"
+  kubernetes.core.k8s_info:
+    api_version: argoproj.io/v1alpha1
+    kind: ApplicationSet
+    name: "{{ item }}"
+    namespace: "{{ argocd_namespace }}"
+    wait: yes
+    wait_condition:
+      type: ResourcesUpToDate
+      status: "True"
+    wait_timeout: 300
+  loop: "{{ argocd_root_app_appsets }}"

@@ -1,7 +1,16 @@
 ---
-argocd_state: present
-argocd_chart: ../cluster/bootstrap/argocd
 argocd_namespace: argocd
+argocd_chart: ../cluster/bootstrap/argocd
+argocd_root_app_chart: ../cluster/bootstrap/root
+
+argocd_crds:
+  - applications.argoproj.io
+  - applicationsets.argoproj.io
+argocd_root_app_appsets:
+  - system
+  - observability
+  - platform
+  - apps
 
 argocd_root_app_repo_url: https://git.devmem.ru/piv/infra
 argocd_root_app_repo_user: "{{ lookup('env','ARGOCD_ROOT_APP_REPO_USER') }}"
