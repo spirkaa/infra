@@ -1,19 +1,15 @@
 ---
-- block:
-    - name: role tasks
-      include_tasks: role.yml
+- name: role tasks
+  include_tasks: role.yml
 
-    - name: user tasks
-      include_tasks: user.yml
+- name: user tasks
+  include_tasks: user.yml
 
-    - name: permission tasks
-      include_tasks: permission.yml
+- name: permission tasks
+  include_tasks: permission.yml
 
-    - name: token tasks
-      include_tasks: token.yml
+- name: token tasks
+  include_tasks: token.yml
 
-    - name: fail task
-      include_tasks: fail.yml
-  when: >
-    not pve_api_token_id or
-    not pve_api_token_value
+- name: fail task
+  include_tasks: fail.yml
