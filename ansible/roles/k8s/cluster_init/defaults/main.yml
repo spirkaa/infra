@@ -4,15 +4,20 @@ k8s_cluster_workers_group: k8s_workers
 k8s_cluster_lb_group: k8s_lb
 
 k8s_cluster_user_home: /home/{{ ansible_user }}/.kube
+k8s_cluster_kubeconfig_remote: "{{ k8s_cluster_user_home }}/config"
+k8s_cluster_kubeconfig_localhost: "{{ lookup('env', 'HOME') }}/.kube/config"
 
 k8s_cluster_kubeadm_config: /etc/kubernetes/kubeadm-config.yml
 k8s_cluster_name: infra
-k8s_cluster_pod_network: 10.244.0.0/16
 k8s_cluster_control_plane_endpoint: 192.168.13.254
+
+k8s_cluster_pod_network: 10.244.0.0/16
 
 k8s_cluster_pod_network_version: 3.22
 k8s_cluster_pod_network_manifest_url: https://projectcalico.docs.tigera.io/v{{ k8s_cluster_pod_network_version }}/manifests/calico.yaml
 k8s_cluster_pod_network_manifest: "{{ k8s_cluster_user_home }}/calico.yaml"
+
+k8s_cluster_lb_keepalived_virtual_router_id: "60"
 
 k8s_cluster_lb_keepalived_interface:
   VI_01:
@@ -20,7 +25,7 @@ k8s_cluster_lb_keepalived_interface:
     interface: "{{ ansible_default_ipv4.alias }}"
     priority: "{{ 150 if groups[k8s_cluster_lb_group][0] == inventory_hostname \
       else 150 - groups[k8s_cluster_lb_group].index(inventory_hostname) }}"
-    virtual_router_id: "60"
+    virtual_router_id: "{{ k8s_cluster_lb_keepalived_virtual_router_id }}"
     advert_int: "1"
     authentication:
       auth_type: PASS

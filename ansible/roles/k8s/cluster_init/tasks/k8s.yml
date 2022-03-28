@@ -32,26 +32,26 @@
       become: true
       when: not k8s_cluster_admin_conf.stat.exists
 
-    - name: kubectl credentials - create user dir
+    - name: kubeconfig - create user dir
       file:
         path: "{{ k8s_cluster_user_home }}"
         state: directory
         mode: 0700
 
-    - name: kubectl credentials - copy admin.conf to user dir
+    - name: kubeconfig - copy admin.conf to user dir
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: "{{ k8s_cluster_user_home }}/config"
+        dest: "{{ k8s_cluster_kubeconfig_remote }}"
         mode: 0600
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         remote_src: yes
       become: true
 
-    - name: kubectl credentials - fetch to ansible host
+    - name: kubeconfig - fetch to ansible host
       fetch:
-        src: "{{ k8s_cluster_user_home }}/config"
-        dest: "{{ lookup('env', 'HOME') }}/.kube/config"
+        src: "{{ k8s_cluster_kubeconfig_remote }}"
+        dest: "{{ k8s_cluster_kubeconfig_localhost }}"
         flat: yes
 
     - name: pod network - download manifest
