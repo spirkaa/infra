@@ -1,18 +1,18 @@
 ---
-k8s_cluster_controlplane_group: k8s_controlplane
-k8s_cluster_workers_group: k8s_workers
-k8s_cluster_lb_group: k8s_lb
+k8s_cluster_name: infra
+
+k8s_cluster_controlplane_group: k8s_controlplane_{{ k8s_cluster_name }}
+k8s_cluster_workers_group: k8s_workers_{{ k8s_cluster_name }}
+k8s_cluster_lb_group: k8s_lb_{{ k8s_cluster_name }}
 
 k8s_cluster_user_home: /home/{{ ansible_user }}/.kube
 k8s_cluster_kubeconfig_remote: "{{ k8s_cluster_user_home }}/config"
 k8s_cluster_kubeconfig_localhost: "{{ lookup('env', 'HOME') }}/.kube/config"
 
 k8s_cluster_kubeadm_config: /etc/kubernetes/kubeadm-config.yml
-k8s_cluster_name: infra
 k8s_cluster_control_plane_endpoint: 192.168.13.254
 
 k8s_cluster_pod_network: 10.244.0.0/16
-
 k8s_cluster_pod_network_version: 3.22
 k8s_cluster_pod_network_manifest_url: https://projectcalico.docs.tigera.io/v{{ k8s_cluster_pod_network_version }}/manifests/calico.yaml
 k8s_cluster_pod_network_manifest: "{{ k8s_cluster_user_home }}/calico.yaml"
