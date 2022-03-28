@@ -20,12 +20,16 @@
 
 - block:
     - name: vault - get token from k8s secret
-      set_fact:
-        _vault_token_query: "{{ query('kubernetes.core.k8s', kind='Secret', namespace=vault_namespace, resource_name=vault_token_k8s_secret.name) }}"
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: "{{ vault_token_k8s_secret.name }}"
+        namespace: "{{ vault_namespace }}"
+      register: _vault_token_query
 
     - name: vault - set token as fact
       set_fact:
-        vault_token: "{{ _vault_token_query[0].data[vault_token_k8s_secret.key] | b64decode }}"
+        vault_token: "{{ _vault_token_query.resources[0].data[vault_token_k8s_secret.key] | b64decode }}"
   no_log: true
   when: not vault_token
 
