@@ -39,3 +39,9 @@ k8s_cluster_lb_keepalived_interface:
       - "{{ k8s_cluster_control_plane_endpoint }}/24"
     track_script:
       - check_haproxy
+
+k8s_cluster_storage_dev: /dev/sdb
+k8s_cluster_storage_part_num: 1
+k8s_cluster_storage_part: "{{ k8s_cluster_storage_dev }}{{ k8s_cluster_storage_part_num }}"
+k8s_cluster_storage_fstype: ext4
+k8s_cluster_storage_mount: /var/lib/longhorn

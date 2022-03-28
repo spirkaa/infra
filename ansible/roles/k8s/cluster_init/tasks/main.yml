@@ -1,4 +1,8 @@
 ---
+- name: Storage tasks
+  include_tasks: storage.yml
+  when: k8s_cluster_workers_group in group_names
+
 - name: Load Balancer tasks
   include_tasks: lb.yml
   when: k8s_cluster_lb_group in group_names

@@ -1,0 +1,38 @@
+---
+- name: storage - create mount directory
+  ansible.builtin.file:
+    path: "{{ k8s_cluster_storage_mount }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+  become: true
+
+- name: storage - create partition
+  community.general.parted:
+    device: "{{ k8s_cluster_storage_dev }}"
+    number: "{{ k8s_cluster_storage_part_num }}"
+    label: gpt
+    state: present
+  become: true
+
+- name: storage - create filesystem
+  community.general.filesystem:
+    dev: "{{ k8s_cluster_storage_part }}"
+    fstype: "{{ k8s_cluster_storage_fstype }}"
+  become: true
+
+- name: storage - get uuid
+  ansible.builtin.command: >
+    blkid -s UUID -o value {{ k8s_cluster_storage_part }}
+  changed_when: false
+  register: _get_uuid
+  become: true
+
+- name: storage - mount partition
+  ansible.posix.mount:
+    path: "{{ k8s_cluster_storage_mount }}"
+    src: UUID={{ _get_uuid.stdout }}
+    fstype: "{{ k8s_cluster_storage_fstype }}"
+    state: mounted
+  become: true
