@@ -19,6 +19,14 @@ spec:
         fullnameOverride: kps
         alertmanager:
           fullnameOverride: alertmanager
+          alertmanagerSpec:
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: longhorn
+                  resources:
+                    requests:
+                      storage: 1Gi
           ingress:
             enabled: true
             ingressClassName: nginx
@@ -30,6 +38,10 @@ spec:
                 secretName: null
         grafana:
           fullnameOverride: grafana
+          persistence:
+            enabled: true
+            storageClassName: longhorn
+            size: 1Gi
           ingress:
             enabled: true
             ingressClassName: nginx
@@ -83,6 +95,18 @@ spec:
                 url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
         prometheus:
           fullnameOverride: prometheus
+          prometheusSpec:
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            probeSelectorNilUsesHelmValues: false
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: longhorn
+                  resources:
+                    requests:
+                      storage: 10Gi
           ingress:
             enabled: true
             ingressClassName: nginx
@@ -92,11 +116,6 @@ spec:
               - hosts:
                   - prometheus.k8s.devmem.ru
                 secretName: null
-          prometheusSpec:
-            ruleSelectorNilUsesHelmValues: false
-            serviceMonitorSelectorNilUsesHelmValues: false
-            podMonitorSelectorNilUsesHelmValues: false
-            probeSelectorNilUsesHelmValues: false
         prometheusOperator:
           fullnameOverride: prometheus-operator
         prometheus-node-exporter:
