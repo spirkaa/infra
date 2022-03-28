@@ -21,10 +21,15 @@
     - name: argocd - init - helm template
       command: >
         helm template
-          argocd
-          --include-crds
-          --namespace {{ argocd_namespace }}
           {{ argocd_chart }}
+          --name-template argocd
+          --namespace {{ argocd_namespace }}
+          --include-crds
+          --set argo-cd.repoServer.metrics.serviceMonitor.enabled=false
+          --set argo-cd.server.metrics.serviceMonitor.enabled=false
+          --set argo-cd.controller.metrics.serviceMonitor.enabled=false
+          --set argo-cd.applicationSet.metrics.serviceMonitor.enabled=false
+          --set argo-cd.notifications.metrics.serviceMonitor.enabled=false
       register: argocd_init_helm_template_result
       changed_when: false
 
