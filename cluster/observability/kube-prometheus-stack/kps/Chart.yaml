@@ -1,0 +1,7 @@
+apiVersion: v2
+name: kps
+version: 0.0.0
+dependencies:
+  - name: kube-prometheus-stack
+    version: 34.5.1
+    repository: https://prometheus-community.github.io/helm-charts
