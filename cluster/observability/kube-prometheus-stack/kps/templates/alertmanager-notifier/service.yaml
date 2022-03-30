@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: alertmanager-notifier
   labels:
-    app.kubernetes.io/name: alertmanager-notifier
+    app: alertmanager-notifier
+{{ include "kube-prometheus-stack.labels" . | indent 4 }}
 spec:
   selector:
-    app.kubernetes.io/name: alertmanager-notifier
+    app: alertmanager-notifier
   ports:
     - name: http
       protocol: TCP
