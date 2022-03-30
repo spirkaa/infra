@@ -96,3 +96,15 @@
 2. [Packer](https://www.packer.io/) клонирует шаблон из п.1, запускает, настраивает с помощью Ansible, преобразует в шаблон.
 
 Разворачивание ВМ из шаблона выполняется с помощью [Terraform](https://www.terraform.io/).
+
+## Выключение/перезагрузка ноды
+
+1. Снять нагрузку
+
+    `kubectl drain k8s-worker-01 --ignore-daemonsets --delete-emptydir-data --pod-selector='app!=csi-attacher,app!=csi-provisioner'`
+
+1. Настроить заглушку уведомлений в Alertmanager
+
+1. После включения разрешить нагрузку
+
+    `kubectl uncordon k8s-worker-01`
