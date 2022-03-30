@@ -16,6 +16,7 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   qemu_os = "l26"
   agent   = 1
   scsihw  = "virtio-scsi-pci"
+  onboot  = true
 
   ssh_forward_ip = each.value.ip
   ipconfig0      = "ip=${each.value.ip}/24,gw=${local.k8s_common.gw}"
