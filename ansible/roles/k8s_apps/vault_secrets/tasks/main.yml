@@ -39,6 +39,6 @@
     pod: "{{ vault_pod }}"
     command: >
       sh -c 'VAULT_TOKEN={{ vault_token }} vault kv put -format=json \
-      {{ item.path }} {{ item.name }}={{ item.value }}'
+      {{ item.path }} {{ item.kv }}'
   no_log: true
   loop: "{{ vault_secrets }}"

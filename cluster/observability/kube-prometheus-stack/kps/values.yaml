@@ -10,6 +10,8 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 1Gi
+      useExistingSecret: true
+      configSecret: alertmanager-config
     ingress:
       enabled: true
       ingressClassName: nginx

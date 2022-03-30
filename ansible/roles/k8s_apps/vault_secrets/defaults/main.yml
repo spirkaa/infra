@@ -8,8 +8,11 @@ vault_token_k8s_secret:
 
 vault_secrets:
   - path: secret/cert-manager
-    name: selectel-api-key
-    value: "{{ lookup('env','SELECTEL_API_KEY') }}"
+    kv: selectel-api-key={{ lookup('env','SELECTEL_API_KEY') }}
   - path: secret/kured
-    name: notify-url
-    value: "{{ lookup('env','KURED_NOTIFY_URL') }}"
+    kv: notify-url={{ lookup('env','KURED_NOTIFY_URL') }}
+  - path: secret/kps/alertmanager
+    kv: healthchecks-url={{ lookup('env','ALERTMANAGER_HEALTHCHECKS_URL') }}
+  - path: secret/common/telegram
+    kv: "bot-token={{ lookup('env','TELEGRAM_BOT_TOKEN') }}
+      chat-id={{ lookup('env','TELEGRAM_CHAT_ID') }}"
