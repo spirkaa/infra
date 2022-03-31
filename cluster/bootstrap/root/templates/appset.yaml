@@ -27,9 +27,9 @@ spec:
         name: in-cluster
         namespace: '{{ default `{{path.basename}}` $appset.namespace }}'
       syncPolicy:
-# automated:
-#   prune: true
-#   selfHeal: true
+        automated:
+          prune: true
+          selfHeal: true
         retry:
           limit: 10
           backoff:
