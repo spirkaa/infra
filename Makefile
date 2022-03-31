@@ -44,7 +44,7 @@ init:
 	@ansible --version
 	@cd ansible; ansible-galaxy install -r requirements.yml; ansible-galaxy collection install -r requirements.yml
 	@cd packer; packer init .
-	@cd terraform; terraform init
+	@cd terraform; terraform init -backend-config="access_key=${TF_ACCESS_KEY}" -backend-config="secret_key=${TF_SECRET_KEY}"
 
 fmt:
 	@cd packer; packer fmt .
