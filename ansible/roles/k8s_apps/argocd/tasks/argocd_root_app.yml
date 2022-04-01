@@ -1,10 +1,4 @@
 ---
-- name: argocd - root app - secret
-  kubernetes.core.k8s:
-    definition: "{{ lookup('template', 'argocd_root_app_secret.yml.j2') | from_yaml }}"
-    state: present
-  no_log: true
-
 - name: argocd - root app - check main repo
   uri:
     url: "{{ argocd_root_app_repo_url }}"

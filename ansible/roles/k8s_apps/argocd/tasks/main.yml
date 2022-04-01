@@ -7,6 +7,12 @@
     state: present
   register: argocd_namespace_result
 
+- name: argocd - repo secret
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'argocd_repo_secret.yml.j2') | from_yaml }}"
+    state: present
+  no_log: true
+
 - block:
     - name: argocd - init - helm dependency update
       command: >
