@@ -21,3 +21,9 @@ vault_secrets:
     kv: notify-url={{ lookup('env','KURED_NOTIFY_URL') }}
   - path: secret/kps/alertmanager
     kv: healthchecks-url={{ lookup('env','ALERTMANAGER_HEALTHCHECKS_URL') }}
+  - path: secret/authentik
+    kv: "ak-admin-password={{ lookup('env','AUTHENTIK_AK_ADMIN_PASS') }}
+      ak-admin-token={{ lookup('env','AUTHENTIK_AK_ADMIN_TOKEN') }}
+      secret-key={{ lookup('env','AUTHENTIK_SECRET_KEY') }}
+      postgresql-postgres-password={{ lookup('env','AUTHENTIK_POSTGRESQL_POSTGRES_PASSWORD') }}
+      postgresql-password={{ lookup('env','AUTHENTIK_POSTGRESQL_PASSWORD') }}"

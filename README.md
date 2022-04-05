@@ -39,6 +39,10 @@
 * [Vault](https://github.com/hashicorp/vault) + [vault-bootstrap](https://github.com/spirkaa/vault-bootstrap)
 * [external-secrets](https://github.com/external-secrets/external-secrets/)
 
+### Auth
+
+* [authentik](https://github.com/goauthentik/authentik)
+
 ### Утилиты
 
 * [Kured](https://github.com/weaveworks/kured)

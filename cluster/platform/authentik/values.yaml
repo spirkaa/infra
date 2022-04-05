@@ -1,0 +1,84 @@
+authentik:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: &host authentik.k8s.devmem.ru
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - *host
+        secretName: null
+  authentik:
+    secret_key: ""
+    postgresql:
+      password: ""
+    email:
+      host: ""
+      port: ""
+      username: ""
+      password: ""
+      use_tls: true
+      use_ssl: false
+      timeout: 30
+      from: ""
+  envValueFrom:
+    AK_ADMIN_PASS:
+      secretKeyRef:
+        key: ak-admin-password
+        name: authentik
+    AK_ADMIN_TOKEN:
+      secretKeyRef:
+        key: ak-admin-token
+        name: authentik
+    AUTHENTIK_SECRET_KEY:
+      secretKeyRef:
+        key: secret-key
+        name: authentik
+    AUTHENTIK_POSTGRESQL__PASSWORD:
+      secretKeyRef:
+        key: postgresql-password
+        name: authentik
+    AUTHENTIK_EMAIL__HOST:
+      secretKeyRef:
+        key: email-host
+        name: authentik
+    AUTHENTIK_EMAIL__PORT:
+      secretKeyRef:
+        key: email-port
+        name: authentik
+    AUTHENTIK_EMAIL__USERNAME:
+      secretKeyRef:
+        key: email-username
+        name: authentik
+    AUTHENTIK_EMAIL__PASSWORD:
+      secretKeyRef:
+        key: email-password
+        name: authentik
+    AUTHENTIK_EMAIL__FROM:
+      secretKeyRef:
+        key: email-username
+        name: authentik
+  postgresql:
+    enabled: true
+    existingSecret: authentik
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 2Gi
+  redis:
+    enabled: true
+    master:
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 1Gi
+  prometheus:
+    serviceMonitor:
+      create: true
+      interval: 30s
+      scrapeTimeout: 3s
+    rules:
+      create: true
