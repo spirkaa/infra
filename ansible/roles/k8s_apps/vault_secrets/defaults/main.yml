@@ -27,3 +27,5 @@ vault_secrets:
       secret-key={{ lookup('env','AUTHENTIK_SECRET_KEY') }}
       postgresql-postgres-password={{ lookup('env','AUTHENTIK_POSTGRESQL_POSTGRES_PASSWORD') }}
       postgresql-password={{ lookup('env','AUTHENTIK_POSTGRESQL_PASSWORD') }}"
+  - path: secret/ingress-nginx
+    kv: maxmind-license-key={{ lookup('env','INGRESS_NGINX_MAXMIND_LICENSE_KEY') }}
