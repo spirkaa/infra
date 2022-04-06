@@ -35,7 +35,11 @@
 
 ### GitOps
 
-* [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin)
+* [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin) + [argocd-vault-plugin](https://github.com/argoproj-labs/argocd-vault-plugin)
+* [Renovate](https://github.com/renovatebot/renovate)
+
+### Secrets
+
 * [Vault](https://github.com/hashicorp/vault) + [vault-bootstrap](https://github.com/spirkaa/vault-bootstrap)
 * [external-secrets](https://github.com/external-secrets/external-secrets/)
 

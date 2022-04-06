@@ -29,3 +29,6 @@ vault_secrets:
       postgresql-password={{ lookup('env','AUTHENTIK_POSTGRESQL_PASSWORD') }}"
   - path: secret/ingress-nginx
     kv: maxmind-license-key={{ lookup('env','INGRESS_NGINX_MAXMIND_LICENSE_KEY') }}
+  - path: secret/renovate
+    kv: "gitea-token={{ lookup('env','RENOVATE_GITEA_TOKEN') }}
+      github-token={{ lookup('env','RENOVATE_GITHUB_TOKEN') }}"

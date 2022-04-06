@@ -1,0 +1,24 @@
+renovate:
+  cronjob:
+    schedule: '0 13 * * *'
+  renovate:
+    config: |
+      {
+        "platform": "gitea",
+        "endpoint": "https://git.devmem.ru/api/v1",
+        "gitAuthor": "Renovate Bot <renovate@whitesourcesoftware.com>",
+        "autodiscover": false,
+        "repositories": ["piv/infra"],
+        "ansible": {
+          "fileMatch": ["ansible/.+\\.ya?ml$"]
+        },
+        "argocd": {
+          "fileMatch": ["cluster/.+\\.ya?ml$"],
+          "ignorePaths": ["templates/"]
+        },
+        "kubernetes": {
+          "fileMatch": ["cluster/.+\\.ya?ml$"],
+          "ignorePaths": ["templates/"]
+        },
+      }
+  existingSecret: renovate
