@@ -1,7 +1,7 @@
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
-kubernetesVersion: v{{ inventory__kubernetes_version }}
+kubernetesVersion: {{ inventory__kubernetes_version }}
 networking:
   podSubnet: {{ k8s_cluster_pod_network }}
 controlPlaneEndpoint: {{ k8s_cluster_control_plane_endpoint }}
