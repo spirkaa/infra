@@ -31,4 +31,5 @@ vault_secrets:
     kv: maxmind-license-key={{ lookup('env','INGRESS_NGINX_MAXMIND_LICENSE_KEY') }}
   - path: secret/renovate
     kv: "gitea-token={{ lookup('env','RENOVATE_GITEA_TOKEN') }}
-      github-token={{ lookup('env','RENOVATE_GITHUB_TOKEN') }}"
+      github-token={{ lookup('env','RENOVATE_GITHUB_TOKEN') }}
+      git-private-key={{ lookup('env','RENOVATE_GIT_PRIVATE_KEY') }}"

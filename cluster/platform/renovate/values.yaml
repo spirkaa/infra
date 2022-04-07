@@ -6,9 +6,9 @@ renovate:
       {
         "platform": "gitea",
         "endpoint": "https://git.devmem.ru/api/v1",
-        "gitAuthor": "Renovate Bot <renovate@whitesourcesoftware.com>",
         "autodiscover": false,
         "repositories": ["piv/infra"],
+        "printConfig": false,
         "ansible": {
           "fileMatch": ["ansible/.+\\.ya?ml$"]
         },
