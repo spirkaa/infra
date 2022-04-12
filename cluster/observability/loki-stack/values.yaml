@@ -7,6 +7,7 @@ loki-stack:
       size: 10Gi
     serviceMonitor:
       enabled: true
+    isDefault: false
   promtail:
     fullnameOverride: promtail
     serviceMonitor:
