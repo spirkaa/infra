@@ -16,7 +16,7 @@ source "proxmox-clone" "template" {
   proxmox_url              = var.proxmox_url
   username                 = var.proxmox_username
   token                    = var.proxmox_token
-  node                     = var.node
+  node                     = var.proxmox_node
   clone_vm                 = var.clone_vm
 
   template_description = "Built with Packer on ${timestamp()}"
@@ -44,6 +44,8 @@ source "proxmox-clone" "template" {
 }
 
 build {
+  name = "infra"
+
   source "proxmox-clone.template" {
     name          = "base"
     template_name = "${var.template_name}-${source.name}"

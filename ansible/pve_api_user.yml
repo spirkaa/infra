@@ -1,6 +1,6 @@
 ---
 - name: pve api user
-  hosts: "{{ lookup('env','TF_VAR_pve_node') }}"
+  hosts: "{{ lookup('env','PROXMOX_NODE') }}"
   gather_facts: no
 
   roles:
