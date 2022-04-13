@@ -1,27 +1,22 @@
 variable "proxmox_url" {
-  description = "URL to the Proxmox API, including the full path"
+  description = "Proxmox API URL, including the full path"
   type        = string
 }
 
 variable "proxmox_username" {
-  description = "Username when authenticating to Proxmox, including the realm"
+  description = "Proxmox API Username, including the realm"
   type        = string
   sensitive   = true
 }
 
 variable "proxmox_token" {
-  description = "Token for authenticating API calls"
+  description = "Proxmox API Token"
   type        = string
   sensitive   = true
 }
 
-variable "ssh_key" {
-  description = "Public SSH key"
-  type        = string
-}
-
-variable "pve_node" {
-  description = "The name of the Proxmox Node on which to place the VM"
+variable "ssh_pub_keys" {
+  description = "SSH public keys to add to authorized keys file for the cloud-init user"
   type        = string
 }
 
