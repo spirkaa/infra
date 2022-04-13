@@ -39,6 +39,39 @@ pipeline {
   }
 
   stages {
+    stage('init') {
+      when {
+        branch 'main'
+        not {
+          changeRequest()
+        }
+      }
+      steps {
+        sh 'git submodule update --init'
+        withCredentials([sshUserPrivateKey(credentialsId: "${JENKINS_SSH_KEY}", keyFileVariable: 'SSH_KEY')]) {
+          sh '''#!/bin/bash
+            mkdir ~/.ssh && chmod 700 ~/.ssh
+            cat $SSH_KEY > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+          '''
+        }
+      }
+    }
+
+    stage('ansible') {
+      when {
+        branch 'main'
+        not {
+          changeRequest()
+        }
+      }
+      steps {
+        sh '''#!/bin/bash
+          cd ansible
+          ansible-playbook pve_template_build.yml --private-key ~/.ssh/id_rsa
+        '''
+      }
+    }
+
     stage('packer') {
       when {
         branch 'main'
@@ -66,12 +99,6 @@ pipeline {
         }
       }
       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: "${JENKINS_SSH_KEY}", keyFileVariable: 'SSH_KEY')]) {
-          sh '''#!/bin/bash
-            mkdir ~/.ssh && chmod 700 ~/.ssh
-            echo $SSH_KEY > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-          '''
-        }
         sh '''#!/bin/bash
           cd terraform
           echo "proxmox_username = \\"$PROXMOX_API_CREDS_USR\\"" >> terraform.tfvars
