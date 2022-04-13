@@ -19,12 +19,17 @@ pipeline {
     REGISTRY = 'git.devmem.ru'
     REGISTRY_URL = "https://${REGISTRY}"
     REGISTRY_CREDS_ID = 'gitea-user'
-    ANSIBLE_CREDS_ID = 'jenkins-ssh-key'
     ANSIBLE_IMAGE = "${REGISTRY}/cr/ansible:infra"
+    JENKINS_SSH_KEY = 'jenkins-ssh-key'
 
+    TF_IN_AUTOMATION = "1"
+    TF_BACKEND_CREDS = credentials('terraform-backend')
     PROXMOX_API_CREDS = credentials('proxmox-api-hashi')
-    TF_VAR_proxmox_url = 'https://spsrv:8006/api2/json'
-    TF_VAR_pve_node = 'spsrv'
+    SSH_PUB_KEY_1 = credentials('ssh-pub-key-spirkaa-sphome-fc')
+    SSH_PUB_KEY_2 = credentials('ssh-pub-key-jenkins-ci')
+
+    PROXMOX_NODE = 'spsrv'
+    TF_VAR_proxmox_url = "https://${PROXMOX_NODE}:8006/api2/json"
     TF_VAR_template_name = 'tpl-ubuntu-2004'
 
     STAGE0_VM_NAME = 'ubuntu-2004'
@@ -36,19 +41,47 @@ pipeline {
   stages {
     stage('packer') {
       when {
-        beforeAgent true
+        branch 'main'
         not {
           changeRequest()
         }
       }
       steps {
-        sh '''
+        sh '''#!/bin/bash
           cd packer
           echo "proxmox_username = \\"$PROXMOX_API_CREDS_USR\\"" >> vars.auto.pkrvars.hcl
           echo "proxmox_token = \\"$PROXMOX_API_CREDS_PSW\\"" >> vars.auto.pkrvars.hcl
-          cat vars.auto.pkrvars.hcl
+
           packer init .
           packer inspect .
+        '''
+      }
+    }
+
+    stage('terraform') {
+      when {
+        branch 'main'
+        not {
+          changeRequest()
+        }
+      }
+      steps {
+        withCredentials([sshUserPrivateKey(credentialsId: "${JENKINS_SSH_KEY}", keyFileVariable: 'SSH_KEY')]) {
+          sh '''#!/bin/bash
+            mkdir ~/.ssh && chmod 700 ~/.ssh
+            echo $SSH_KEY > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+          '''
+        }
+        sh '''#!/bin/bash
+          cd terraform
+          echo "proxmox_username = \\"$PROXMOX_API_CREDS_USR\\"" >> terraform.tfvars
+          echo "proxmox_token = \\"$PROXMOX_API_CREDS_PSW\\"" >> terraform.tfvars
+          echo "ssh_pub_keys = \\"$SSH_PUB_KEY_1\\n$SSH_PUB_KEY_2\\"" >> terraform.tfvars
+
+          terraform init -input=false \
+            -backend-config="access_key=$TF_BACKEND_CREDS_USR" \
+            -backend-config="secret_key=$TF_BACKEND_CREDS_PSW"
+          terraform plan -input=false
         '''
       }
     }
