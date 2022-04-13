@@ -122,3 +122,22 @@ cluster:
 	@make build --no-print-directory
 	@sleep 10
 	@cd terraform; terraform apply -auto-approve && terraform refresh
+
+cluster-upgrade:
+	@cd ansible; ansible-playbook -i inventories/k8s -f 1 playbooks/k8s_cluster_upgrade.yml -v
+
+test-plan:
+	@cd terraform/test; terraform plan
+
+test-apply:
+	@cd terraform/test; terraform apply
+
+test-destroy:
+	@cd terraform/test; terraform destroy
+	@ssh-keygen -f ~/.ssh/known_hosts -R 192.168.13.91
+
+test-show:
+	@cd terraform/test; terraform show
+
+change:
+	@cd terraform; terraform apply -target=proxmox_vm_qemu.k8s_controlplane[\"k8s-controlplane-03\"]
