@@ -10,9 +10,7 @@ loki-stack:
     isDefault: false
   promtail:
     fullnameOverride: promtail
+    config:
+      lokiAddress: http://loki:3100/loki/api/v1/push
     serviceMonitor:
       enabled: true
-    loki:
-      serviceName: loki
-    pipelineStages:
-      - cri: {}
