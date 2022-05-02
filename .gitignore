@@ -3,3 +3,13 @@ Thumbs.db
 
 *.log
 .env
+
+temp/
+
+# ansible
+k8s_infra
+!k8s/
+
+# tf
+test/
+vault/
