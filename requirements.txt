@@ -1,2 +1,2 @@
-kubernetes==23.3.0
+kubernetes==23.6.0
 pre-commit==2.19.0
