@@ -6,43 +6,12 @@ renovate:
       {
         "platform": "gitea",
         "endpoint": "https://git.devmem.ru/api/v1",
-        "autodiscover": false,
-        "repositories": ["projects/infra"],
+        "autodiscover": true,
         "printConfig": false,
+        "dependencyDashboard": true,
+        "dependencyDashboardTitle": "Renovate Dashboard",
         "pre-commit": {
           "enabled": true
-        },
-        "ansible": {
-          "fileMatch": ["ansible/.+\\.ya?ml$"]
-        },
-        "argocd": {
-          "fileMatch": ["cluster/.+\\.ya?ml$"],
-          "ignorePaths": ["templates/"]
-        },
-        "kubernetes": {
-          "fileMatch": ["cluster/.+\\.ya?ml$"],
-          "ignorePaths": ["templates/"]
-        },
-        "regexManagers": [
-          {
-            "fileMatch": [
-              "ansible/.+\\.ya?ml$"
-            ],
-            "matchStrings": [
-              "depName=(?<depName>.*?)( datasource=(?<datasource>.*?))?( versioning=(?<versioning>.*?))?\n.*?_version: (?<currentValue>.*)\n"
-            ],
-            "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
-            "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
-          },
-          {
-            "fileMatch": [
-              "cluster/observability/kube-prometheus-stack/.+\\.yaml$"
-            ],
-            "matchStrings": [
-              "registryUrl=(?<registryUrl>.*?)\n *targetRevision: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n"
-            ],
-            "datasourceTemplate": "helm"
-          }
-        ]
+        }
       }
   existingSecret: renovate
