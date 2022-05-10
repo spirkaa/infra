@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://git.devmem.ru/piv/infra
+    repoURL: https://git.devmem.ru/projects/infra
     targetRevision: main
     path: cluster/observability/kube-prometheus-stack/kps
   destination:
