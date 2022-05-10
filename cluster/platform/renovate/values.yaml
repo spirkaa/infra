@@ -1,14 +1,17 @@
 renovate:
   cronjob:
-    schedule: "0 13 * * *"
+    schedule: "0 4 * * *"
   renovate:
     config: |
       {
         "platform": "gitea",
         "endpoint": "https://git.devmem.ru/api/v1",
         "autodiscover": false,
-        "repositories": ["piv/infra"],
+        "repositories": ["projects/infra"],
         "printConfig": false,
+        "pre-commit": {
+          "enabled": true
+        },
         "ansible": {
           "fileMatch": ["ansible/.+\\.ya?ml$"]
         },
