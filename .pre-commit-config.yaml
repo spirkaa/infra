@@ -20,7 +20,7 @@ repos:
       additional_dependencies:
         - ansible>=2.9,<2.10
 - repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.64.0
+  rev: v1.71.0
   hooks:
     - id: terraform_fmt
     - id: terraform_validate
