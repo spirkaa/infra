@@ -13,7 +13,8 @@
     state: present
   no_log: true
 
-- block:
+- name: argocd - init tasks
+  block:
     - name: argocd - init - helm dependency update
       command: >
         helm dependency update {{ argocd_chart }}
@@ -55,4 +56,4 @@
 
     - name: argocd - root app - install
       include_tasks: argocd_root_app.yml
-  when: argocd_namespace_result.changed
+  when: argocd_namespace_result.changed  # noqa no-handler

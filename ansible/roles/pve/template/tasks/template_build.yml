@@ -2,7 +2,8 @@
 - name: include util_resource_facts.yml
   include_tasks: util_resource_facts.yml
 
-- block:
+- name: template tasks
+  block:
     - name: packages - install
       package:
         state: present

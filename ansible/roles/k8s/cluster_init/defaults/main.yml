@@ -21,7 +21,7 @@ k8s_cluster_lb_keepalived_virtual_router_id: "60"
 
 k8s_cluster_lb_keepalived_interface:
   VI_01:
-    state: "{{ (groups[k8s_cluster_lb_group][0] == inventory_hostname) | ternary('MASTER', 'BACKUP')}}"
+    state: "{{ (groups[k8s_cluster_lb_group][0] == inventory_hostname) | ternary('MASTER', 'BACKUP') }}"
     interface: "{{ ansible_default_ipv4.alias }}"
     priority: "{{ 150 if groups[k8s_cluster_lb_group][0] == inventory_hostname \
       else 150 - groups[k8s_cluster_lb_group].index(inventory_hostname) }}"

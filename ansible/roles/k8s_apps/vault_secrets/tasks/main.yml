@@ -18,7 +18,8 @@
       status: "True"
     wait_timeout: 1200
 
-- block:
+- name: vault token tasks
+  block:
     - name: vault - get token from k8s secret
       kubernetes.core.k8s_info:
         api_version: v1

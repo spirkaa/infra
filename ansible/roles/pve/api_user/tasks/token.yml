@@ -5,7 +5,8 @@
   register: _token_check
   changed_when: false
 
-- block:
+- name: token tasks
+  block:
     - name: token - add
       command: >
         pveum user token add {{ pve_api_user }} {{ pve_api_token_name }} --privsep 0 --output-format json
