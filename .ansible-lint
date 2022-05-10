@@ -4,4 +4,5 @@ exclude_paths:
   - terraform/
   - tools/
 warn_list:
+  - fqcn-builtins
   - meta-no-info

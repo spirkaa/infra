@@ -1,31 +1,30 @@
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.2.0
-  hooks:
-    - id: end-of-file-fixer
-    - id: check-merge-conflict
-    - id: mixed-line-ending
-    - id: trailing-whitespace
-- repo: https://github.com/adrienverge/yamllint.git
-  rev: v1.26.3
-  hooks:
-    - id: yamllint
-      args: [--strict]
-      exclude: .pre-commit-config|vault
-- repo: https://github.com/ansible-community/ansible-lint.git
-  rev: v6.0.2
-  hooks:
-    - id: ansible-lint
-      entry: ansible-lint
-      additional_dependencies:
-        - ansible>=2.9,<2.10
-- repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.71.0
-  hooks:
-    - id: terraform_fmt
-    - id: terraform_validate
-- repo: https://github.com/cisagov/pre-commit-packer
-  rev: v0.0.2
-  hooks:
-    - id: packer_fmt
-    # - id: packer_validate
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.26.3
+    hooks:
+      - id: yamllint
+        args: [--strict]
+  - repo: https://github.com/ansible-community/ansible-lint.git
+    rev: v6.0.2
+    hooks:
+      - id: ansible-lint
+        entry: ansible-lint
+        additional_dependencies:
+          - .[core]
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.71.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+  - repo: https://github.com/cisagov/pre-commit-packer
+    rev: v0.0.2
+    hooks:
+      - id: packer_fmt
+      # - id: packer_validate
