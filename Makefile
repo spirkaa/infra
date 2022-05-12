@@ -15,6 +15,7 @@ help:
 	@echo ""
 	@echo "    tools                          Build local docker image 'infra-tools' and start container"
 	@echo "    init                           Init environment of Ansible, Packer and Terraform"
+	@echo "    init-upgrade                   Init/upgrade environment of Ansible, Packer and Terraform"
 	@echo "    fmt                            Format Packer and Terraform files"
 	@echo "    validate                       Validate Packer and Terraform files, lint Ansible files"
 	@echo "    cleanup                        Cleanup init"
@@ -42,9 +43,19 @@ init:
 	@packer version
 	@terraform version
 	@ansible --version
-	@cd ansible; ansible-galaxy install -r requirements.yml; ansible-galaxy collection install -r requirements.yml
+	@pip install --no-cache-dir -r requirements.txt
+	@cd ansible; ansible-galaxy role install -r requirements.yml; ansible-galaxy collection install --no-cache -r requirements.yml
 	@cd packer; packer init .
 	@cd terraform; terraform init -backend-config="access_key=${TF_ACCESS_KEY}" -backend-config="secret_key=${TF_SECRET_KEY}"
+
+init-upgrade:
+	@packer version
+	@terraform version
+	@ansible --version
+	@pip install --no-cache-dir -U -r requirements.txt
+	@cd ansible; ansible-galaxy role install --force -r requirements.yml; ansible-galaxy collection install --force --no-cache -r requirements.yml
+	@cd packer; packer init -upgrade .
+	@cd terraform; terraform init -upgrade -backend-config="access_key=${TF_ACCESS_KEY}" -backend-config="secret_key=${TF_SECRET_KEY}"
 
 fmt:
 	@cd packer; packer fmt .
@@ -56,7 +67,7 @@ validate:
 	@cd terraform; terraform validate
 
 cleanup:
-	@rm -rf ansible/roles_galaxy
+	@rm -rf ~/.ansible/roles
 	@rm -rf ~/.ansible/collections
 	@rm -rf terraform/.terraform
 	@rm -rf ~/.config/packer
