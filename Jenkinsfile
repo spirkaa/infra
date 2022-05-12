@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'git.devmem.ru/cr/ansible:infra'
+      image 'git.devmem.ru/projects/ansible:infra'
       registryUrl 'https://git.devmem.ru'
       registryCredentialsId 'gitea-user'
       alwaysPull true
@@ -24,7 +24,7 @@ pipeline {
     REGISTRY = 'git.devmem.ru'
     REGISTRY_URL = "https://${REGISTRY}"
     REGISTRY_CREDS_ID = 'gitea-user'
-    ANSIBLE_IMAGE = "${REGISTRY}/cr/ansible:infra"
+    ANSIBLE_IMAGE = "${REGISTRY}/projects/ansible:infra"
     JENKINS_SSH_KEY = 'jenkins-ssh-key'
 
     TF_IN_AUTOMATION = "1"
