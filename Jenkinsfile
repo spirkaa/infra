@@ -13,6 +13,11 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '60'))
     parallelsAlwaysFailFast()
     disableConcurrentBuilds()
+    skipDefaultCheckout true
+  }
+
+  triggers {
+    cron('H 10 * * 6')
   }
 
   environment {
@@ -42,12 +47,26 @@ pipeline {
     stage('init') {
       when {
         branch 'main'
-        not {
-          changeRequest()
+        anyOf {
+          triggeredBy cause: 'UserIdCause'
+          triggeredBy 'TimerTrigger'
         }
       }
       steps {
-        sh 'git submodule update --init'
+        checkout([
+          $class: 'GitSCM',
+          branches: scm.branches,
+          extensions: scm.extensions + [
+            [$class: 'SubmoduleOption',
+              disableSubmodules: false,
+              parentCredentials: false,
+              recursiveSubmodules: true,
+              trackingSubmodules: true,
+              reference: ''
+            ]
+          ],
+          userRemoteConfigs: scm.userRemoteConfigs
+        ])
         withCredentials([sshUserPrivateKey(credentialsId: "${JENKINS_SSH_KEY}", keyFileVariable: 'SSH_KEY')]) {
           sh '''#!/bin/bash
             mkdir ~/.ssh && chmod 700 ~/.ssh
@@ -60,8 +79,9 @@ pipeline {
     stage('ansible') {
       when {
         branch 'main'
-        not {
-          changeRequest()
+        anyOf {
+          triggeredBy cause: 'UserIdCause'
+          triggeredBy 'TimerTrigger'
         }
       }
       steps {
@@ -75,8 +95,9 @@ pipeline {
     stage('packer') {
       when {
         branch 'main'
-        not {
-          changeRequest()
+        anyOf {
+          triggeredBy cause: 'UserIdCause'
+          triggeredBy 'TimerTrigger'
         }
       }
       steps {
@@ -94,8 +115,9 @@ pipeline {
     stage('terraform') {
       when {
         branch 'main'
-        not {
-          changeRequest()
+        anyOf {
+          triggeredBy cause: 'UserIdCause'
+          triggeredBy 'TimerTrigger'
         }
       }
       steps {
