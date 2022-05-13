@@ -33,7 +33,7 @@ locals {
       disk             = "20G"
     },
     k8s-controlplane-03 = {
-      target_node      = "spmaxi"
+      target_node      = "sppve"
       storage_clone_to = "spsrv-proxmox"
       vmid             = 8103
       ip               = "192.168.13.203"
@@ -63,12 +63,12 @@ locals {
       disk             = "30G"
     },
     k8s-worker-03 = {
-      target_node      = "spmaxi"
+      target_node      = "sppve"
       storage_clone_to = "spsrv-proxmox"
       vmid             = 8113
       ip               = "192.168.13.213"
-      cores            = 16
-      memory           = 32768
+      cores            = 8
+      memory           = 8192
       disk             = "30G"
     }
   }
