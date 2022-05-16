@@ -1,18 +1,18 @@
 ---
 - name: argocd - root app - check main repo
-  uri:
+  ansible.builtin.uri:
     url: "{{ argocd_root_app_repo_url }}"
     timeout: 10
   register: argocd_root_app_check_main_repo
   ignore_errors: true
 
 - name: argocd - root app - set mirror repo as helm value
-  set_fact:
+  ansible.builtin.set_fact:
     argocd_root_app_set_repo: --set repo={{ argocd_root_app_repo_mirror_url }}
   when: argocd_root_app_check_main_repo.status != 200
 
 - name: argocd - root app - helm template
-  command: >
+  ansible.builtin.command: >
     helm template
       {{ argocd_root_app_chart }}
       --name-template root

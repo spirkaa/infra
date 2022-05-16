@@ -1,17 +1,17 @@
 ---
 - name: include util_resource_facts.yml
-  include_tasks: util_resource_facts.yml
+  ansible.builtin.include_tasks: util_resource_facts.yml
 
 - name: template tasks
   block:
     - name: packages - install
-      package:
+      ansible.builtin.package:
         state: present
         name:
           - libguestfs-tools
 
     - name: image - download
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ pve_template_image_url }}"
         dest: "{{ pve_template_image_path }}"
         mode: 0644
@@ -21,7 +21,7 @@
       until: _get_url_result is not failed
 
     - name: image - customize
-      command: >
+      ansible.builtin.command: >
         virt-customize -a {{ pve_template_image_path }} {{ item }}
       changed_when: true
       loop:
@@ -29,7 +29,7 @@
         - --run-command "echo -n > /etc/machine-id"
 
     - name: vm - create
-      command: >
+      ansible.builtin.command: >
         qm create {{ pve_template_vmid }}
           --name {{ pve_template_name }}
           --description "{{ pve_template_description }}"
@@ -42,7 +42,7 @@
       changed_when: true
 
     - name: vm - import image
-      command: >
+      ansible.builtin.command: >
         qm importdisk
           {{ pve_template_vmid }}
           {{ pve_template_image_path }}
@@ -51,7 +51,7 @@
       changed_when: true
 
     - name: vm - configure hardware
-      command: >
+      ansible.builtin.command: >
         qm set {{ pve_template_vmid }}
           --scsihw virtio-scsi-pci
           --scsi0 {{ pve_template_disk_name }},discard=on
@@ -63,17 +63,17 @@
       changed_when: true
 
     - name: vm - resize disk
-      command: >
+      ansible.builtin.command: >
         qm resize {{ pve_template_vmid }} scsi0 {{ pve_template_disk_size }}G
       changed_when: true
 
     - name: vm - convert to template
-      command: >
+      ansible.builtin.command: >
         qm template {{ pve_template_vmid }}
       changed_when: true
 
     - name: image - delete
-      file:
+      ansible.builtin.file:
         path: "{{ pve_template_image_path }}"
         state: absent
   when: not pve_resource_exists

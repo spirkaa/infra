@@ -1,6 +1,6 @@
 ---
 - name: lb - restart services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: restarted
   loop:

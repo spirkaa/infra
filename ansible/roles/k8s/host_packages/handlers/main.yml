@@ -1,12 +1,12 @@
 ---
 - name: containerd - restart
-  service:
+  ansible.builtin.service:
     name: containerd
     state: restarted
     daemon_reload: yes
 
 - name: kubelet - restart
-  service:
+  ansible.builtin.service:
     name: kubelet
     state: restarted
     daemon_reload: yes

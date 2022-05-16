@@ -1,14 +1,14 @@
 ---
 - name: Storage tasks
-  include_tasks: storage.yml
+  ansible.builtin.include_tasks: storage.yml
   when: k8s_cluster_workers_group in group_names
 
 - name: Load Balancer tasks
-  include_tasks: lb.yml
+  ansible.builtin.include_tasks: lb.yml
   when: k8s_cluster_lb_group in group_names
 
 - name: Kubernetes tasks
-  include_tasks: k8s.yml
+  ansible.builtin.include_tasks: k8s.yml
   when: >
     k8s_cluster_workers_group in group_names or
     k8s_cluster_controlplane_group in group_names

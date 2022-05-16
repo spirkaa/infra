@@ -1,9 +1,9 @@
 ---
 - name: include util_resource_facts.yml
-  include_tasks: util_resource_facts.yml
+  ansible.builtin.include_tasks: util_resource_facts.yml
 
 - name: destroy vmid {{ pve_template_vmid }}
-  command: >
+  ansible.builtin.command: >
     qm destroy {{ pve_template_vmid }}
   changed_when: true
   when: pve_resource_exists

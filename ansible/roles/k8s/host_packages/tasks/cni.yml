@@ -1,6 +1,6 @@
 ---
 - name: cni - create dir
-  file:
+  ansible.builtin.file:
     path: "{{ cni_bin_dir }}"
     state: directory
     mode: 0755
@@ -9,7 +9,7 @@
     recurse: true
 
 - name: cni - download
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ cni_url }}"
     dest: "{{ cni_bin_dir }}"
     mode: 0755

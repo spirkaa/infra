@@ -1,6 +1,6 @@
 ---
 - name: lb - install packages
-  package:
+  ansible.builtin.package:
     name:
       - haproxy
       - keepalived
@@ -8,16 +8,16 @@
   become: true
 
 - name: lb - set sysctl entries
-  sysctl:
+  ansible.posix.sysctl:
     sysctl_file: /etc/sysctl.d/keepalived.conf
     name: net.ipv4.ip_nonlocal_bind
-    value: '1'
+    value: "1"
     reload: yes
     state: present
   become: true
 
 - name: lb - copy configs
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0644
@@ -28,4 +28,4 @@
   become: true
 
 - name: lb - flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers

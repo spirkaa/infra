@@ -16,13 +16,13 @@
 - name: argocd - init tasks
   block:
     - name: argocd - init - helm dependency update
-      command: >
+      ansible.builtin.command: >
         helm dependency update {{ argocd_chart }}
       register: result
       changed_when: true
 
     - name: argocd - init - helm template
-      command: >
+      ansible.builtin.command: >
         helm template
           {{ argocd_chart }}
           --name-template argocd
@@ -55,5 +55,5 @@
       loop: "{{ argocd_crds }}"
 
     - name: argocd - root app - install
-      include_tasks: argocd_root_app.yml
+      ansible.builtin.include_tasks: argocd_root_app.yml
   when: argocd_namespace_result.changed  # noqa no-handler

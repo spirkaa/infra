@@ -1,6 +1,6 @@
 ---
 - name: containerd - download
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ containerd_url }}"
     dest: "{{ bin_dir }}"
     mode: 0755
@@ -12,7 +12,7 @@
   notify: containerd - restart
 
 - name: containerd - copy systemd service
-  template:
+  ansible.builtin.template:
     src: containerd.service.j2
     dest: /etc/systemd/system/containerd.service
     mode: 0644
@@ -21,7 +21,7 @@
   notify: containerd - restart
 
 - name: containerd - create dir
-  file:
+  ansible.builtin.file:
     dest: "{{ containerd_cfg_dir }}"
     state: directory
     mode: 0755
@@ -29,7 +29,7 @@
     group: root
 
 - name: containerd - copy config
-  template:
+  ansible.builtin.template:
     src: containerd-config.toml.j2
     dest: "{{ containerd_cfg_dir }}/config.toml"
     mode: 0640
@@ -38,10 +38,10 @@
   notify: containerd - restart
 
 - name: containerd - flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: containerd - enable and start
-  service:
+  ansible.builtin.service:
     name: containerd
     enabled: yes
     state: started

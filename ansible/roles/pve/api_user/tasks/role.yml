@@ -1,12 +1,12 @@
 ---
 - name: role - check if already exist
-  command: >
+  ansible.builtin.command: >
     pveum role list --output-format json
   register: _role_check
   changed_when: false
 
 - name: role - add
-  command: >
+  ansible.builtin.command: >
     pveum role add {{ pve_api_role_name }} -privs "{{ pve_api_role_privs }}"
   changed_when: true
   when: not (_role_check.stdout | from_json | selectattr('roleid', 'equalto', pve_api_role_name) | list)

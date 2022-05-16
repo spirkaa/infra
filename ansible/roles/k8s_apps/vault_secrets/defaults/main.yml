@@ -1,35 +1,35 @@
 ---
 vault_namespace: vault
 vault_pod: vault-0
-vault_token: "{{ lookup('env','VAULT_TOKEN') }}"
+vault_token: "{{ lookup('env', 'VAULT_TOKEN') }}"
 vault_token_k8s_secret:
   name: vault-root-token
   key: vaultData
 
 vault_secrets:
   - path: secret/cert-manager
-    kv: selectel-api-key={{ lookup('env','SELECTEL_API_KEY') }}
+    kv: selectel-api-key={{ lookup('env', 'SELECTEL_API_KEY') }}
   - path: secret/common/smtp
-    kv: "host={{ lookup('env','SMTP_HOST') }}
-      port={{ lookup('env','SMTP_PORT') }}
-      username={{ lookup('env','SMTP_USERNAME') }}
-      password={{ lookup('env','SMTP_PASSWORD') }}"
+    kv: "host={{ lookup('env', 'SMTP_HOST') }}
+      port={{ lookup('env', 'SMTP_PORT') }}
+      username={{ lookup('env', 'SMTP_USERNAME') }}
+      password={{ lookup('env', 'SMTP_PASSWORD') }}"
   - path: secret/common/telegram
-    kv: "bot-token={{ lookup('env','TELEGRAM_BOT_TOKEN') }}
-      chat-id={{ lookup('env','TELEGRAM_CHAT_ID') }}"
+    kv: "bot-token={{ lookup('env', 'TELEGRAM_BOT_TOKEN') }}
+      chat-id={{ lookup('env', 'TELEGRAM_CHAT_ID') }}"
   - path: secret/kured
-    kv: notify-url={{ lookup('env','KURED_NOTIFY_URL') }}
+    kv: notify-url={{ lookup('env', 'KURED_NOTIFY_URL') }}
   - path: secret/kps/alertmanager
-    kv: healthchecks-url={{ lookup('env','ALERTMANAGER_HEALTHCHECKS_URL') }}
+    kv: healthchecks-url={{ lookup('env', 'ALERTMANAGER_HEALTHCHECKS_URL') }}
   - path: secret/authentik
-    kv: "ak-admin-password={{ lookup('env','AUTHENTIK_AK_ADMIN_PASS') }}
-      ak-admin-token={{ lookup('env','AUTHENTIK_AK_ADMIN_TOKEN') }}
-      secret-key={{ lookup('env','AUTHENTIK_SECRET_KEY') }}
-      postgresql-postgres-password={{ lookup('env','AUTHENTIK_POSTGRESQL_POSTGRES_PASSWORD') }}
-      postgresql-password={{ lookup('env','AUTHENTIK_POSTGRESQL_PASSWORD') }}"
+    kv: "ak-admin-password={{ lookup('env', 'AUTHENTIK_AK_ADMIN_PASS') }}
+      ak-admin-token={{ lookup('env', 'AUTHENTIK_AK_ADMIN_TOKEN') }}
+      secret-key={{ lookup('env', 'AUTHENTIK_SECRET_KEY') }}
+      postgresql-postgres-password={{ lookup('env', 'AUTHENTIK_POSTGRESQL_POSTGRES_PASSWORD') }}
+      postgresql-password={{ lookup('env', 'AUTHENTIK_POSTGRESQL_PASSWORD') }}"
   - path: secret/ingress-nginx
-    kv: maxmind-license-key={{ lookup('env','INGRESS_NGINX_MAXMIND_LICENSE_KEY') }}
+    kv: maxmind-license-key={{ lookup('env', 'INGRESS_NGINX_MAXMIND_LICENSE_KEY') }}
   - path: secret/renovate
-    kv: "gitea-token={{ lookup('env','RENOVATE_GITEA_TOKEN') }}
-      github-token={{ lookup('env','RENOVATE_GITHUB_TOKEN') }}
-      git-private-key={{ lookup('env','RENOVATE_GIT_PRIVATE_KEY') }}"
+    kv: "gitea-token={{ lookup('env', 'RENOVATE_GITEA_TOKEN') }}
+      github-token={{ lookup('env', 'RENOVATE_GITHUB_TOKEN') }}
+      git-private-key={{ lookup('env', 'RENOVATE_GIT_PRIVATE_KEY') }}"

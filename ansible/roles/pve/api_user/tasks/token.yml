@@ -1,6 +1,6 @@
 ---
 - name: token - check if already exist
-  command: >
+  ansible.builtin.command: >
     pveum user token list {{ pve_api_user }} --output-format json
   register: _token_check
   changed_when: false
@@ -8,18 +8,18 @@
 - name: token tasks
   block:
     - name: token - add
-      command: >
+      ansible.builtin.command: >
         pveum user token add {{ pve_api_user }} {{ pve_api_token_name }} --privsep 0 --output-format json
       register: _token_result
       changed_when: true
 
     - name: token - set fact
-      set_fact:
+      ansible.builtin.set_fact:
         pve_api_token_id: "{{ _token_result.stdout | from_json | json_query('\"full-tokenid\"') }}"
         pve_api_token_value: "{{ _token_result.stdout | from_json | json_query('value') }}"
 
     - name: token - save to ansible host .env file
-      lineinfile:
+      ansible.builtin.lineinfile:
         dest: ../.env
         regexp: "{{ item.regexp }}"
         line: "{{ item.line }}"

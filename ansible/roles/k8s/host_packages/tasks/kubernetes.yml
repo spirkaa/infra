@@ -1,11 +1,11 @@
 ---
 - name: kubernetes - install utils packages
-  package:
+  ansible.builtin.package:
     name: "{{ kubernetes_utils_packages }}"
     state: present
 
 - name: kubernetes - download binaries
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ item }}"
     dest: "{{ bin_dir }}"
     mode: 0755
@@ -15,7 +15,7 @@
   notify: kubelet - restart
 
 - name: kubernetes - kubelet - copy systemd service
-  template:
+  ansible.builtin.template:
     src: kubelet.service.j2
     dest: /etc/systemd/system/kubelet.service
     mode: 0644
@@ -24,13 +24,13 @@
   notify: kubelet - restart
 
 - name: kubernetes - kubelet - create service override directory
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/kubelet.service.d
     state: directory
     recurse: yes
 
 - name: kubernetes - kubelet - copy service override
-  template:
+  ansible.builtin.template:
     src: 10-kubeadm.conf.j2
     dest: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
     mode: 0644
@@ -39,17 +39,18 @@
   notify: kubelet - restart
 
 - name: kubernetes - flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: kubernetes - kubelet - enable and start
-  service:
+  ansible.builtin.service:
     name: kubelet
     enabled: yes
     state: started
 
 - name: kubernetes - pull images
-  command: kubeadm config images pull --kubernetes-version {{ kubernetes_version }}
+  ansible.builtin.command: >
+    kubeadm config images pull --kubernetes-version {{ kubernetes_version }}
   register: result
   changed_when:
-    - '"Pulled" in result.stdout'
+    - "'Pulled' in result.stdout"
     - kubernetes_version in result.stdout

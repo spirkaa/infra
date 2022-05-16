@@ -29,7 +29,7 @@
       register: _vault_token_query
 
     - name: vault - set token as fact
-      set_fact:
+      ansible.builtin.set_fact:
         vault_token: "{{ _vault_token_query.resources[0].data[vault_token_k8s_secret.key] | b64decode }}"
   no_log: true
   when: not vault_token

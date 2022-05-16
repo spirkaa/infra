@@ -1,12 +1,12 @@
 ---
 - name: permission - check if already exist
-  command: >
+  ansible.builtin.command: >
     pveum user permission {{ pve_api_user }} --output-format json
   register: _permission_check
   changed_when: false
 
 - name: permission - add
-  command: >
+  ansible.builtin.command: >
     pveum acl modify {{ pve_api_permission_path }}
       -user {{ pve_api_user }}
       -role {{ pve_api_role_name }}

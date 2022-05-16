@@ -1,6 +1,6 @@
 ---
 - name: fail - token already exist in proxmox but not set in env vars
-  fail:
+  ansible.builtin.fail:
     msg: |
       Change default value of 'pve_api_token_name' to generate new token
       or

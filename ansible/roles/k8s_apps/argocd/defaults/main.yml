@@ -13,6 +13,6 @@ argocd_root_app_appsets:
   - apps
 
 argocd_root_app_repo_url: https://git.devmem.ru/projects/infra
-argocd_root_app_repo_user: "{{ lookup('env','ARGOCD_ROOT_APP_REPO_USER') }}"
-argocd_root_app_repo_pass: "{{ lookup('env','ARGOCD_ROOT_APP_REPO_PASS') }}"
+argocd_root_app_repo_user: "{{ lookup('env', 'ARGOCD_ROOT_APP_REPO_USER') }}"
+argocd_root_app_repo_pass: "{{ lookup('env', 'ARGOCD_ROOT_APP_REPO_PASS') }}"
 argocd_root_app_repo_mirror_url: https://github.com/spirkaa/infra
