@@ -67,6 +67,7 @@ build {
     playbook_file    = "../ansible/packer_provisioner.yml"
     extra_arguments  = ["-t ${source.name}"]
     ansible_env_vars = ["ANSIBLE_CONFIG=../ansible/ansible.cfg"]
+    use_proxy        = false
   }
 
   provisioner "shell" {
