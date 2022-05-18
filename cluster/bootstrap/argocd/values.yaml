@@ -26,11 +26,13 @@ argo-cd:
         command: [sh, -c]
         env:
           - name: AVP_VERSION
-            value: "1.10.1"
+            # renovate: depName=argoproj-labs/argocd-vault-plugin
+            value: "v1.10.1"
         args:
           - >-
+            set -eux &&
             wget -O argocd-vault-plugin
-            https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION}_linux_amd64 &&
+            https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION:1}_linux_amd64 &&
             chmod +x argocd-vault-plugin &&
             mv argocd-vault-plugin /custom-tools/
         volumeMounts:

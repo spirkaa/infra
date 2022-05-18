@@ -5,3 +5,4 @@ exclude_paths:
   - tools/
 warn_list:
   - meta-no-info
+  - schema
