@@ -1,7 +1,7 @@
 kured:
   configuration:
     prometheusUrl: "http://kps-prometheus.observability.svc.cluster.local:9090"
-    alertFilterRegexp: "^(RebootRequired|RebootScheduled|Watchdog|InfoInhibitor)$"
+    alertFilterRegexp: "^(RebootRequired|RebootScheduled|Watchdog|InfoInhibitor|LonghornVolumeActualSpaceUsedWarning)$"
     alertFiringOnly: true
   extraEnvVars:
     - name: KURED_NOTIFY_URL
