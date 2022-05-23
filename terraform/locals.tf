@@ -49,7 +49,7 @@ locals {
       storage_clone_to = "local-lvm"
       vmid             = 8111
       ip               = "192.168.13.211"
-      cores            = 8
+      cores            = 4
       memory           = 16384
       disk             = "30G"
     },
@@ -58,8 +58,8 @@ locals {
       storage_clone_to = "spsrv-proxmox"
       vmid             = 8112
       ip               = "192.168.13.212"
-      cores            = 4
-      memory           = 8192
+      cores            = 6
+      memory           = 16384
       disk             = "30G"
     },
     k8s-worker-03 = {
@@ -67,8 +67,8 @@ locals {
       storage_clone_to = "spsrv-proxmox"
       vmid             = 8113
       ip               = "192.168.13.213"
-      cores            = 8
-      memory           = 8192
+      cores            = 6
+      memory           = 16384
       disk             = "30G"
     }
   }

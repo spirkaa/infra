@@ -7,7 +7,7 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   clone       = local.k8s_common.clone_k8s
   vmid        = each.value.vmid
 
-  cpu     = "kvm64"
+  cpu     = "host"
   sockets = 1
   cores   = each.value.cores
   memory  = each.value.memory
