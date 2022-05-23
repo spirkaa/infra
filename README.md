@@ -49,6 +49,7 @@
 
 ### Утилиты
 
+* [descheduler](https://github.com/kubernetes-sigs/descheduler)
 * [Kured](https://github.com/weaveworks/kured)
 
 ## Запуск

@@ -1,0 +1,31 @@
+descheduler:
+  schedule: "*/5 * * * *"
+  deschedulerPolicy:
+    strategies:
+      RemoveDuplicates:
+        enabled: true
+      RemovePodsViolatingNodeTaints:
+        enabled: true
+      RemovePodsViolatingNodeAffinity:
+        enabled: true
+        params:
+          nodeAffinityType:
+            - requiredDuringSchedulingIgnoredDuringExecution
+      RemovePodsViolatingInterPodAntiAffinity:
+        enabled: true
+      LowNodeUtilization:
+        enabled: false
+      RemovePodsHavingTooManyRestarts:
+        enabled: true
+        params:
+          podsHavingTooManyRestarts:
+            podRestartThreshold: 10
+            includingInitContainers: true
+      RemoveFailedPods:
+        enabled: true
+        params:
+          failedPods:
+            includingInitContainers: true
+            excludeOwnerKinds:
+              - Job
+            minPodLifetimeSeconds: 3600
