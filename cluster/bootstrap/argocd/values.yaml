@@ -22,7 +22,7 @@ argo-cd:
           - mountPath: /custom-tools
             name: custom-tools
       - name: download-tools
-        image: alpine:3.15
+        image: alpine:3.16
         command: [sh, -c]
         env:
           - name: AVP_VERSION
