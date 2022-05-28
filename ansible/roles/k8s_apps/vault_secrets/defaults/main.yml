@@ -33,3 +33,5 @@ vault_secrets:
     kv: "gitea-token={{ lookup('env', 'RENOVATE_GITEA_TOKEN') }}
       github-token={{ lookup('env', 'RENOVATE_GITHUB_TOKEN') }}
       git-private-key={{ lookup('env', 'RENOVATE_GIT_PRIVATE_KEY') }}"
+  - path: secret/k8s-registry-auth
+    kv: dockerconfigjson={{ lookup('env', 'K8S_REGISTRY_AUTH') }}
