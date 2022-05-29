@@ -1,6 +1,8 @@
 repo: https://git.devmem.ru/projects/infra
 revision: main
 
+charts_repo: https://git.devmem.ru/api/packages/projects/helm
+
 appsets:
   - name: bootstrap
     namespace: argocd

@@ -6,13 +6,18 @@ argocd_root_app_chart: ../cluster/bootstrap/root
 argocd_crds:
   - applications.argoproj.io
   - applicationsets.argoproj.io
+  - appprojects.argoproj.io
 argocd_root_app_appsets:
   - system
   - observability
   - platform
   - apps
+  - projects
 
-argocd_root_app_repo_url: https://git.devmem.ru/projects/infra
+argocd_repo_base_url: https://git.devmem.ru
+argocd_repo_helm_url: "{{ argocd_repo_base_url }}/api/packages/projects/helm"
+
+argocd_root_app_repo_url: "{{ argocd_repo_base_url }}/projects/infra"
 argocd_root_app_repo_user: "{{ lookup('env', 'ARGOCD_ROOT_APP_REPO_USER') }}"
 argocd_root_app_repo_pass: "{{ lookup('env', 'ARGOCD_ROOT_APP_REPO_PASS') }}"
 argocd_root_app_repo_mirror_url: https://github.com/spirkaa/infra

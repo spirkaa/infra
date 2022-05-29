@@ -1,0 +1,33 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: projects
+  namespace: {{ .Release.Namespace }}
+spec:
+  generators:
+  - git:
+      repoURL: {{ .Values.repo }}
+      revision: {{ .Values.revision }}
+      files:
+      - path: cluster/projects/**/config.json
+  template:
+    metadata:
+      name: '{{ `{{name}}` }}'
+      annotations:
+        argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    spec:
+      project: projects
+      source:
+        repoURL: {{ .Values.charts_repo }}
+        chart: '{{ `{{chart}}` }}'
+        targetRevision: '{{ `{{revision}}` }}'
+      destination:
+        name: in-cluster
+        namespace: '{{ `{{namespace}}` }}'
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
