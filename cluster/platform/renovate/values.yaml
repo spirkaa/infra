@@ -1,11 +1,11 @@
 renovate:
   cronjob:
-    schedule: "0 4 * * *"
+    schedule: "0 5 * * *"
   renovate:
     config: |
       {
         "platform": "gitea",
-        "endpoint": "https://git.devmem.ru/api/v1",
+        "endpoint": "https://git.devmem.ru/",
         "autodiscover": true,
         "printConfig": false,
         "dependencyDashboard": true,
