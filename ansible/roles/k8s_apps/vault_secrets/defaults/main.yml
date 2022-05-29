@@ -35,3 +35,5 @@ vault_secrets:
       git-private-key={{ lookup('env', 'RENOVATE_GIT_PRIVATE_KEY') }}"
   - path: secret/k8s-registry-auth
     kv: dockerconfigjson={{ lookup('env', 'K8S_REGISTRY_AUTH') }}
+  - path: secret/samgrabby
+    kv: django-secret-key={{ lookup('env', 'SAMGRABBY_DJANGO_SECRET_KEY') }}
