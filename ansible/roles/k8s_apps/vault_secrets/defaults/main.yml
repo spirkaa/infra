@@ -37,3 +37,12 @@ vault_secrets:
     kv: dockerconfigjson={{ lookup('env', 'K8S_REGISTRY_AUTH') }}
   - path: secret/samgrabby
     kv: django-secret-key={{ lookup('env', 'SAMGRABBY_DJANGO_SECRET_KEY') }}
+  - path: secret/gia
+    kv: "django-secret-key={{ lookup('env', 'GIA_DJANGO_SECRET_KEY') }}
+      postgres-password={{ lookup('env', 'GIA_POSTGRES_PASSWORD') }}
+      postgres-user-password={{ lookup('env', 'GIA_POSTGRES_USER_PASSWORD') }}
+      pgbackrest-s3-key={{ lookup('env', 'GIA_PGBACKREST_S3_KEY') }}
+      pgbackrest-s3-key-secret={{ lookup('env', 'GIA_PGBACKREST_S3_SECRET') }}
+      pgbackrest-s3-endpoint={{ lookup('env', 'GIA_PGBACKREST_S3_ENDPOINT') }}
+      pgbackrest-s3-region={{ lookup('env', 'GIA_PGBACKREST_S3_REGION') }}
+      pgbackrest-s3-bucket={{ lookup('env', 'GIA_PGBACKREST_S3_BUCKET') }}"

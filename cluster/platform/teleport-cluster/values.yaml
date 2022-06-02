@@ -1,0 +1,17 @@
+teleport-cluster:
+  clusterName: tele.devmem.ru
+  kubeClusterName: infra
+  proxyListenerMode: multiplex
+  persistence:
+    enabled: true
+    volumeSize: 5Gi
+  highAvailability:
+    certManager:
+      enabled: true
+      issuerName: letsencrypt-prod
+      issuerKind: ClusterIssuer
+      issuerGroup: cert-manager.io
+  service:
+    type: LoadBalancer
+    spec:
+      loadBalancerIP: "192.168.13.241"

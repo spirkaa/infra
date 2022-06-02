@@ -46,6 +46,7 @@
 ### Auth
 
 * [authentik](https://github.com/goauthentik/authentik)
+* [teleport](https://github.com/gravitational/teleport)
 
 ### Утилиты
 
