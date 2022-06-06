@@ -1,0 +1,371 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashy
+  labels:
+    app.kubernetes.io/name: dashy
+  annotations:
+    configmap.reloader.stakater.com/reload: "dashy-config"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dashy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: dashy
+    spec:
+      containers:
+        - name: dashy
+          image: lissy93/dashy:2.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - "/bin/sh"
+                - "-c"
+                - "test -d /app/dist"
+            initialDelaySeconds: 25
+            periodSeconds: 2
+            failureThreshold: 10
+          volumeMounts:
+            - mountPath: /app/public/conf.yml
+              name: dashy-config
+              subPath: conf.yml
+      volumes:
+        - name: dashy-config
+          configMap:
+            name: dashy-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashy
+  labels:
+    app.kubernetes.io/name: dashy
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: dashy
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashy
+  labels:
+    app.kubernetes.io/name: dashy
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: k8s.devmem.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dashy
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - k8s.devmem.ru
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashy-config
+  labels:
+    app.kubernetes.io/name: dashy
+data:
+  conf.yml: |
+    ---
+    appConfig:
+      theme: nord-frost
+      layout: horizontal
+      iconSize: medium
+      startingView: default
+      defaultOpeningMethod: newtab
+      statusCheck: false
+      statusCheckInterval: 0
+      faviconApi: allesedv
+      routingMode: history
+      enableMultiTasking: true
+      widgetsAlwaysUseProxy: false
+      webSearch:
+        disableWebSearch: true
+        searchEngine: duckduckgo
+        openingMethod: newtab
+        searchBangs: {}
+      enableFontAwesome: true
+      enableMaterialDesignIcons: true
+      hideComponents:
+        hideHeading: true
+        hideNav: true
+        hideSearch: true
+        hideSettings: true
+        hideFooter: true
+      auth:
+        enableGuestAccess: false
+        users: []
+        enableKeycloak: false
+      showSplashScreen: false
+      preventWriteToDisk: true
+      preventLocalSave: false
+      disableConfiguration: false
+      allowConfigEdit: true
+      enableServiceWorker: false
+      disableContextMenu: false
+      disableUpdateChecks: true
+      disableSmartSort: false
+      enableErrorReporting: false
+      language: en
+    pageInfo:
+      title: homelab
+      description: ''
+      navLinks: []
+      footerText: ''
+    sections:
+      - name: Infra
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Proxmox
+            icon: hl-proxmox
+            url: https://proxmox.devmem.ru
+            id: 0_496_proxmox
+          - title: Portainer
+            icon: hl-portainer
+            url: https://portainer.home.devmem.ru
+            id: 1_496_portainer
+          - title: NginxProxyMgr
+            icon: hl-nginxproxymanager
+            url: https://rp.home.devmem.ru
+            id: 2_496_nginxproxymgr
+          - title: Nextcloud
+            icon: hl-nextcloud
+            url: https://cloud.devmem.ru
+            id: 3_496_nextcloud
+          - title: Vaultwarden
+            icon: hl-bitwarden
+            url: https://bw.devmem.ru
+            id: 4_496_vaultwarden
+          - title: Gitea
+            icon: hl-gitea
+            url: https://git.devmem.ru
+            id: 5_496_gitea
+          - title: Jenkins
+            icon: hl-jenkins
+            url: https://jenkins.devmem.ru
+            id: 6_496_jenkins
+          - title: Minio
+            icon: hl-minio
+            url: https://minio.home.devmem.ru
+            id: 7_496_minio
+          - title: Grafana
+            description: ''
+            icon: hl-grafana
+            url: https://grafana.devmem.ru
+            id: 8_496_grafana
+          - title: Prometheus
+            icon: hl-prometheus
+            url: https://prometheus.home.devmem.ru/targets
+            id: 9_496_prometheus
+          - title: LibreNMS
+            icon: hl-librenms
+            url: https://nms.home.devmem.ru
+            id: 10_496_librenms
+          - title: UniFi
+            icon: hl-unifi
+            url: https://unifi.home.devmem.ru
+            id: 11_496_unifi
+          - title: FreeIPA
+            icon: hl-freeipa
+            url: https://ipa.home.devmem.ru
+            id: 12_496_freeipa
+          - title: phpLDAPadmin
+            icon: hl-phpldapadmin
+            url: https://ldap.home.devmem.ru
+            id: 13_496_phpldapadmin
+      - name: SPNAS
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: SPNAS
+            icon: generative
+            url: https://spnas.home.devmem.ru
+            id: 0_389_spnas
+          - title: Plex
+            icon: hl-plex
+            url: https://plex.devmem.ru/web/index.html
+            id: 1_389_plex
+          - title: Tautulli
+            icon: hl-tautulli
+            url: https://tautulli.devmem.ru
+            id: 2_389_tautulli
+          - title: Ombi
+            icon: hl-ombi
+            url: https://ombi.devmem.ru
+            id: 3_389_ombi
+          - title: Jellyfin
+            icon: hl-jellyfin
+            url: https://j.devmem.ru/web/index.html
+            id: 4_389_jellyfin
+          - title: Deluge
+            icon: hl-deluge
+            url: https://deluge.home.devmem.ru
+            id: 5_389_deluge
+          - title: Sonarr
+            icon: hl-sonarr
+            url: https://sonarr.home.devmem.ru
+            id: 6_389_sonarr
+          - title: Radarr
+            icon: hl-radarr
+            url: https://radarr.home.devmem.ru
+            id: 7_389_radarr
+          - title: Prowlarr
+            icon: hl-prowlarr
+            url: https://prowlarr.home.devmem.ru
+            id: 8_389_prowlarr
+          - title: Jackett
+            icon: hl-jackett
+            url: https://jackett.home.devmem.ru
+            id: 9_389_jackett
+          - title: Lidarr
+            icon: hl-lidarr
+            url: https://lidarr.home.devmem.ru
+            id: 10_389_lidarr
+          - title: Bazarr
+            icon: hl-bazarr
+            url: https://bazarr.home.devmem.ru
+            id: 11_389_bazarr
+          - title: Monitorrent
+            icon: generative
+            url: https://monitorrent.home.devmem.ru
+            id: 12_389_monitorrent
+      - name: k8s
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Teleport
+            icon: https://tele.devmem.ru/web/app/favicon.ico
+            url: https://tele.devmem.ru
+            id: 0_278_teleport
+          - title: Argo CD
+            icon: hl-argocd
+            url: https://argocd.k8s.devmem.ru
+            id: 1_278_argocd
+          - title: Longhorn
+            icon: hl-longhorn
+            url: https://longhorn.k8s.devmem.ru
+            id: 2_278_longhorn
+          - title: Vault
+            icon: hl-vault
+            url: https://vault.k8s.devmem.ru
+            id: 3_278_vault
+          - title: Grafana
+            icon: hl-grafana
+            url: https://grafana.k8s.devmem.ru
+            id: 4_278_grafana
+          - title: Alertmanager
+            icon: hl-alertmanager
+            url: https://alertmanager.k8s.devmem.ru
+            id: 5_278_alertmanager
+          - title: Prometheus
+            icon: hl-prometheus
+            url: https://prometheus.k8s.devmem.ru/alerts
+            id: 6_278_prometheus
+          - title: Authentik
+            icon: hl-authentik
+            url: https://auth.devmem.ru
+            id: 7_278_authentik
+      - name: Home
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: HomeAssistant
+            icon: hl-home-assistant
+            url: https://ha.devmem.ru
+            id: 0_393_homeassistant
+          - title: ESPHome
+            icon: hl-esphome
+            url: https://esphome.devmem.ru
+            id: 1_393_esphome
+          - title: Grocy
+            icon: hl-grocy
+            url: https://grocy.devmem.ru
+            id: 2_393_grocy
+          - title: ZHABridge
+            icon: generative
+            url: http://192.168.20.45/
+            id: 3_393_zhabridge
+      - name: HW
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: true
+          hideForGuests: false
+        items:
+          - title: spsrv ipmi
+            icon: generative
+            url: https://spsrv-ipmi.home.devmem.ru
+            id: 0_159_spsrvipmi
+          - title: spmaxi ipmi
+            icon: generative
+            url: https://spmaxi-ipmi.home.devmem.ru
+            id: 1_159_spmaxiipmi
+          - title: ubnt-erx-krs
+            icon: generative
+            url: https://ubnt-erx-krs.home.devmem.ru
+            id: 2_159_ubnterxkrs
+          - title: ubnt-erx-cml
+            icon: generative
+            url: https://ubnt-erx-cml.home.devmem.ru
+            id: 3_159_ubnterxcml
+          - title: ubnt-esl24
+            icon: generative
+            url: https://ubnt-esl24.home.devmem.ru
+            id: 4_159_ubntesl
+          - title: DACHA 1
+            icon: generative
+            url: http://192.168.40.1/
+            id: 5_159_dacha
+          - title: DACHA 2
+            icon: generative
+            url: http://192.168.40.2/
+            id: 6_159_dacha
