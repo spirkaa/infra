@@ -1,0 +1,143 @@
+{{- with (index .Values "teleport-cluster") }}
+{{- if eq .chartMode "custom" -}}
+  {{- $logLevel := (coalesce .logLevel .log.level "INFO") -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}
+  labels:
+    app: {{ $.Release.Name }}
+  {{- if .annotations.config }}
+  annotations:
+    {{- toYaml .annotations.config | nindent 4 }}
+  {{- end }}
+data:
+  teleport.yaml: |
+  {{- if eq .proxyListenerMode "multiplex" }}
+    version: v2
+  {{- end }}
+    teleport:
+      log:
+        severity: {{ $logLevel }}
+        output: {{ .log.output }}
+        format:
+          output: {{ .log.format }}
+          extra_fields: {{ .log.extraFields | toJson }}
+  {{- if eq .chartMode "aws" }}
+      storage:
+        type: dynamodb
+        region: {{ required "aws.region is required in chart values" .aws.region }}
+        table_name: {{ required "aws.backendTable is required in chart values" .aws.backendTable }}
+        {{- if .aws.auditLogMirrorOnStdout }}
+        audit_events_uri: ['dynamodb://{{ required "aws.auditLogTable is required in chart values" .aws.auditLogTable }}', 'stdout://']
+        {{- else }}
+        audit_events_uri: ['dynamodb://{{ required "aws.auditLogTable is required in chart values" .aws.auditLogTable }}']
+        {{- end }}
+        audit_sessions_uri: s3://{{ required "aws.sessionRecordingBucket is required in chart values" .aws.sessionRecordingBucket }}
+        continuous_backups: {{ required "aws.backups is required in chart values" .aws.backups }}
+  {{- else if eq .chartMode "gcp" }}
+      storage:
+        type: firestore
+        project_id: {{ required "gcp.projectId is required in chart values" .gcp.projectId }}
+        collection_name: {{ required "gcp.backendTable is required in chart values" .gcp.backendTable }}
+        {{- if .gcp.credentialSecretName }}
+        credentials_path: /etc/teleport-secrets/gcp-credentials.json
+        {{- end }}
+        {{- if .gcp.auditLogMirrorOnStdout }}
+        audit_events_uri: ['firestore://{{ required "gcp.auditLogTable is required in chart values" .gcp.auditLogTable }}?projectID={{ required "gcp.projectId is required in chart values" .gcp.projectId }}{{ empty .gcp.credentialSecretName | ternary "" "&credentialsPath=/etc/teleport-secrets/gcp-credentials.json"}}', 'stdout://']
+        {{- else }}
+        audit_events_uri: ['firestore://{{ required "gcp.auditLogTable is required in chart values" .gcp.auditLogTable }}?projectID={{ required "gcp.projectId is required in chart values" .gcp.projectId }}{{ empty .gcp.credentialSecretName | ternary "" "&credentialsPath=/etc/teleport-secrets/gcp-credentials.json"}}']
+        {{- end }}
+        audit_sessions_uri: "gs://{{ required "gcp.sessionRecordingBucket is required in chart values" .gcp.sessionRecordingBucket }}?projectID={{ required "gcp.projectId is required in chart values" .gcp.projectId }}{{ empty .gcp.credentialSecretName | ternary "" "&credentialsPath=/etc/teleport-secrets/gcp-credentials.json"}}"
+  {{- end }}
+    auth_service:
+      enabled: true
+      cluster_name: {{ required "clusterName is required in chart values" .clusterName }}
+  {{- if .enterprise }}
+      license_file: '/var/lib/license/license.pem'
+  {{- end }}
+      authentication:
+        type: {{ required "authenticationType is required in chart values" .authenticationType }}
+  {{- if .authenticationSecondFactor }}
+    {{- if .authenticationSecondFactor.secondFactor }}
+        second_factor: {{ .authenticationSecondFactor.secondFactor }}
+    {{- end }}
+    {{- if not (or (eq .authenticationSecondFactor.secondFactor "off") (eq .authenticationSecondFactor.secondFactor "otp")) }}
+        webauthn:
+          rp_id: {{ required "clusterName is required in chart values" .clusterName }}
+      {{- if .authenticationSecondFactor.webauthn }}
+        {{- if .authenticationSecondFactor.webauthn.attestationAllowedCas }}
+          attestation_allowed_cas:
+          {{- toYaml .authenticationSecondFactor.webauthn.attestationAllowedCas | nindent 12 }}
+        {{- end }}
+        {{- if .authenticationSecondFactor.webauthn.attestationDeniedCas }}
+          attestation_denied_cas:
+          {{- toYaml .authenticationSecondFactor.webauthn.attestationDeniedCas | nindent 12 }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if eq .proxyListenerMode "multiplex" }}
+      proxy_listener_mode: multiplex
+  {{- end }}
+    kubernetes_service:
+      enabled: true
+  {{- if eq .proxyListenerMode "multiplex" }}
+      listen_addr: 0.0.0.0:443
+  {{- else if not .proxyListenerMode }}
+      listen_addr: 0.0.0.0:3027
+  {{- end }}
+  {{- if .kubeClusterName }}
+      kube_cluster_name: {{ .kubeClusterName }}
+  {{- else }}
+      kube_cluster_name: {{ .clusterName }}
+  {{- end }}
+  {{- if .labels }}
+      labels:
+    {{- toYaml .labels | nindent 8 }}
+  {{- end }}
+    proxy_service:
+      public_addr: '{{ required "clusterName is required in chart values" .clusterName }}:443'
+  {{- if not .proxyListenerMode }}
+      kube_listen_addr: 0.0.0.0:3026
+      mysql_listen_addr: 0.0.0.0:3036
+    {{- if .separatePostgresListener }}
+      postgres_listen_addr: 0.0.0.0:5432
+      postgres_public_addr: {{ .clusterName }}:5432
+    {{- end }}
+    {{- if .separateMongoListener }}
+      mongo_listen_addr: 0.0.0.0:27017
+      mongo_public_addr: {{ .clusterName }}:27017
+    {{- end }}
+  {{- end }}
+      enabled: true
+  {{- if or .highAvailability.certManager.enabled .tls.existingSecretName }}
+      https_keypairs:
+      - key_file: /etc/teleport-tls/tls.key
+        cert_file: /etc/teleport-tls/tls.crt
+  {{- else if .acme }}
+      acme:
+        enabled: {{ .acme }}
+        email: {{ required "acmeEmail is required in chart values" .acmeEmail }}
+    {{- if .acmeURI }}
+        uri: {{ .acmeURI }}
+    {{- end }}
+  {{- end }}
+    ssh_service:
+      enabled: true
+      commands:
+      - name: kernel
+        command: ["/bin/uname", "-r"]
+        period: 5m
+    app_service:
+        enabled: true
+        debug_app: true
+        apps:
+        - name: "grafana"
+          uri: "http://grafana.observability/"
+          public_addr: "grafana.{{ .clusterName }}"
+          rewrite:
+            headers:
+              - "Host: grafana.{{ .clusterName }}"
+{{- end }}
+{{- end }}

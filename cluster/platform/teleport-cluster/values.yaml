@@ -1,4 +1,5 @@
 teleport-cluster:
+  chartMode: custom
   clusterName: tele.devmem.ru
   kubeClusterName: infra
   proxyListenerMode: multiplex
