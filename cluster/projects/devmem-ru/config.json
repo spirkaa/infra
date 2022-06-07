@@ -1,0 +1,6 @@
+{
+  "name": "devmem-ru",
+  "namespace": "devmem-ru",
+  "chart": "devmem-ru",
+  "revision": "*"
+}
