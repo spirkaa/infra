@@ -16,6 +16,7 @@ spec:
       name: '{{ `{{name}}` }}'
       annotations:
         argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+        notifications.argoproj.io/subscribe.on-deployed.grafana: '{{ `{{name}}` }}'
     spec:
       project: projects
       source:

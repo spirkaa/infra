@@ -7,6 +7,8 @@ vault_token_k8s_secret:
   key: vaultData
 
 vault_secrets:
+  - path: secret/argocd
+    kv: grafana-api-key={{ lookup('env', 'ARGOCD_GRAFANA_API_KEY') }}
   - path: secret/cert-manager
     kv: selectel-api-key={{ lookup('env', 'SELECTEL_API_KEY') }}
   - path: secret/common/smtp

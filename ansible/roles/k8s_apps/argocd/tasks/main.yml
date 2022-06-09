@@ -33,6 +33,7 @@
           --set argo-cd.controller.metrics.serviceMonitor.enabled=false
           --set argo-cd.applicationSet.metrics.serviceMonitor.enabled=false
           --set argo-cd.notifications.metrics.serviceMonitor.enabled=false
+          --set externalsecret=false
       register: argocd_init_helm_template_result
       changed_when: false
 
