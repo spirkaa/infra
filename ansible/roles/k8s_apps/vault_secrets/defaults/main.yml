@@ -17,10 +17,21 @@ vault_secrets:
   - path: secret/common/telegram
     kv: "bot-token={{ lookup('env', 'TELEGRAM_BOT_TOKEN') }}
       chat-id={{ lookup('env', 'TELEGRAM_CHAT_ID') }}"
+  - path: secret/common/ldap
+    kv: "host={{ lookup('env', 'LDAP_HOST') }}
+      port={{ lookup('env', 'LDAP_PORT') }}
+      base-dn={{ lookup('env', 'LDAP_BASE_DN') }}
+      users-dn={{ lookup('env', 'LDAP_USERS_DN') }}
+      groups-dn={{ lookup('env', 'LDAP_GROUPS_DN') }}"
   - path: secret/kured
     kv: notify-url={{ lookup('env', 'KURED_NOTIFY_URL') }}
   - path: secret/kps/alertmanager
     kv: healthchecks-url={{ lookup('env', 'ALERTMANAGER_HEALTHCHECKS_URL') }}
+  - path: secret/kps/grafana
+    kv: "admin-user={{ lookup('env', 'GRAFANA_ADMIN_USER') }}
+      admin-password={{ lookup('env', 'GRAFANA_ADMIN_PASSWORD') }}
+      ldap-bind-dn={{ lookup('env', 'GRAFANA_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'GRAFANA_LDAP_BIND_PASSWORD') }}"
   - path: secret/authentik
     kv: "ak-admin-password={{ lookup('env', 'AUTHENTIK_AK_ADMIN_PASS') }}
       ak-admin-token={{ lookup('env', 'AUTHENTIK_AK_ADMIN_TOKEN') }}

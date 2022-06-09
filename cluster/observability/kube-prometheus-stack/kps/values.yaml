@@ -23,8 +23,10 @@ kube-prometheus-stack:
           secretName: null
   grafana:
     fullnameOverride: grafana
+    defaultDashboardsTimezone: Europe/Moscow
     persistence:
       enabled: true
+      type: statefulset
       storageClassName: longhorn
       size: 1Gi
     ingress:
@@ -78,6 +80,22 @@ kube-prometheus-stack:
           url: https://grafana.com/api/dashboards/12559/revisions/11/download
         argocd:
           url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
+    envFromSecret: grafana-smtp
+    grafana.ini:
+      analytics:
+        check_for_updates: false
+      server:
+        enable_gzip: true
+        # root_url: "https://grafana.k8s.devmem.ru"
+      auth.ldap:
+        enabled: true
+        allow_sign_up: true
+        config_file: /etc/grafana/ldap.toml
+    ldap:
+      enabled: true
+      existingSecret: grafana
+    admin:
+      existingSecret: grafana
   prometheus:
     fullnameOverride: prometheus
     prometheusSpec:
