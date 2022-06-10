@@ -147,24 +147,23 @@ argo-cd:
           - on-deployed
           - on-health-degraded
           - on-sync-failed
-          - on-sync-status-unknown
     templates:
       template.app-deployed: |
         email:
           subject: New version of an application {{.app.metadata.name}} is up and running.
         message: |
-          {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} is now running new version of deployments manifests.
+          Application {{.app.metadata.name}} is now running new version of deployments manifests.
       template.app-health-degraded: |
         email:
-          subject: Application {{.app.metadata.name}} has degraded.
+          subject: Application {{.app.metadata.name}} is unhealthy with status '{{.app.status.health.status}}'.
         message: |
-          {{if eq .serviceType "slack"}}:exclamation:{{end}} Application {{.app.metadata.name}} has degraded.
+          Application {{.app.metadata.name}} is unhealthy.
           Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.
       template.app-sync-failed: |
         email:
           subject: Failed to sync application {{.app.metadata.name}}.
         message: |
-          {{if eq .serviceType "slack"}}:exclamation:{{end}}  The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}
+          The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}
           Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
       template.app-sync-running: |
         email:
@@ -176,31 +175,29 @@ argo-cd:
         email:
           subject: Application {{.app.metadata.name}} sync status is 'Unknown'
         message: |
-          {{if eq .serviceType "slack"}}:exclamation:{{end}} Application {{.app.metadata.name}} sync is 'Unknown'.
+          Application {{.app.metadata.name}} sync is 'Unknown'.
           Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.
-          {{if ne .serviceType "slack"}}
           {{range $c := .app.status.conditions}}
               * {{$c.message}}
-          {{end}}
           {{end}}
       template.app-sync-succeeded: |
         email:
           subject: Application {{.app.metadata.name}} has been successfully synced.
         message: |
-          {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}.
+          Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}.
           Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
     triggers:
       trigger.on-deployed: |
         - description: Application is synced and healthy. Triggered once per commit.
-          oncePer: app.status.sync.revision
+          oncePer: app.status.operationState.syncResult.revision
           send:
             - app-deployed
-          when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+          when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy' and app.status.sync.status == 'Synced' and time.Now().Sub(time.Parse(app.status.operationState.finishedAt)).Minutes() <= 5
       trigger.on-health-degraded: |
-        - description: Application has degraded
+        - description: Application is unhealthy
           send:
             - app-health-degraded
-          when: app.status.health.status == 'Degraded'
+          when: app.status.health.status in ['Unknown', 'Suspended', 'Degraded', 'Missing']
       trigger.on-sync-failed: |
         - description: Application syncing has failed
           send:
@@ -212,7 +209,7 @@ argo-cd:
             - app-sync-running
           when: app.status.operationState.phase in ['Running']
       trigger.on-sync-status-unknown: |
-        - description: Application status is 'Unknown'
+        - description: Application sync status is 'Unknown'
           send:
             - app-sync-status-unknown
           when: app.status.sync.status == 'Unknown'
