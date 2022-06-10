@@ -99,9 +99,9 @@ data:
   conf.yml: |
     ---
     appConfig:
-      theme: nord-frost
-      layout: horizontal
-      iconSize: medium
+      theme: material
+      layout: vertical
+      iconSize: small
       startingView: default
       defaultOpeningMethod: newtab
       statusCheck: false
@@ -160,14 +160,14 @@ data:
             icon: hl-portainer
             url: https://portainer.home.devmem.ru
             id: 1_496_portainer
-          - title: NginxProxyMgr
-            icon: hl-nginxproxymanager
-            url: https://rp.home.devmem.ru
-            id: 2_496_nginxproxymgr
           - title: Nextcloud
             icon: hl-nextcloud
             url: https://cloud.devmem.ru
             id: 3_496_nextcloud
+          - title: Minio
+            icon: hl-minio
+            url: https://minio.home.devmem.ru
+            id: 7_496_minio
           - title: Vaultwarden
             icon: hl-bitwarden
             url: https://bw.devmem.ru
@@ -180,10 +180,6 @@ data:
             icon: hl-jenkins
             url: https://jenkins.devmem.ru
             id: 6_496_jenkins
-          - title: Minio
-            icon: hl-minio
-            url: https://minio.home.devmem.ru
-            id: 7_496_minio
           - title: Grafana
             description: ''
             icon: hl-grafana
@@ -201,6 +197,10 @@ data:
             icon: hl-unifi
             url: https://unifi.home.devmem.ru
             id: 11_496_unifi
+          - title: NginxProxyMgr
+            icon: hl-nginxproxymanager
+            url: https://rp.home.devmem.ru
+            id: 2_496_nginxproxymgr
           - title: FreeIPA
             icon: hl-freeipa
             url: https://ipa.home.devmem.ru
@@ -277,14 +277,22 @@ data:
           collapsed: false
           hideForGuests: false
         items:
-          - title: Teleport
-            icon: https://tele.devmem.ru/web/app/favicon.ico
-            url: https://tele.devmem.ru
-            id: 0_278_teleport
           - title: Argo CD
             icon: hl-argocd
             url: https://argocd.k8s.devmem.ru
             id: 1_278_argocd
+          - title: Grafana
+            icon: hl-grafana
+            url: https://grafana.k8s.devmem.ru
+            id: 4_278_grafana
+          - title: Prometheus
+            icon: hl-prometheus
+            url: https://prometheus.k8s.devmem.ru/alerts
+            id: 6_278_prometheus
+          - title: Alertmanager
+            icon: hl-alertmanager
+            url: https://alertmanager.k8s.devmem.ru
+            id: 5_278_alertmanager
           - title: Longhorn
             icon: hl-longhorn
             url: https://longhorn.k8s.devmem.ru
@@ -293,18 +301,10 @@ data:
             icon: hl-vault
             url: https://vault.k8s.devmem.ru
             id: 3_278_vault
-          - title: Grafana
-            icon: hl-grafana
-            url: https://grafana.k8s.devmem.ru
-            id: 4_278_grafana
-          - title: Alertmanager
-            icon: hl-alertmanager
-            url: https://alertmanager.k8s.devmem.ru
-            id: 5_278_alertmanager
-          - title: Prometheus
-            icon: hl-prometheus
-            url: https://prometheus.k8s.devmem.ru/alerts
-            id: 6_278_prometheus
+          - title: Teleport
+            icon: https://tele.devmem.ru/web/app/favicon.ico
+            url: https://tele.devmem.ru
+            id: 0_278_teleport
           - title: Authentik
             icon: hl-authentik
             url: https://auth.devmem.ru
