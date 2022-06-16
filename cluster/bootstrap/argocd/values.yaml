@@ -54,6 +54,12 @@ argo-cd:
   server:
     config:
       url: https://argocd.k8s.devmem.ru
+      admin.enabled: "false"
+      oidc.config: |
+        name: Dex
+        issuer: https://dex.devmem.ru
+        clientID: argocd
+        clientSecret: $oidc.dex.clientSecret
       configManagementPlugins: |
         - name: argocd-lovely-plugin
           generate:
@@ -97,6 +103,9 @@ argo-cd:
           end
         end
         return hs
+    rbacConfig:
+      policy.csv: |
+        g, argocd_admins, role:admin
     ingress:
       enabled: true
       annotations:
@@ -129,7 +138,7 @@ argo-cd:
     argocdUrl: https://argocd.k8s.devmem.ru
     secret:
       create: false
-      name: argocd-notifications-secret
+      name: argocd-secret
     notifiers:
       service.email: |
         host: $email-host
