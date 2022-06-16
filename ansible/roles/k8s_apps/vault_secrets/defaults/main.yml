@@ -25,6 +25,9 @@ vault_secrets:
       base-dn={{ lookup('env', 'LDAP_BASE_DN') }}
       users-dn={{ lookup('env', 'LDAP_USERS_DN') }}
       groups-dn={{ lookup('env', 'LDAP_GROUPS_DN') }}"
+  - path: secret/dex
+    kv: "ldap-bind-dn={{ lookup('env', 'DEX_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'DEX_LDAP_BIND_PASSWORD') }}"
   - path: secret/kured
     kv: notify-url={{ lookup('env', 'KURED_NOTIFY_URL') }}
   - path: secret/kps/alertmanager

@@ -1,0 +1,20 @@
+dex:
+  configSecret:
+    create: false
+    name: dex
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: &host dex.devmem.ru
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - *host
+        secretName: dex-tls
+  serviceMonitor:
+    enabled: true
