@@ -5,7 +5,7 @@ authentik:
     annotations:
       kubernetes.io/tls-acme: "true"
     hosts:
-      - host: &host auth.devmem.ru
+      - host: &host authentik.auth.devmem.ru
         paths:
           - path: /
             pathType: Prefix

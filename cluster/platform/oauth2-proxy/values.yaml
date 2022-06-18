@@ -1,0 +1,30 @@
+oauth2-proxy:
+  config:
+    existingSecret: oauth2-proxy
+  ingress:
+    enabled: true
+    className: nginx
+    path: /oauth2
+    hosts:
+      - &host oauth2-proxy.auth.devmem.ru
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    tls:
+      - hosts:
+          - *host
+        secretName: oauth2-proxy-tls
+  extraArgs:
+    provider: oidc
+    oidc-issuer-url: https://dex.auth.devmem.ru
+    scope: openid profile email groups
+    email-domain: "*"
+    cookie-domain: .devmem.ru
+    whitelist-domain: .devmem.ru
+    silence-ping-logging: true
+    skip-provider-button: true
+    reverse-proxy: true
+    pass-access-token: true
+    pass-authorization-header: true
+    pass-user-headers: true
+    set-authorization-header: true
+    set-xauthrequest: true

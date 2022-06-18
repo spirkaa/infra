@@ -307,7 +307,7 @@ data:
             id: 0_278_teleport
           - title: Authentik
             icon: hl-authentik
-            url: https://auth.devmem.ru
+            url: https://authentik.auth.devmem.ru
             id: 7_278_authentik
       - name: Home
         displayData:

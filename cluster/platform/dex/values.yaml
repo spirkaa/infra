@@ -8,7 +8,7 @@ dex:
     annotations:
       kubernetes.io/tls-acme: "true"
     hosts:
-      - host: &host dex.devmem.ru
+      - host: &host dex.auth.devmem.ru
         paths:
           - path: /
             pathType: Prefix

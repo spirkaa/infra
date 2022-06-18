@@ -57,7 +57,7 @@ argo-cd:
       admin.enabled: "false"
       oidc.config: |
         name: Dex
-        issuer: https://dex.devmem.ru
+        issuer: https://dex.auth.devmem.ru
         clientID: argocd
         clientSecret: $oidc.dex.clientSecret
       configManagementPlugins: |
