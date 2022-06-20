@@ -28,3 +28,15 @@ oauth2-proxy:
     pass-user-headers: true
     set-authorization-header: true
     set-xauthrequest: true
+  sessionStorage:
+    type: redis
+  redis:
+    enabled: true
+    architecture: standalone
+    auth:
+      enabled: false
+    master:
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 1Gi
