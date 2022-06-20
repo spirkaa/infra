@@ -206,7 +206,7 @@ argo-cd:
         - description: Application is unhealthy
           send:
             - app-health-degraded
-          when: app.status.health.status in ['Unknown', 'Suspended', 'Degraded', 'Missing'] and time.Now().Sub(time.Parse(app.status.reconciledAt)).Minutes() >= 2
+          when: app.status.health.status in ['Unknown', 'Suspended', 'Degraded', 'Missing']
       trigger.on-sync-failed: |
         - description: Application syncing has failed
           send:
