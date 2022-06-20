@@ -58,6 +58,8 @@ resource "proxmox_vm_qemu" "k8s_worker" {
 
   lifecycle {
     ignore_changes = [
+      clone,
+      pool,
       ciuser,
       disk[0].storage
     ]

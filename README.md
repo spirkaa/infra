@@ -114,13 +114,40 @@
 
 1. Снять нагрузку
 
-    `kubectl drain k8s-worker-01 --ignore-daemonsets --delete-emptydir-data --pod-selector='app!=csi-attacher,app!=csi-provisioner'`
+    ```bash
+    kubectl drain k8s-worker-01 --ignore-daemonsets --delete-emptydir-data --pod-selector='app!=csi-attacher,app!=csi-provisioner'
+    ```
 
 1. Настроить заглушку уведомлений в Alertmanager
 
 1. После включения разрешить нагрузку
 
-    `kubectl uncordon k8s-worker-01`
+    ```bash
+    kubectl uncordon k8s-worker-01
+    ```
+
+## Замена ноды
+
+1. Снять нагрузку
+
+    ```bash
+    kubectl drain k8s-controlplane-02 --ignore-daemonsets --delete-emptydir-data --pod-selector='app!=csi-attacher,app!=csi-provisioner'
+    ```
+
+1. Удалить из k8s
+
+    ```bash
+    kubectl delete node k8s-controlplane-02
+    ```
+
+1. Удалить из etcd (для control plane)
+
+    ```bash
+    kubectl -n kube-system exec -it etcd-k8s-controlplane-03 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member list -w table'
+    kubectl -n kube-system exec -it etcd-k8s-controlplane-03 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member remove <MEMBER_ID>'
+    ```
+
+1. Удалить и добавить через Terraform
 
 ## Увеличение тома Longhorn при использовании операторов Kubernetes
 

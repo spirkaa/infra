@@ -4,7 +4,7 @@ resource "proxmox_vm_qemu" "k8s_lb" {
   name        = each.key
   target_node = each.value.target_node
   desc        = "Load Balancer"
-  clone       = local.k8s_common.clone_k8s
+  clone       = local.k8s_common.clone_base
   vmid        = each.value.vmid
 
   cpu     = "kvm64"
@@ -49,6 +49,8 @@ resource "proxmox_vm_qemu" "k8s_lb" {
 
   lifecycle {
     ignore_changes = [
+      clone,
+      pool,
       ciuser,
       disk[0].storage
     ]

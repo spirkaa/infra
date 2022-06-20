@@ -35,9 +35,9 @@ pipeline {
 
     PROXMOX_NODE = 'spsrv'
     TF_VAR_proxmox_url = "https://${PROXMOX_NODE}:8006/api2/json"
-    TF_VAR_template_name = 'tpl-ubuntu-2004'
+    TF_VAR_template_name = 'tpl-ubuntu-2204'
 
-    STAGE0_VM_NAME = 'ubuntu-2004'
+    STAGE0_VM_NAME = 'ubuntu-2204'
     STAGE0_VM_ID = '8999'
     STAGE1_VM_ID_BASE = '9000'
     STAGE1_VM_ID_K8S = '9001'
