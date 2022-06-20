@@ -18,7 +18,7 @@ vault:
           secretName: null
     extraInitContainers:
       - name: vault-bootstrap
-        image: spirkaa/vault-bootstrap:latest
+        image: ghcr.io/spirkaa/vault-bootstrap:latest
         command:
           - /vault-bootstrap
         args:
