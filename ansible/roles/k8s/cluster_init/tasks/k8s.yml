@@ -54,19 +54,35 @@
         dest: "{{ k8s_cluster_kubeconfig_localhost }}"
         flat: yes
 
+    - name: pod network - create dir
+      ansible.builtin.file:
+        path: "{{ k8s_cluster_pod_network_manifest_dir }}"
+        state: directory
+        mode: 0755
+
+    - name: pod network - copy kustomization
+      ansible.builtin.template:
+        src: calico/{{ item }}.j2
+        dest: "{{ k8s_cluster_pod_network_manifest_dir }}/{{ item }}"
+        mode: 0644
+      register: _copy_kustomization
+      loop:
+        - kustomization.yaml
+        - patch.yaml
+
     - name: pod network - download manifest
       ansible.builtin.get_url:
         url: "{{ k8s_cluster_pod_network_manifest_url }}"
         dest: "{{ k8s_cluster_pod_network_manifest }}"
         mode: 0644
-      register: k8s_cluster_download_manifest
+      register: _download_manifest
 
-    - name: pod network - apply manifest
+    - name: pod network - apply kustomized manifest
       ansible.builtin.command: >
-        kubectl apply -f {{ k8s_cluster_pod_network_manifest }}
+        kubectl apply --kustomize {{ k8s_cluster_pod_network_manifest_dir }}/
       register: k8s_cluster_network_result
       changed_when: "'created' or 'configured' in k8s_cluster_network_result.stdout"
-      when: k8s_cluster_download_manifest.changed
+      when: _copy_kustomization.changed or _download_manifest.changed
 
     - name: kubeadm - register cluster join command
       ansible.builtin.command: >
