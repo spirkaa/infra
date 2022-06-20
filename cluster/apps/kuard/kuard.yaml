@@ -1,5 +1,33 @@
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-downloads-pv
+spec:
+  capacity:
+    storage: 1Mi
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.10.20.3
+    path: /downloads
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-downloads-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+  storageClassName: nfs
+  volumeName: nfs-downloads-pv
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: kuard-pvc
@@ -34,6 +62,8 @@ spec:
           volumeMounts:
             - name: kuard-volume
               mountPath: /volume
+            - name: nfs-downloads
+              mountPath: /downloads
           resources:
             requests:
               memory: 100Mi
@@ -45,6 +75,9 @@ spec:
         - name: kuard-volume
           persistentVolumeClaim:
             claimName: kuard-pvc
+        - name: nfs-downloads
+          persistentVolumeClaim:
+            claimName: nfs-downloads-pvc
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
