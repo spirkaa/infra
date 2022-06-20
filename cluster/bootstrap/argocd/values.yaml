@@ -103,6 +103,23 @@ argo-cd:
           end
         end
         return hs
+      resource.customizations.actions.external-secrets.io_ExternalSecret: |
+        discovery.lua: |
+          actions = {}
+          actions["trigger secret refresh"] = {}
+          return actions
+        definitions:
+          - name: trigger secret refresh
+            action.lua: |
+              local os = require("os")
+              if obj.metadata == nil then
+                obj.metadata = {}
+              end
+              if obj.metadata.annotations == nil then
+                obj.metadata.annotations = {}
+              end
+              obj.metadata.annotations["force-sync"] = tostring(os.time(os.date("!*t")))
+              return obj
     rbacConfig:
       policy.csv: |
         g, argocd_admins, role:admin
