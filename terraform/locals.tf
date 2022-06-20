@@ -49,6 +49,7 @@ locals {
       storage_clone_to = "spsrv-proxmox"
       vmid             = 8114
       ip               = "192.168.13.214"
+      ip_data          = "10.10.20.214"
       cores            = 6
       memory           = 16384
       disk             = "30G"
@@ -58,6 +59,7 @@ locals {
       storage_clone_to = "spsrv-proxmox"
       vmid             = 8115
       ip               = "192.168.13.215"
+      ip_data          = "10.10.20.215"
       cores            = 6
       memory           = 16384
       disk             = "30G"
@@ -67,6 +69,7 @@ locals {
       storage_clone_to = "local-lvm"
       vmid             = 8116
       ip               = "192.168.13.216"
+      ip_data          = "10.10.20.216"
       cores            = 4
       memory           = 16384
       disk             = "30G"
