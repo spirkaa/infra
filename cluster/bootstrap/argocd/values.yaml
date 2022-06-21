@@ -70,26 +70,28 @@ argo-cd:
             args: ["helm dependency build || true"]
           generate:
             command: ["sh", "-c"]
-            args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - | argocd-vault-plugin generate -"]
+            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - | argocd-vault-plugin generate -"]
         - name: kustomized-helm
           init:
             command: ["sh", "-c"]
             args: ["helm dependency build || true"]
           generate:
             command: ["sh", "-c"]
-            args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - > all.yaml && kustomize build"]
+            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build"]
         - name: helm
           init:
             command: ["sh", "-c"]
             args: ["helm dependency build || true"]
           generate:
             command: ["sh", "-c"]
-            args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f -"]
+            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f -"]
         - name: kustomize
           generate:
             command: ["sh", "-c"]
             args: ["kustomize build ."]
       statusbadge.enabled: "true"
+      server.rbac.log.enforce.enable: "true"
+      exec.enabled: "true"
       resource.customizations.health.argoproj.io_Application: |
         hs = {}
         hs.status = "Progressing"
