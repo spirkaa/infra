@@ -4,6 +4,8 @@ longhorn:
     nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
     replicaAutoBalance: best-effort
     concurrentAutomaticEngineUpgradePerNodeLimit: 1
+    backupTarget: s3://longhorn@minio/
+    backupTargetCredentialSecret: longhorn-backup
   persistence:
     defaultClass: true
     defaultClassReplicaCount: 2
