@@ -11,3 +11,4 @@ appsets:
     namespace: observability
   - name: platform
   - name: apps
+    namespace: apps

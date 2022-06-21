@@ -7,11 +7,11 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 spec:
   generators:
-  - git:
-      repoURL: {{ $.Values.repo }}
-      revision: {{ $.Values.revision }}
-      directories:
-      - path: cluster/{{ $appset.name }}/*
+    - git:
+        repoURL: {{ $.Values.repo }}
+        revision: {{ $.Values.revision }}
+        directories:
+          - path: cluster/{{ $appset.name }}/*
   template:
     metadata:
       name: '{{ `{{path.basename}}` }}'
