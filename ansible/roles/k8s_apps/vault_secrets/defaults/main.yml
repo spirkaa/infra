@@ -33,7 +33,8 @@ vault_secrets:
       ldap-bind-password={{ lookup('env', 'DEX_LDAP_BIND_PASSWORD') }}
       oauth2-proxy-client-secret={{ lookup('env', 'DEX_OAUTH2_PROXY_CLIENT_SECRET') }}
       argocd-client-secret={{ lookup('env', 'DEX_ARGOCD_CLIENT_SECRET') }}
-      gitea-client-secret={{ lookup('env', 'DEX_GITEA_CLIENT_SECRET') }}"
+      gitea-client-secret={{ lookup('env', 'DEX_GITEA_CLIENT_SECRET') }}
+      vikunja-client-secret={{ lookup('env', 'DEX_VIKUNJA_CLIENT_SECRET') }}"
   - path: secret/oauth2-proxy
     kv: cookie-secret={{ lookup('env', 'OAUTH2_PROXY_COOKIE_SECRET') }}
   - path: secret/kured
@@ -70,3 +71,5 @@ vault_secrets:
       pgbackrest-s3-endpoint={{ lookup('env', 'GIA_PGBACKREST_S3_ENDPOINT') }}
       pgbackrest-s3-region={{ lookup('env', 'GIA_PGBACKREST_S3_REGION') }}
       pgbackrest-s3-bucket={{ lookup('env', 'GIA_PGBACKREST_S3_BUCKET') }}"
+  - path: secret/vikunja
+    kv: jwt-secret={{ lookup('env', 'VIKUNJA_JWT_SECRET') }}
