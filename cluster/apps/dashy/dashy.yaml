@@ -160,55 +160,47 @@ data:
             icon: hl-portainer
             url: https://portainer.home.devmem.ru
             id: 1_496_portainer
-          - title: Nextcloud
-            icon: hl-nextcloud
-            url: https://cloud.devmem.ru
-            id: 3_496_nextcloud
           - title: Minio
             icon: hl-minio
             url: https://minio.home.devmem.ru
-            id: 7_496_minio
-          - title: Vaultwarden
-            icon: hl-bitwarden
-            url: https://bw.devmem.ru
-            id: 4_496_vaultwarden
+            id: 2_496_minio
           - title: Gitea
             icon: hl-gitea
             url: https://git.devmem.ru
-            id: 5_496_gitea
+            id: 3_496_gitea
           - title: Jenkins
             icon: hl-jenkins
             url: https://jenkins.devmem.ru
-            id: 6_496_jenkins
+            id: 4_496_jenkins
           - title: Grafana
             description: ''
             icon: hl-grafana
             url: https://grafana.devmem.ru
-            id: 8_496_grafana
+            id: 5_496_grafana
           - title: Prometheus
             icon: hl-prometheus
             url: https://prometheus.home.devmem.ru/targets
-            id: 9_496_prometheus
+            id: 6_496_prometheus
           - title: LibreNMS
             icon: hl-librenms
             url: https://nms.home.devmem.ru
-            id: 10_496_librenms
+            id: 7_496_librenms
           - title: UniFi
             icon: hl-unifi
             url: https://unifi.home.devmem.ru
-            id: 11_496_unifi
+            id: 8_496_unifi
           - title: NginxProxyMgr
             icon: hl-nginxproxymanager
             url: https://rp.home.devmem.ru
-            id: 2_496_nginxproxymgr
+            id: 9_496_nginxproxymgr
           - title: FreeIPA
             icon: hl-freeipa
             url: https://ipa.home.devmem.ru
-            id: 12_496_freeipa
+            id: 10_496_freeipa
           - title: phpLDAPadmin
             icon: hl-phpldapadmin
             url: https://ldap.home.devmem.ru
-            id: 13_496_phpldapadmin
+            id: 11_496_phpldapadmin
       - name: SPNAS
         displayData:
           sortBy: default
@@ -280,31 +272,31 @@ data:
           - title: Argo CD
             icon: hl-argocd
             url: https://argocd.k8s.devmem.ru
-            id: 1_278_argocd
+            id: 0_278_argocd
           - title: Grafana
             icon: hl-grafana
             url: https://grafana.k8s.devmem.ru
-            id: 4_278_grafana
+            id: 1_278_grafana
           - title: Prometheus
             icon: hl-prometheus
             url: https://prometheus.k8s.devmem.ru/alerts
-            id: 6_278_prometheus
+            id: 2_278_prometheus
           - title: Alertmanager
             icon: hl-alertmanager
             url: https://alertmanager.k8s.devmem.ru
-            id: 5_278_alertmanager
+            id: 3_278_alertmanager
           - title: Longhorn
             icon: hl-longhorn
             url: https://longhorn.k8s.devmem.ru
-            id: 2_278_longhorn
+            id: 4_278_longhorn
           - title: Vault
             icon: hl-vault
             url: https://vault.k8s.devmem.ru
-            id: 3_278_vault
+            id: 5_278_vault
           - title: Teleport
             icon: https://tele.devmem.ru/web/app/favicon.ico
             url: https://tele.devmem.ru
-            id: 0_278_teleport
+            id: 6_278_teleport
           - title: Authentik
             icon: hl-authentik
             url: https://authentik.auth.devmem.ru
@@ -333,6 +325,26 @@ data:
             icon: generative
             url: http://192.168.20.45/
             id: 3_393_zhabridge
+      - name: Cloud
+        displayData:
+          sortBy: default
+          rows: 1
+          cols: 1
+          collapsed: false
+          hideForGuests: false
+        items:
+          - title: Nextcloud
+            icon: hl-nextcloud
+            url: https://cloud.devmem.ru
+            id: 0_503_nextcloud
+          - title: Vikunja
+            icon: hl-vikunja
+            url: https://tasks.devmem.ru
+            id: 1_503_vikunja
+          - title: Vaultwarden
+            icon: hl-bitwarden
+            url: https://bw.devmem.ru
+            id: 2_503_vaultwarden
       - name: HW
         displayData:
           sortBy: default
