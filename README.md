@@ -50,6 +50,10 @@
 * [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy)
 * [teleport](https://github.com/gravitational/teleport)
 
+### Backup
+
+* [velero](https://github.com/vmware-tanzu/velero)
+
 ### Утилиты
 
 * [descheduler](https://github.com/kubernetes-sigs/descheduler)

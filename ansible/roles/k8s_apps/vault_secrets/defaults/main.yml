@@ -73,3 +73,6 @@ vault_secrets:
       pgbackrest-s3-bucket={{ lookup('env', 'GIA_PGBACKREST_S3_BUCKET') }}"
   - path: secret/vikunja
     kv: jwt-secret={{ lookup('env', 'VIKUNJA_JWT_SECRET') }}
+  - path: secret/velero
+    kv: "s3-key={{ lookup('env', 'VELERO_S3_KEY') }}
+      s3-key-secret={{ lookup('env', 'VELERO_S3_SECRET') }}"
