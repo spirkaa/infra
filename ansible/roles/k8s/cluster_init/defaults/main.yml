@@ -14,7 +14,7 @@ k8s_cluster_control_plane_endpoint: 192.168.13.254
 
 k8s_cluster_pod_network: 10.244.0.0/16
 # renovate: depName=projectcalico/calico
-k8s_cluster_pod_network_version: v3.23.1
+k8s_cluster_pod_network_version: v3.23.2
 k8s_cluster_pod_network_manifest_url: https://projectcalico.docs.tigera.io/{{ k8s_cluster_pod_network_version.split('.')[:-1] | join('.') }}/manifests/calico.yaml
 k8s_cluster_pod_network_manifest_dir: "{{ k8s_cluster_user_home }}/calico"
 k8s_cluster_pod_network_manifest: "{{ k8s_cluster_pod_network_manifest_dir }}/calico.yaml"
