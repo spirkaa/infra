@@ -36,3 +36,13 @@
     fstype: "{{ k8s_cluster_storage_fstype }}"
     state: mounted
   become: true
+
+- name: storage - configure multipathd to ignore local volumes
+  ansible.builtin.blockinfile:
+    path: /etc/multipath.conf
+    block: |
+      blacklist {
+          devnode "^sd[a-z0-9]+"
+      }
+  notify: storage - restart multipathd
+  become: true
