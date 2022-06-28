@@ -11,6 +11,7 @@ pve_api_role_privs: >
   Datastore.AllocateSpace
   Datastore.Audit
   Pool.Allocate
+  Pool.Audit
   Sys.Audit
   Sys.Modify
   VM.Allocate
