@@ -1,0 +1,23 @@
+gitlab-runner:
+  revisionHistoryLimit: 2
+  gitlabUrl: https://gitlab.com
+  unregisterRunners: true
+  concurrent: 5
+  rbac:
+    create: true
+  runners:
+    secret: gitlab-runner
+    config: |
+      [[runners]]
+        [runners.kubernetes]
+          image = "alpine:3.16"
+        [runners.cache]
+          Type = "s3"
+          Path = "gitlab-runner"
+          Shared = true
+          [runners.cache.s3]
+            ServerAddress = "s3.home.devmem.ru"
+            BucketName = "gitlab"
+            BucketLocation = "main"
+    cache:
+      secretName: s3access
