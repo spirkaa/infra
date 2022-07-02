@@ -3,5 +3,5 @@ name: vikunja
 version: 0.0.0
 dependencies:
   - name: vikunja
-    version: 5.5.3
+    version: 6.0.0
     repository: https://k8s-at-home.com/charts/
