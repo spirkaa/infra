@@ -1,0 +1,37 @@
+radarr:
+  image:
+    repository: ghcr.io/k8s-at-home/radarr-nightly
+    tag: v4.2.0.6396
+  env:
+    TZ: Europe/Moscow
+  ingress:
+    main:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host radarr.home.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: radarr-tls
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  persistence:
+    config:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteOnce
+      storageClass: longhorn
+      size: 5Gi
+    nfs-downloads:
+      enabled: true
+      existingClaim: nfs-downloads-pvc
+      mountPath: /downloads
