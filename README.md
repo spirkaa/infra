@@ -60,7 +60,13 @@
 * [Kured](https://github.com/weaveworks/kured)
 * [Reloader](https://github.com/stakater/Reloader)
 
-## Запуск
+## Пользовательские приложения
+
+* [Dashy](https://github.com/lissy93/dashy)
+* [Vikunja](https://vikunja.io/)
+* [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
+
+## Запуск кластера
 
 ### Требования
 
@@ -69,9 +75,9 @@
 
 ### Пользователь для API Proxmox
 
-В консоли сервера Proxmox выполнить команды и сохранить вывод последней.
+Создать пользователя можно с помощью роли Ansible [pve/api_user](ansible/roles/pve/api_user) или вручную выполнить команды в консоли сервера Proxmox и сохранить вывод последней.
 
-`pveum role add Provisioner -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Sys.Audit Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Console VM.Monitor VM.PowerMgmt"`
+`pveum role add Provisioner -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Pool.Audit Sys.Audit Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Console VM.Monitor VM.PowerMgmt"`
 
 `pveum user add hashicorp@pve`
 

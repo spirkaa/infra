@@ -80,3 +80,7 @@ vault_secrets:
     kv: "runner-registration-token={{ lookup('env', 'GITLAB_RUNNER_REGISTRATION_TOKEN') }}
       s3-key={{ lookup('env', 'GITLAB_RUNNER_S3_KEY') }}
       s3-key-secret={{ lookup('env', 'GITLAB_RUNNER_S3_SECRET') }}"
+  - path: secret/vaultwarden
+    kv: "admin-token={{ lookup('env', 'VAULTWARDEN_ADMIN_TOKEN') }}
+      ldap-bind-dn={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_PASSWORD') }}"

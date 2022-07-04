@@ -1,0 +1,59 @@
+vaultwarden:
+  image:
+    repository: vaultwarden/server
+    tag: 1.25.0-alpine
+  env:
+    DATA_FOLDER: data
+  envFrom:
+    - secretRef:
+        name: vaultwarden
+  ingress:
+    main:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host vaultwarden.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                port: 80
+            - path: /notifications/hub/negotiate
+              pathType: Prefix
+              service:
+                port: 80
+            - path: /notifications/hub
+              pathType: Prefix
+              service:
+                port: 3012
+      tls:
+        - hosts:
+            - *host
+          secretName: vaultwarden-tls
+  additionalContainers:
+    - name: vaultwarden-ldap
+      image: vividboarder/vaultwarden_ldap:0.6.2-alpine
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: config
+          mountPath: /config.toml
+          subPath: config.toml
+  persistence:
+    data:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteOnce
+      storageClass: longhorn
+      size: 1Gi
+      mountPath: /data
+    config:
+      enabled: true
+      type: secret
+      name: vaultwarden-ldap
+      mountPath: "-"
+  postgresql:
+    enabled: false
+  mariadb:
+    enabled: false
