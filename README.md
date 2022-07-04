@@ -65,6 +65,7 @@
 * [Dashy](https://github.com/lissy93/dashy)
 * [Vikunja](https://vikunja.io/)
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
+* [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr)
 
 ## Запуск кластера
 

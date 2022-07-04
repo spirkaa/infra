@@ -1,0 +1,9 @@
+flaresolverr:
+  image:
+    repository: flaresolverr/flaresolverr
+    tag: v2.2.4
+  env:
+    TZ: Europe/Moscow
+    LOG_LEVEL: info
+    LOG_HTML: "false"
+    CAPTCHA_SOLVER: none
