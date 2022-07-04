@@ -66,6 +66,7 @@
 * [Vikunja](https://vikunja.io/)
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
 * [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr)
+* [Bazarr](https://github.com/morpheus65535/bazarr)
 
 ## Запуск кластера
 
