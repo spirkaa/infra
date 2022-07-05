@@ -71,6 +71,7 @@
 * [Sonarr](https://github.com/Sonarr/Sonarr)
 * [Lidarr](https://github.com/lidarr/Lidarr)
 * [Prowlarr](https://github.com/Prowlarr/Prowlarr)
+* [Jackett](https://github.com/Jackett/Jackett)
 
 ## Запуск кластера
 
