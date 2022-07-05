@@ -1,0 +1,33 @@
+prowlarr:
+  image:
+    repository: ghcr.io/k8s-at-home/prowlarr-nightly
+    tag: v0.4.3.1882
+  env:
+    TZ: Europe/Moscow
+  ingress:
+    main:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host prowlarr.home.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: prowlarr-tls
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  persistence:
+    config:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteOnce
+      storageClass: longhorn
+      size: 1Gi

@@ -70,6 +70,7 @@
 * [Radarr](https://github.com/Radarr/Radarr)
 * [Sonarr](https://github.com/Sonarr/Sonarr)
 * [Lidarr](https://github.com/lidarr/Lidarr)
+* [Prowlarr](https://github.com/Prowlarr/Prowlarr)
 
 ## Запуск кластера
 
