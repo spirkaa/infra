@@ -69,6 +69,7 @@
 * [Bazarr](https://github.com/morpheus65535/bazarr)
 * [Radarr](https://github.com/Radarr/Radarr)
 * [Sonarr](https://github.com/Sonarr/Sonarr)
+* [Lidarr](https://github.com/lidarr/Lidarr)
 
 ## Запуск кластера
 
