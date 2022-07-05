@@ -33,6 +33,7 @@ help:
 	@echo ""
 	@echo "    plan                           [terraform] Show changes required by the current configuration"
 	@echo "    apply                          [terraform] Create or update infrastructure"
+	@echo "    refresh                        [terraform] Update the state to match remote systems"
 	@echo "    destroy                        [terraform] Destroy previously-created infrastructure"
 	@echo "    show                           [terraform] Show the current state or a saved plan"
 
