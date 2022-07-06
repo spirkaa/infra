@@ -16,3 +16,5 @@ ingress-nginx:
       enabled: true
       serviceMonitor:
         enabled: true
+  tcp:
+    58846: apps/deluge:58846

@@ -84,3 +84,6 @@ vault_secrets:
     kv: "admin-token={{ lookup('env', 'VAULTWARDEN_ADMIN_TOKEN') }}
       ldap-bind-dn={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_DN') }}
       ldap-bind-password={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_PASSWORD') }}"
+  - path: secret/deluge
+    kv: "vpn-user={{ lookup('env', 'DELUGE_VPN_USER') }}
+      vpn-pass={{ lookup('env', 'DELUGE_VPN_PASS') }}"

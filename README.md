@@ -73,6 +73,7 @@
 * [Prowlarr](https://github.com/Prowlarr/Prowlarr)
 * [Jackett](https://github.com/Jackett/Jackett)
 * [Monitorrent](https://github.com/werwolfby/monitorrent)
+* [Deluge](https://github.com/binhex/arch-delugevpn)
 
 ## Запуск кластера
 
