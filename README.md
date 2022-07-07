@@ -74,6 +74,7 @@
 * [Jackett](https://github.com/Jackett/Jackett)
 * [Monitorrent](https://github.com/werwolfby/monitorrent)
 * [Deluge](https://github.com/binhex/arch-delugevpn)
+* [Tautulli](https://github.com/Tautulli/Tautulli)
 
 ## Запуск кластера
 

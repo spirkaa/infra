@@ -1,0 +1,39 @@
+tautulli:
+  image:
+    repository: ghcr.io/k8s-at-home/tautulli
+    tag: v2.10.2
+  env:
+    TZ: Europe/Moscow
+  envFrom:
+    - configMapRef:
+        name: proxy-config
+  controller:
+    annotations:
+      configmap.reloader.stakater.com/reload: "proxy-config"
+  ingress:
+    main:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host tautulli.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: tautulli-tls
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  persistence:
+    config:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteOnce
+      storageClass: longhorn
+      size: 2Gi
