@@ -9,6 +9,9 @@ metadata:
     configmap.reloader.stakater.com/reload: "dashy-config"
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: dashy
@@ -43,6 +46,13 @@ spec:
             - mountPath: /app/public/conf.yml
               name: dashy-config
               subPath: conf.yml
+          resources:
+            requests:
+              memory: 384Mi
+              cpu: 20m
+            limits:
+              memory: 1536Mi
+              cpu: 1000m
       volumes:
         - name: dashy-config
           configMap:
@@ -75,7 +85,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: k8s.devmem.ru
+    - host: &host k8s.devmem.ru
       http:
         paths:
           - path: /
@@ -87,7 +97,7 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - k8s.devmem.ru
+        - *host
 ---
 apiVersion: v1
 kind: ConfigMap
