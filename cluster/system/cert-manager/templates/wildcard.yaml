@@ -1,14 +1,16 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: k8s-devmem-ru
+  name: devmem-ru-wildcard-tls
   namespace: cert-manager
 spec:
-  secretName: k8s-devmem-ru-tls
+  secretName: devmem-ru-wildcard-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: k8s.devmem.ru
+  commonName: devmem.ru
   dnsNames:
-    - "k8s.devmem.ru"
+    - "devmem.ru"
+    - "*.devmem.ru"
+    - "*.home.devmem.ru"
     - "*.k8s.devmem.ru"

@@ -22,6 +22,7 @@ spec:
                 key: api-key
         selector:
           dnsZones:
+            - "devmem.ru"
             - "home.devmem.ru"
             - "k8s.devmem.ru"
             - "tele.devmem.ru"
