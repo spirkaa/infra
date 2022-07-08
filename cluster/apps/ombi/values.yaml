@@ -26,7 +26,6 @@ ombi:
       tls:
         - hosts:
             - *host
-          secretName: ombi-tls
   podSecurityContext:
     fsGroup: 1000
     fsGroupChangePolicy: OnRootMismatch

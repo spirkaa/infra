@@ -18,7 +18,6 @@ lidarr:
       tls:
         - hosts:
             - *host
-          secretName: lidarr-tls
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000

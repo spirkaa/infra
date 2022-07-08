@@ -18,7 +18,6 @@ jackett:
       tls:
         - hosts:
             - *host
-          secretName: jackett-tls
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000

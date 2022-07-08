@@ -16,7 +16,6 @@ vikunja:
       tls:
         - hosts:
             - *host
-          secretName: vikunja-tls
   additionalContainers:
     - name: api
       image: vikunja/api:unstable

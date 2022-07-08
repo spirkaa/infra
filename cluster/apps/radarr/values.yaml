@@ -18,7 +18,6 @@ radarr:
       tls:
         - hosts:
             - *host
-          secretName: radarr-tls
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000

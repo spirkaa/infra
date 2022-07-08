@@ -136,7 +136,6 @@ spec:
   tls:
     - hosts:
         - *host
-      secretName: deluge-tls
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret

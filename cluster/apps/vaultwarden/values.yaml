@@ -31,7 +31,6 @@ vaultwarden:
       tls:
         - hosts:
             - *host
-          secretName: vaultwarden-tls
   additionalContainers:
     - name: vaultwarden-ldap
       image: vividboarder/vaultwarden_ldap:0.6.2-alpine

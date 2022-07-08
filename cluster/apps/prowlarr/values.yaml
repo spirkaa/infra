@@ -18,7 +18,6 @@ prowlarr:
       tls:
         - hosts:
             - *host
-          secretName: prowlarr-tls
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000

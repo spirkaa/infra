@@ -18,7 +18,6 @@ sonarr:
       tls:
         - hosts:
             - *host
-          secretName: sonarr-tls
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000

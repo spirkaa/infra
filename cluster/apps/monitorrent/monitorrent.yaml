@@ -108,4 +108,3 @@ spec:
   tls:
     - hosts:
         - *host
-      secretName: monitorrent-tls
