@@ -87,3 +87,9 @@ vault_secrets:
   - path: secret/deluge
     kv: "vpn-user={{ lookup('env', 'DELUGE_VPN_USER') }}
       vpn-pass={{ lookup('env', 'DELUGE_VPN_PASS') }}"
+  - path: secret/nextcloud
+    kv: "admin-user={{ lookup('env', 'NEXTCLOUD_ADMIN_USER') }}
+      admin-password={{ lookup('env', 'NEXTCLOUD_ADMIN_PASSWORD') }}
+      serverinfo-token={{ lookup('env', 'NEXTCLOUD_SERVERINFO_TOKEN') }}
+      postgresql-password={{ lookup('env', 'NEXTCLOUD_POSTGRESQL_PASSWORD') }}
+      postgresql-postgres-password={{ lookup('env', 'NEXTCLOUD_POSTGRESQL_POSTGRES_PASSWORD') }}"

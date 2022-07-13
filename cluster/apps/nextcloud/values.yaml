@@ -1,0 +1,135 @@
+nextcloud:
+  fullnameOverride: nextcloud
+  image:
+    repository: nextcloud
+    tag: 24.0.2-fpm-alpine
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: 10G
+      kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/server-snippet: |-
+        location = /.well-known/carddav {
+          return 301 $scheme://$host/remote.php/dav;
+        }
+        location = /.well-known/caldav {
+          return 301 $scheme://$host/remote.php/dav;
+        }
+        location ^~ /.well-known {
+          return 301 $scheme://$host/index.php$uri;
+        }
+        location = /robots.txt {
+          allow all;
+          log_not_found off;
+          access_log off;
+        }
+        location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+          deny all;
+        }
+        location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
+          deny all;
+        }
+    path: /
+    pathType: Prefix
+    tls:
+      - hosts:
+          - &host cloud.devmem.ru
+  nextcloud:
+    host: *host
+    existingSecret:
+      enabled: true
+      secretName: nextcloud
+      usernameKey: admin-user
+      passwordKey: admin-password
+      tokenKey: serverinfo-token
+      smtpUsernameKey: smtp-username
+      smtpPasswordKey: smtp-password
+    mail:
+      enabled: true
+      fromAddress: noreply
+      domain: devmem.ru
+      smtp:
+        host: smtp.devmem.ru
+        secure: tls
+        port: 587
+        authtype: PLAIN
+    phpConfigs:
+      zz-php-fpm.conf: |
+        [www]
+        pm = dynamic
+        pm.max_children = 25
+        pm.start_servers = 10
+        pm.min_spare_servers = 5
+        pm.max_spare_servers = 20
+        pm.max_requests = 498
+        access.log = /dev/null
+        php_admin_value[post_max_size] = 10G
+        php_admin_value[upload_max_filesize] = 10G
+        php_admin_value[max_execution_time] = 10800
+        php_admin_value[max_input_time] = 3600
+    configs:
+      zz-custom.config.php: |-
+        <?php
+        $CONFIG = array (
+          'check_data_directory_permissions' => false,
+          'trusted_domains' => array (
+            0 => 'localhost',
+            1 => 'cloud.devmem.ru',
+          ),
+          'trusted_proxies' => array(
+            0 => '127.0.0.1',
+            1 => '10.244.0.0/16',
+          ),
+          'overwriteprotocol' => 'https',
+          'default_phone_region' => 'RU',
+          'preview_max_x' => '2048',
+          'preview_max_y' => '2048',
+          'jpeg_quality' => '65',
+          'trashbin_retention_obligation' => 'auto, 365',
+        );
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  nginx:
+    enabled: true
+  internalDatabase:
+    enabled: false
+  externalDatabase:
+    existingSecret:
+      enabled: true
+  postgresql:
+    enabled: true
+    architecture: standalone
+    auth:
+      username: nextcloud
+      database: nextcloud
+      existingSecret: nextcloud
+      secretKeys:
+        adminPasswordKey: postgresql-postgres-password
+        userPasswordKey: postgresql-password
+    primary:
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 2Gi
+      nodeSelector:
+        devmem.ru/pve-host: spsrv
+  cronjob:
+    enabled: true
+  persistence:
+    enabled: true
+    storageClass: longhorn
+    accessMode: ReadWriteOnce
+    size: 2Gi
+    nextcloudData:
+      enabled: true
+      existingClaim: nfs-cloud-pvc
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  nodeSelector:
+    devmem.ru/pve-host: spsrv

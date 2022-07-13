@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-cloud-pv
+spec:
+  capacity:
+    storage: 1Mi
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.10.20.3
+    path: /cloud
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-cloud-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+  storageClassName: nfs
+  volumeName: nfs-cloud-pv
