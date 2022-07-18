@@ -1,7 +1,7 @@
 sonarr:
   image:
     repository: ghcr.io/k8s-at-home/sonarr-nightly
-    tag: v4.0.0.2162
+    tag: v4.0.0.2167
   env:
     TZ: Europe/Moscow
   ingress:
