@@ -33,10 +33,10 @@ kube-prometheus-stack:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - grafana.k8s.devmem.ru
+        - grafana.devmem.ru
       tls:
         - hosts:
-            - grafana.k8s.devmem.ru
+            - grafana.devmem.ru
           secretName: null
     sidecar:
       datasources:
