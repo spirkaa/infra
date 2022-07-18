@@ -1,0 +1,20 @@
+portainer:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: &host portainer.home.devmem.ru
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - *host
+  persistence:
+    enabled: true
+    storageClass: longhorn
+    size: 1Gi

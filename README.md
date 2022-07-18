@@ -62,6 +62,7 @@
 
 ## Пользовательские приложения
 
+* [Portainer](https://github.com/portainer/portainer)
 * [Dashy](https://github.com/lissy93/dashy)
 * [Vikunja](https://vikunja.io/)
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
