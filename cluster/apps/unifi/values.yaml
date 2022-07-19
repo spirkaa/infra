@@ -1,0 +1,66 @@
+unifi:
+  image:
+    repository: jacobalberty/unifi
+    tag: v7.1.66
+  env:
+    TZ: Europe/Moscow
+  service:
+    main:
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/allow-shared-ip: unifi
+      loadBalancerIP: 192.168.13.250
+      externalTrafficPolicy: Local
+      ports:
+        stun:
+          enabled: false
+        syslog:
+          enabled: false
+        discovery:
+          enabled: false
+    udp:
+      enabled: true
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/allow-shared-ip: unifi
+      loadBalancerIP: 192.168.13.250
+      externalTrafficPolicy: Local
+      ports:
+        stun:
+          enabled: true
+          port: 3478
+          protocol: UDP
+        syslog:
+          enabled: true
+          port: 5514
+          protocol: UDP
+        discovery:
+          enabled: true
+          port: 10001
+          protocol: UDP
+  ingress:
+    main:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host unifi-ui.home.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+  podSecurityContext:
+    fsGroup: 999
+    fsGroupChangePolicy: OnRootMismatch
+  persistence:
+    data:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteOnce
+      storageClass: longhorn
+      size: 2Gi
+      mountPath: /unifi

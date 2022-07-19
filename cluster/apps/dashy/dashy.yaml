@@ -192,7 +192,7 @@ data:
             id: 6_496_librenms
           - title: UniFi
             icon: hl-unifi
-            url: https://unifi.home.devmem.ru
+            url: https://unifi-ui.home.devmem.ru
             id: 7_496_unifi
           - title: NginxProxyMgr
             icon: hl-nginxproxymanager
