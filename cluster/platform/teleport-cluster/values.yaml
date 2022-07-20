@@ -15,4 +15,4 @@ teleport-cluster:
   service:
     type: LoadBalancer
     spec:
-      loadBalancerIP: "192.168.13.241"
+      loadBalancerIP: 192.168.13.241
