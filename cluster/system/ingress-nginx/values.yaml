@@ -2,6 +2,7 @@ ingress-nginx:
   controller:
     replicaCount: 2
     service:
+      loadBalancerIP: 192.168.13.240
       externalTrafficPolicy: Local
     extraArgs:
       default-ssl-certificate: cert-manager/devmem-ru-wildcard-tls
