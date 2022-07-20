@@ -1,6 +1,50 @@
-# Infra
+# Infra (Home Kubernetes)
+
+Конфигурация моего домашнего кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://www.weave.works/technologies/gitops/).
+
+* Предыдущая версия конфигурации (без k8s, на основе Docker внутри LXC) - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
+* Для вдохновения можно посмотреть, как делают другие - [awesome-home-kubernetes](https://github.com/k8s-at-home/awesome-home-kubernetes).
+
+## Обзор
+
+Основные компоненты разделены по директориям:
+
+* [ansible](ansible) - роли для настройки шаблонов ВМ и первоначального запуска кластера c помощью kubeadm.
+* [сluster](cluster) - конфигурация приложений, разворачиваемых с помощью ArgoCD.
+* [packer](packer) - создание шаблонов ВМ.
+* [terraform](terraform) - запуск, настройка и управление жизненным циклом ВМ в кластере.
+
+### Железо
+
+Хосты работают на Proxmox в составе кластера.
+
+* 1x Custom NAS (Fractal Design Define R6, Corsair RM650x)
+  * Intel Xeon E3-1230 v5
+  * 64GB DDR4 ECC UDIMM
+  * 512GB NVMe SSD (lvm)
+  * 10x 8 TB HDD (mergerfs+snapraid)
+  * 2x 12 TB HDD (zfs mirror)
+
+* 2x Lenovo IdeaCentre G5-14IMB05
+  * Intel Core i5-10400
+  * 32GB DDR4
+  * 512GB NVMe SSD (lvm)
+
+* 1x Ubiquiti EdgeRouter X
+* 1x Ubiquiti EdgeSwitch 24 Lite
+
+### Внешние сервисы
+
+* Бесплатный DNS-хостинг от [selectel](https://selectel.ru/services/additional/dns/), потому что есть вебхук для cert-manager.
+* VPS от [sale-dedic](https://sale-dedic.com/?from=38415).
 
 ## Компоненты кластера Kubernetes
+
+### Виртуальные машины
+
+* 3x Control Plane (2 vCPU, 4 GB)
+* 3x Worker (4/6 vCPU, 16 GB)
+* 2x Control Plane Load Balancer (1 vCPU, 1GB)
 
 ### База
 
