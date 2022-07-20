@@ -17,5 +17,23 @@ ingress-nginx:
       enabled: true
       serviceMonitor:
         enabled: true
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - ingress-nginx
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                    - ingress-nginx
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - controller
+            topologyKey: kubernetes.io/hostname
   tcp:
     58846: apps/deluge:58846
