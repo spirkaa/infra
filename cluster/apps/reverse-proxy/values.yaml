@@ -1,0 +1,61 @@
+reverse-proxy:
+  generateTLS:
+    enabled: false
+  instances:
+    - name: esphome
+      enabled: true
+      test: false
+      externalName: ha.home.devmem.ru
+      port: 6052
+      ingress:
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/auth-url: |-
+            https://oauth2-proxy.auth.devmem.ru/oauth2/auth
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://oauth2-proxy.auth.devmem.ru/oauth2/start
+        hosts:
+          - host: &host esphome.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: grocy
+      enabled: true
+      test: false
+      externalName: ha.home.devmem.ru
+      port: 9283
+      ingress:
+        ingressClassName: nginx
+        hosts:
+          - host: &host grocy.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: grocy-bb
+      enabled: true
+      test: false
+      externalName: ha.home.devmem.ru
+      port: 9284
+      ingress:
+        ingressClassName: nginx
+        hosts:
+          - host: &host grocy-bb.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: home-assistant
+      enabled: true
+      test: false
+      externalName: ha.home.devmem.ru
+      port: 8123
+      ingress:
+        ingressClassName: nginx
+        hosts:
+          - host: &host ha.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
