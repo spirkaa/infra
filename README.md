@@ -123,6 +123,7 @@
 * [Tautulli](https://github.com/Tautulli/Tautulli)
 * [Ombi](https://github.com/Ombi-app/Ombi)
 * [UniFi Network](https://help.ui.com/hc/en-us/categories/200320654)
+* [docker-mailserver](https://github.com/docker-mailserver/docker-mailserver)
 
 ## Запуск кластера
 

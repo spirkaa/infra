@@ -93,3 +93,7 @@ vault_secrets:
       serverinfo-token={{ lookup('env', 'NEXTCLOUD_SERVERINFO_TOKEN') }}
       postgresql-password={{ lookup('env', 'NEXTCLOUD_POSTGRESQL_PASSWORD') }}
       postgresql-postgres-password={{ lookup('env', 'NEXTCLOUD_POSTGRESQL_POSTGRES_PASSWORD') }}"
+  - path: secret/docker-mailserver
+    kv: "ldap-bind-dn={{ lookup('env', 'DOCKER_MAILSERVER_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'DOCKER_MAILSERVER_LDAP_BIND_PASSWORD') }}
+      opendkim-key=\"$(echo -e \"{{ lookup('env', 'DOCKER_MAILSERVER_OPENDKIM_KEY') }}\")\""  # convert oneline env var with newline chars to multiline string when executed in shell

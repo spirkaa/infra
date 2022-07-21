@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: docker-mailserver-autodiscover
+  labels:
+    app.kubernetes.io/name: docker-mailserver
+data:
+  COMPANY_NAME: devmem.ru
+  SUPPORT_URL: https://autodiscover.devmem.ru
+  DOMAIN: devmem.ru
+  IMAP_HOST: imap.devmem.ru
+  IMAP_PORT: "993"
+  IMAP_SOCKET: SSL
+  SMTP_HOST: smtp.devmem.ru
+  SMTP_PORT: "587"
+  SMTP_SOCKET: STARTTLS
+  PROFILE_IDENTIFIER: ru.devmem.autodiscover
+  PROFILE_UUID: 92943D26-CAB3-4086-897D-DC6C0D8B1E86
+  MAIL_UUID: 7A981A9E-D5D0-4EF8-87FE-39FD6A506FAC

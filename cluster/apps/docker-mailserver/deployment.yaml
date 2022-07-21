@@ -1,0 +1,145 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-mailserver
+  labels:
+    app.kubernetes.io/name: docker-mailserver
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: docker-mailserver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: docker-mailserver
+    spec:
+      containers:
+        - name: mailserver
+          image: mailserver/docker-mailserver:11.1.0
+          envFrom:
+            - secretRef:
+                name: docker-mailserver
+          ports:
+            - containerPort: 25
+              protocol: TCP
+              name: smtp
+            - containerPort: 143
+              protocol: TCP
+              name: imap
+            - containerPort: 587
+              protocol: TCP
+              name: submission
+            - containerPort: 993
+              protocol: TCP
+              name: imaps
+          livenessProbe:
+            exec:
+              command:
+                - "/bin/bash"
+                - "-c"
+                - |
+                  ! supervisorctl status | grep -E "amavis|clamav|cron|dovecot|fail2ban|mailserver|opendkim|opendmarc|postfix|rsyslog|saslauthd_ldap" | grep -v RUNNING
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+            failureThreshold: 3
+          volumeMounts:
+            - name: cert
+              mountPath: /tmp/cert
+            - name: tmp
+              mountPath: /tmp/docker-mailserver/
+            - name: data
+              mountPath: /var/mail
+              subPath: mail
+            - name: data
+              mountPath: /var/mail-state
+              subPath: mail-state
+            - name: data
+              mountPath: /var/log/mail
+              subPath: log
+            - name: configs
+              mountPath: /etc/dovecot/conf.d/10-master.conf
+              subPath: 10-master.conf
+              readOnly: true
+            - name: configs
+              mountPath: /etc/dovecot/conf.d/15-mailboxes.conf
+              subPath: 15-mailboxes.conf
+              readOnly: true
+            - name: configs
+              mountPath: /etc/fail2ban/jail.local
+              subPath: jail.local
+              readOnly: true
+            - name: opendkim
+              mountPath: /tmp/docker-mailserver/opendkim/KeyTable
+              subPath: KeyTable
+              readOnly: true
+            - name: opendkim
+              mountPath: /tmp/docker-mailserver/opendkim/SigningTable
+              subPath: SigningTable
+              readOnly: true
+            - name: opendkim
+              mountPath: /tmp/docker-mailserver/opendkim/TrustedHosts
+              subPath: TrustedHosts
+              readOnly: true
+            - name: opendkim
+              mountPath: /tmp/docker-mailserver/opendkim/keys/devmem.ru/mail.private
+              subPath: mail.private
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 1536Mi
+            limits:
+              cpu: 1000m
+              memory: 3072Mi
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/bash"
+                  - "-c"
+                  - |
+                    echo 'TLS_REQCERT allow' >> /etc/ldap/ldap.conf;
+                    sed -i 's/{ type <addr_type>\\; \\}/{ type <addr_type>\\; flags interval\\; \\}/g' /etc/fail2ban/action.d/nftables.conf
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+        - name: mailserver-autodiscover
+          image: monogramm/autodiscover-email-settings:latest
+          envFrom:
+            - configMapRef:
+                name: docker-mailserver-autodiscover
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+              name: autodiscover
+          livenessProbe:
+            tcpSocket:
+              port: autodiscover
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: docker-mailserver-data
+        - name: configs
+          configMap:
+            name: docker-mailserver-configs
+        - name: opendkim
+          secret:
+            secretName: docker-mailserver-opendkim
+        - name: cert
+          secret:
+            secretName: docker-mailserver-tls
+        - name: tmp
+          emptyDir: {}

@@ -1,0 +1,36 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docker-mailserver
+  labels:
+    app.kubernetes.io/name: docker-mailserver
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host1 autoconfig.devmem.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: docker-mailserver
+                port:
+                  number: 8000
+    - host: &host2 autodiscover.devmem.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: docker-mailserver
+                port:
+                  number: 8000
+  tls:
+    - hosts:
+        - *host1
+        - *host2
