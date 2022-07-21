@@ -59,3 +59,117 @@ reverse-proxy:
         tls:
           - hosts:
               - *host
+    - name: minio
+      enabled: true
+      test: false
+      externalName: spnas.home.devmem.ru
+      port: 9000
+      ingress:
+        ingressClassName: nginx
+        hosts:
+          - host: &host s3.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: gitea
+      enabled: true
+      test: false
+      externalName: dev.home.devmem.ru
+      port: 3000
+      ingress:
+        ingressClassName: nginx
+        hosts:
+          - host: &host git.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: jenkins
+      enabled: true
+      test: false
+      externalName: dev.home.devmem.ru
+      port: 8081
+      ingress:
+        ingressClassName: nginx
+        hosts:
+          - host: &host jenkins.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: jellyfin
+      enabled: true
+      test: false
+      externalName: plex.home.devmem.ru
+      port: 8096
+      ingress:
+        ingressClassName: nginx
+        hosts:
+          - host: &host j.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: plex
+      enabled: true
+      test: false
+      externalName: plex.home.devmem.ru
+      port: 32400
+      ingress:
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/server-snippet: |-
+            proxy_redirect off;
+            proxy_set_header X-Plex-Client-Identifier  $http_x_plex_client_identifier;
+            proxy_set_header X-Plex-Device             $http_x_plex_device;
+            proxy_set_header X-Plex-Device-Name        $http_x_plex_device_name;
+            proxy_set_header X-Plex-Platform           $http_x_plex_platform;
+            proxy_set_header X-Plex-Platform-Version   $http_x_plex_platform_version;
+            proxy_set_header X-Plex-Product            $http_x_plex_product;
+            proxy_set_header X-Plex-Token              $http_x_plex_token;
+            proxy_set_header X-Plex-Version            $http_x_plex_version;
+            proxy_set_header X-Plex-Nocache            $http_x_plex_nocache;
+            proxy_set_header X-Plex-Provides           $http_x_plex_provides;
+            proxy_set_header X-Plex-Device-Vendor      $http_x_plex_device_vendor;
+            proxy_set_header X-Plex-Model              $http_x_plex_model;
+            if ($request_method != OPTIONS) {
+              set $test A;
+            }
+            if ($http_x_plex_device_name = '') {
+              set $test "${test}B";
+            }
+            if ($arg_X-Plex-Device-Name = '') {
+              set $test "${test}C";
+            }
+            if ($http_user_agent !~ (SmartTV)) {
+              set $test "${test}D";
+            }
+            if ($test = ABCD) {
+              rewrite ^/$ $scheme://$http_host/web/index.html;
+            }
+        hosts:
+          - host: &host plex.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
+    - name: proxmox
+      enabled: true
+      test: false
+      externalName: spsrv.home.devmem.ru
+      port: 8006
+      ingress:
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/auth-url: |-
+            https://oauth2-proxy.auth.devmem.ru/oauth2/auth
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://oauth2-proxy.auth.devmem.ru/oauth2/start
+        hosts:
+          - host: &host proxmox.devmem.ru
+            path: /
+        tls:
+          - hosts:
+              - *host
