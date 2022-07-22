@@ -4,6 +4,23 @@
     {
       "matchManagers": ["pre-commit"],
       "groupName": "pre-commit"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "ghcr.io/k8s-at-home/bazarr",
+        "ghcr.io/k8s-at-home/jackett",
+        "ghcr.io/k8s-at-home/lidarr-nightly",
+        "ghcr.io/k8s-at-home/prowlarr-nightly",
+        "ghcr.io/k8s-at-home/radarr-nightly",
+        "ghcr.io/k8s-at-home/sonarr-nightly",
+        "ghcr.io/k8s-at-home/tautulli",
+        "ghcr.io/linuxserver/ombi"
+      ]
     }
   ],
   "ansible": {
