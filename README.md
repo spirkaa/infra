@@ -32,10 +32,11 @@
 
 * 1x Ubiquiti EdgeRouter X
 * 1x Ubiquiti EdgeSwitch 24 Lite
+* 1x CyberPower CP900EPFC
 
 ### Внешние сервисы
 
-* Бесплатный DNS-хостинг от [selectel](https://selectel.ru/services/additional/dns/), потому что есть вебхук для cert-manager.
+* Бесплатный DNS-хостинг от [selectel](https://selectel.ru/services/additional/dns/), потому что есть API и вебхук для cert-manager.
 * VPS от [sale-dedic](https://sale-dedic.com/?from=38415).
 
 ## Компоненты кластера Kubernetes
@@ -61,10 +62,13 @@
 * [MetalLB](https://github.com/metallb/metallb)
 * [ingress-nginx](https://github.com/kubernetes/ingress-nginx)
 * [cert-manager](https://github.com/cert-manager/cert-manager) + [cert-manager-webhook-selectel](https://github.com/selectel/cert-manager-webhook-selectel)
+* [Keepalived](https://www.keepalived.org) + [HAProxy](https://www.haproxy.com) вне кластера для Control Plane
 
 ### Хранилище
 
 * [Longhorn](https://github.com/longhorn/longhorn)
+* [minio](https://github.com/minio/minio)
+* NFS
 
 ### Observability (логи, метрики, трейсы)
 
@@ -134,7 +138,7 @@
 
 ### Пользователь для API Proxmox
 
-Создать пользователя можно с помощью роли Ansible [pve/api_user](ansible/roles/pve/api_user) или вручную выполнить команды в консоли сервера Proxmox и сохранить вывод последней.
+Создать пользователя можно с помощью роли [pve/api_user](ansible/roles/pve/api_user) или вручную, выполнив команды в консоли сервера Proxmox и сохранив вывод последней.
 
 `pveum role add Provisioner -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Pool.Audit Sys.Audit Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Console VM.Monitor VM.PowerMgmt"`
 
