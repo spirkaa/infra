@@ -15,6 +15,9 @@ ingress-nginx:
       use-forwarded-headers: "true"
       enable-real-ip: "true"
       forwarded-for-header: proxy_protocol
+      proxy-body-size: 2G
+      client-body-buffer-size: 128m
+      proxy-buffer-size: 16k
     metrics:
       enabled: true
       serviceMonitor:

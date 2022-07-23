@@ -66,6 +66,8 @@ reverse-proxy:
       port: 9000
       ingress:
         ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
         hosts:
           - host: &host s3.devmem.ru
             path: /
@@ -162,6 +164,7 @@ reverse-proxy:
       ingress:
         ingressClassName: nginx
         annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "10G"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           nginx.ingress.kubernetes.io/auth-url: |-
             https://oauth2-proxy.auth.devmem.ru/oauth2/auth

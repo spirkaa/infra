@@ -12,9 +12,9 @@ longhorn:
     reclaimPolicy: Retain
   ingress:
     enabled: true
-    annotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: 10000m
     ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: "10G"
     host: longhorn.k8s.devmem.ru
     tls: true
     tlsSecret: null
