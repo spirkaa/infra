@@ -7,7 +7,10 @@ nextcloud:
     enabled: true
     className: nginx
     annotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: 10G
+      nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+      nginx.ingress.kubernetes.io/proxy-body-size: "10G"
+      nginx.ingress.kubernetes.io/client-body-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
       kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/server-snippet: |-
         location = /.well-known/carddav {
