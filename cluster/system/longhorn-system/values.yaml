@@ -15,6 +15,7 @@ longhorn:
     ingressClassName: nginx
     annotations:
       nginx.ingress.kubernetes.io/proxy-body-size: "10G"
+      nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
     host: longhorn.k8s.devmem.ru
     tls: true
     tlsSecret: null

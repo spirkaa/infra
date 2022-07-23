@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+APP_DIR="cluster/apps/$1"
+
+if [[ $# -ne 1 ]]; then
+  echo "Usage: $0 appname" >&2
+  exit 2
+fi
+
+if [[ ! -d "$APP_DIR" ]]; then
+  mkdir -p "$APP_DIR/templates"
+
+  cat << EOF > "$APP_DIR/Chart.yaml"
+apiVersion: v2
+name: $1
+version: 0.0.0
+dependencies:
+- name: CHANGEME
+  version: CHANGEME
+  repository: CHANGEME
+EOF
+
+  cat << EOF > "$APP_DIR/values.yaml"
+$1:
+EOF
+
+else
+  echo "App directory '$1' exists" >&2
+  exit 2
+fi
