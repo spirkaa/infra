@@ -16,10 +16,10 @@ kube-prometheus-stack:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - alertmanager.k8s.devmem.ru
+        - &host alertmanager.k8s.devmem.ru
       tls:
         - hosts:
-            - alertmanager.k8s.devmem.ru
+            - *host
           secretName: null
   grafana:
     fullnameOverride: grafana
@@ -33,10 +33,10 @@ kube-prometheus-stack:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - grafana.devmem.ru
+        - &host grafana.devmem.ru
       tls:
         - hosts:
-            - grafana.devmem.ru
+            - *host
           secretName: null
     sidecar:
       datasources:
@@ -80,13 +80,11 @@ kube-prometheus-stack:
           url: https://grafana.com/api/dashboards/12559/revisions/11/download
         argocd:
           url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
-    envFromSecret: grafana-smtp
     grafana.ini:
       analytics:
         check_for_updates: false
       server:
         enable_gzip: true
-        # root_url: "https://grafana.k8s.devmem.ru"
       auth.ldap:
         enabled: true
         allow_sign_up: true
@@ -96,6 +94,7 @@ kube-prometheus-stack:
       existingSecret: grafana
     admin:
       existingSecret: grafana
+    envFromSecret: grafana-smtp
   prometheus:
     fullnameOverride: prometheus
     prometheusSpec:
@@ -114,10 +113,10 @@ kube-prometheus-stack:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - prometheus.k8s.devmem.ru
+        - &host prometheus.k8s.devmem.ru
       tls:
         - hosts:
-            - prometheus.k8s.devmem.ru
+            - *host
           secretName: null
   prometheusOperator:
     fullnameOverride: prometheus-operator
