@@ -6,26 +6,26 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   generators:
-  - git:
-      repoURL: {{ .Values.repo }}
-      revision: {{ .Values.revision }}
-      files:
-      - path: cluster/projects/**/config.json
+    - git:
+        repoURL: {{ .Values.repo }}
+        revision: {{ .Values.revision }}
+        files:
+          - path: cluster/projects/**/config.json
   template:
     metadata:
-      name: '{{ `{{name}}` }}'
+      name: {{ `"{{name}}"` }}
       annotations:
         argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-        notifications.argoproj.io/subscribe.on-deployed.grafana: '{{ `{{name}}` }}'
+        notifications.argoproj.io/subscribe.on-deployed.grafana: {{ `"{{name}}"` }}
     spec:
       project: projects
       source:
         repoURL: {{ .Values.charts_repo }}
-        chart: '{{ `{{chart}}` }}'
-        targetRevision: '{{ `{{revision}}` }}'
+        chart: {{ `"{{chart}}"` }}
+        targetRevision: {{ `"{{revision}}"` }}
       destination:
         name: in-cluster
-        namespace: '{{ `{{namespace}}` }}'
+        namespace: {{ `"{{namespace}}"` }}
       syncPolicy:
         automated:
           prune: false

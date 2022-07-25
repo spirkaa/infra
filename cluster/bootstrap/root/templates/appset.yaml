@@ -11,21 +11,22 @@ spec:
         repoURL: {{ $.Values.repo }}
         revision: {{ $.Values.revision }}
         directories:
-          - path: cluster/{{ $appset.name }}/*
+          - path: "cluster/{{ $appset.name }}/*"
   template:
     metadata:
-      name: '{{ `{{path.basename}}` }}'
+      name: {{ `"{{path.basename}}"` }}
       annotations:
         argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+        argocd.argoproj.io/manifest-generate-paths: {{ `"{{path}}"` }}
     spec:
       project: default
       source:
         repoURL: {{ $.Values.repo }}
         targetRevision: {{ $.Values.revision }}
-        path: '{{ `{{path}}` }}'
+        path: {{ `"{{path}}"` }}
       destination:
         name: in-cluster
-        namespace: '{{ default `{{path.basename}}` $appset.namespace }}'
+        namespace: {{ default `"{{path.basename}}"` $appset.namespace }}
       syncPolicy:
         automated:
           prune: true
