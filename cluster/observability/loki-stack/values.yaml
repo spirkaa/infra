@@ -1,6 +1,19 @@
 loki-stack:
   loki:
     fullnameOverride: loki
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host loki.k8s.devmem.ru
+          paths:
+            - /
+      tls:
+        - hosts:
+            - *host
+          secretName: null
     persistence:
       enabled: true
       storageClassName: longhorn
