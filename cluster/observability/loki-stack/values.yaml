@@ -1,6 +1,9 @@
 loki-stack:
   loki:
     fullnameOverride: loki
+    isDefault: false
+    config:
+      existingSecret: loki
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -20,7 +23,6 @@ loki-stack:
       size: 20Gi
     serviceMonitor:
       enabled: true
-    isDefault: false
   promtail:
     fullnameOverride: promtail
     config:

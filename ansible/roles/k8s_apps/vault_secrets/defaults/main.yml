@@ -46,6 +46,9 @@ vault_secrets:
       admin-password={{ lookup('env', 'GRAFANA_ADMIN_PASSWORD') }}
       ldap-bind-dn={{ lookup('env', 'GRAFANA_LDAP_BIND_DN') }}
       ldap-bind-password={{ lookup('env', 'GRAFANA_LDAP_BIND_PASSWORD') }}"
+  - path: secret/loki
+    kv: "s3-key={{ lookup('env', 'LOKI_S3_KEY') }}
+      s3-key-secret={{ lookup('env', 'LOKI_S3_SECRET') }}"
   - path: secret/authentik
     kv: "ak-admin-password={{ lookup('env', 'AUTHENTIK_AK_ADMIN_PASS') }}
       ak-admin-token={{ lookup('env', 'AUTHENTIK_AK_ADMIN_TOKEN') }}
