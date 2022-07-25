@@ -10,7 +10,7 @@ spec:
         repoURL: {{ .Values.repo }}
         revision: {{ .Values.revision }}
         files:
-          - path: cluster/projects/**/config.json
+          - path: "cluster/projects/**/config.json"
   template:
     metadata:
       name: {{ `"{{name}}"` }}
