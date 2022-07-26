@@ -20,7 +20,7 @@ loki-stack:
     persistence:
       enabled: true
       storageClassName: longhorn
-      size: 20Gi
+      size: 10Gi
     serviceMonitor:
       enabled: true
   promtail:
