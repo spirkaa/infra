@@ -7,7 +7,7 @@ spec:
   task: "snapshot"
   groups:
     - default
-  retain: 1
+  retain: 4
   concurrency: 5
   labels:
     interval: 15m
