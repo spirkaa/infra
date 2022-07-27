@@ -1,0 +1,98 @@
+---
+# renovate: depName=kubernetes/kubernetes
+inventory__kubernetes_version: v1.24.2
+
+vault_secrets:
+  - path: secret/argocd
+    kv: grafana-api-key={{ lookup('env', 'ARGOCD_GRAFANA_API_KEY') }}
+  - path: secret/longhorn
+    kv: "s3-key={{ lookup('env', 'LONGHORN_S3_KEY') }}
+      s3-key-secret={{ lookup('env', 'LONGHORN_S3_SECRET') }}"
+  - path: secret/cert-manager
+    kv: selectel-api-key={{ lookup('env', 'SELECTEL_API_KEY') }}
+  - path: secret/common/smtp
+    kv: "host={{ lookup('env', 'SMTP_HOST') }}
+      port={{ lookup('env', 'SMTP_PORT') }}
+      username={{ lookup('env', 'SMTP_USERNAME') }}
+      password={{ lookup('env', 'SMTP_PASSWORD') }}"
+  - path: secret/common/telegram
+    kv: "bot-token={{ lookup('env', 'TELEGRAM_BOT_TOKEN') }}
+      chat-id={{ lookup('env', 'TELEGRAM_CHAT_ID') }}"
+  - path: secret/common/ldap
+    kv: "host={{ lookup('env', 'LDAP_HOST') }}
+      port={{ lookup('env', 'LDAP_PORT') }}
+      base-dn={{ lookup('env', 'LDAP_BASE_DN') }}
+      users-dn={{ lookup('env', 'LDAP_USERS_DN') }}
+      groups-dn={{ lookup('env', 'LDAP_GROUPS_DN') }}"
+  - path: secret/dex
+    kv: "ldap-bind-dn={{ lookup('env', 'DEX_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'DEX_LDAP_BIND_PASSWORD') }}
+      oauth2-proxy-client-secret={{ lookup('env', 'DEX_OAUTH2_PROXY_CLIENT_SECRET') }}
+      argocd-client-secret={{ lookup('env', 'DEX_ARGOCD_CLIENT_SECRET') }}
+      gitea-client-secret={{ lookup('env', 'DEX_GITEA_CLIENT_SECRET') }}
+      vikunja-client-secret={{ lookup('env', 'DEX_VIKUNJA_CLIENT_SECRET') }}"
+  - path: secret/oauth2-proxy
+    kv: cookie-secret={{ lookup('env', 'OAUTH2_PROXY_COOKIE_SECRET') }}
+  - path: secret/kured
+    kv: notify-url={{ lookup('env', 'KURED_NOTIFY_URL') }}
+  - path: secret/kps/alertmanager
+    kv: healthchecks-url={{ lookup('env', 'ALERTMANAGER_HEALTHCHECKS_URL') }}
+  - path: secret/kps/grafana
+    kv: "admin-user={{ lookup('env', 'GRAFANA_ADMIN_USER') }}
+      admin-password={{ lookup('env', 'GRAFANA_ADMIN_PASSWORD') }}
+      ldap-bind-dn={{ lookup('env', 'GRAFANA_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'GRAFANA_LDAP_BIND_PASSWORD') }}"
+  - path: secret/loki
+    kv: "s3-key={{ lookup('env', 'LOKI_S3_KEY') }}
+      s3-key-secret={{ lookup('env', 'LOKI_S3_SECRET') }}"
+  - path: secret/authentik
+    kv: "ak-admin-password={{ lookup('env', 'AUTHENTIK_AK_ADMIN_PASS') }}
+      ak-admin-token={{ lookup('env', 'AUTHENTIK_AK_ADMIN_TOKEN') }}
+      secret-key={{ lookup('env', 'AUTHENTIK_SECRET_KEY') }}
+      postgresql-postgres-password={{ lookup('env', 'AUTHENTIK_POSTGRESQL_POSTGRES_PASSWORD') }}
+      postgresql-password={{ lookup('env', 'AUTHENTIK_POSTGRESQL_PASSWORD') }}"
+  - path: secret/ingress-nginx
+    kv: maxmind-license-key={{ lookup('env', 'INGRESS_NGINX_MAXMIND_LICENSE_KEY') }}
+  - path: secret/renovate
+    kv: "gitea-token={{ lookup('env', 'RENOVATE_GITEA_TOKEN') }}
+      github-token={{ lookup('env', 'RENOVATE_GITHUB_TOKEN') }}
+      git-private-key={{ lookup('env', 'RENOVATE_GIT_PRIVATE_KEY') }}"
+  - path: secret/k8s-registry-auth
+    kv: dockerconfigjson={{ lookup('env', 'K8S_REGISTRY_AUTH') }}
+  - path: secret/samgrabby
+    kv: django-secret-key={{ lookup('env', 'SAMGRABBY_DJANGO_SECRET_KEY') }}
+  - path: secret/gia
+    kv: "django-secret-key={{ lookup('env', 'GIA_DJANGO_SECRET_KEY') }}
+      postgres-password={{ lookup('env', 'GIA_POSTGRES_PASSWORD') }}
+      postgres-user-password={{ lookup('env', 'GIA_POSTGRES_USER_PASSWORD') }}
+      pgbackrest-s3-key={{ lookup('env', 'GIA_PGBACKREST_S3_KEY') }}
+      pgbackrest-s3-key-secret={{ lookup('env', 'GIA_PGBACKREST_S3_SECRET') }}
+      pgbackrest-s3-endpoint={{ lookup('env', 'GIA_PGBACKREST_S3_ENDPOINT') }}
+      pgbackrest-s3-region={{ lookup('env', 'GIA_PGBACKREST_S3_REGION') }}
+      pgbackrest-s3-bucket={{ lookup('env', 'GIA_PGBACKREST_S3_BUCKET') }}"
+  - path: secret/vikunja
+    kv: jwt-secret={{ lookup('env', 'VIKUNJA_JWT_SECRET') }}
+  - path: secret/velero
+    kv: "s3-key={{ lookup('env', 'VELERO_S3_KEY') }}
+      s3-key-secret={{ lookup('env', 'VELERO_S3_SECRET') }}"
+  - path: secret/gitlab-runner
+    kv: "runner-registration-token={{ lookup('env', 'GITLAB_RUNNER_REGISTRATION_TOKEN') }}
+      s3-key={{ lookup('env', 'GITLAB_RUNNER_S3_KEY') }}
+      s3-key-secret={{ lookup('env', 'GITLAB_RUNNER_S3_SECRET') }}"
+  - path: secret/vaultwarden
+    kv: "admin-token={{ lookup('env', 'VAULTWARDEN_ADMIN_TOKEN') }}
+      ldap-bind-dn={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_PASSWORD') }}"
+  - path: secret/deluge
+    kv: "vpn-user={{ lookup('env', 'DELUGE_VPN_USER') }}
+      vpn-pass={{ lookup('env', 'DELUGE_VPN_PASS') }}"
+  - path: secret/nextcloud
+    kv: "admin-user={{ lookup('env', 'NEXTCLOUD_ADMIN_USER') }}
+      admin-password={{ lookup('env', 'NEXTCLOUD_ADMIN_PASSWORD') }}
+      serverinfo-token={{ lookup('env', 'NEXTCLOUD_SERVERINFO_TOKEN') }}
+      postgresql-password={{ lookup('env', 'NEXTCLOUD_POSTGRESQL_PASSWORD') }}
+      postgresql-postgres-password={{ lookup('env', 'NEXTCLOUD_POSTGRESQL_POSTGRES_PASSWORD') }}"
+  - path: secret/docker-mailserver
+    kv: "ldap-bind-dn={{ lookup('env', 'DOCKER_MAILSERVER_LDAP_BIND_DN') }}
+      ldap-bind-password={{ lookup('env', 'DOCKER_MAILSERVER_LDAP_BIND_PASSWORD') }}
+      opendkim-key=\"$(echo -e \"{{ lookup('env', 'DOCKER_MAILSERVER_OPENDKIM_KEY') }}\")\""  # convert oneline env var with newline chars to multiline string when executed in shell

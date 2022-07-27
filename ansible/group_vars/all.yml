@@ -1,3 +1,0 @@
----
-# renovate: depName=kubernetes/kubernetes
-inventory__kubernetes_version: v1.24.2
