@@ -3,5 +3,5 @@ name: jackett
 version: 0.0.0
 dependencies:
 - name: jackett
-  version: 11.5.2
+  version: 11.6.0
   repository: https://k8s-at-home.com/charts/
