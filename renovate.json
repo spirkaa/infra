@@ -6,7 +6,14 @@
       "groupName": "pre-commit"
     },
     {
+      "matchDatasources": ["helm"],
+      "matchSourceUrlPrefixes": ["https://github.com/k8s-at-home/"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "k8s-at-home"
+    },
+    {
       "matchDatasources": ["docker"],
+      "schedule": "on saturday",
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true,
