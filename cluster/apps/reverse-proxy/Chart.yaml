@@ -3,5 +3,5 @@ name: reverse-proxy
 version: 0.0.0
 dependencies:
 - name: reverse-proxy
-  version: 2.3.3
+  version: 2.4.2
   repository: https://k8s-at-home.com/charts/

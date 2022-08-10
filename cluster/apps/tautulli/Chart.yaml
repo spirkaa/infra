@@ -3,5 +3,5 @@ name: tautulli
 version: 0.0.0
 dependencies:
 - name: tautulli
-  version: 11.3.2
+  version: 11.4.2
   repository: https://k8s-at-home.com/charts/

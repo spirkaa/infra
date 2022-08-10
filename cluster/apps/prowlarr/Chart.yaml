@@ -3,5 +3,5 @@ name: prowlarr
 version: 0.0.0
 dependencies:
 - name: prowlarr
-  version: 4.4.2
+  version: 4.5.2
   repository: https://k8s-at-home.com/charts/
