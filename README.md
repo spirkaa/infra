@@ -2,7 +2,7 @@
 
 Конфигурация моего домашнего кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://www.weave.works/technologies/gitops/).
 
-* Предыдущая версия конфигурации (без k8s, на основе Docker внутри LXC) - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
+* Предыдущая версия конфигурации на основе Docker внутри LXC, без k8s - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
 * Для вдохновения можно посмотреть, как делают другие - [awesome-home-kubernetes](https://github.com/k8s-at-home/awesome-home-kubernetes).
 
 ## Обзор
@@ -16,7 +16,7 @@
 
 ### Железо
 
-Хосты работают на Proxmox в составе кластера.
+Хосты работают на [Proxmox](https://www.proxmox.com/en/proxmox-ve) в составе кластера.
 
 * 1x Custom NAS (Fractal Design Define R6, Corsair RM650x)
   * Intel Xeon E3-1230 v5
@@ -41,7 +41,7 @@
 
 ## Компоненты кластера Kubernetes
 
-### Виртуальные машины
+### Виртуальные машины Ubuntu 22.04
 
 * 3x Control Plane (2 vCPU, 4 GB)
 * 3x Worker (4/6 vCPU, 16 GB)
@@ -136,7 +136,7 @@
 * Сервер Proxmox
 * Клиент Linux с установленными `git` и `docker` для запуска контейнера с утилитами
 
-### Пользователь для API Proxmox
+### Пользователь для доступа Packer и Terraform к API Proxmox
 
 Создать пользователя можно с помощью роли [pve/api_user](ansible/roles/pve/api_user) или вручную, выполнив команды в консоли сервера Proxmox и сохранив вывод последней.
 
@@ -213,11 +213,26 @@
     kubectl delete node k8s-controlplane-02
     ```
 
-1. Удалить из etcd (для control plane)
+1. Удалить из кластера etcd (для control plane)
+
+    Получить список и скопировать нужный <MEMBER_ID>
 
     ```bash
-    kubectl -n kube-system exec -it etcd-k8s-controlplane-03 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member list -w table'
-    kubectl -n kube-system exec -it etcd-k8s-controlplane-03 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member remove <MEMBER_ID>'
+    kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member list -w table'
     ```
 
-1. Удалить-добавить ноду через Terraform
+    Удалить участника <MEMBER_ID>
+
+    ```bash
+    kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member remove <MEMBER_ID>'
+    ```
+
+1. Удалить и добавить ноду через Terraform
+
+## Дефрагментация etcd
+
+<https://etcd.io/docs/v3.5/op-guide/maintenance/#defragmentation>
+
+```bash
+kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" defrag --cluster'
+```
