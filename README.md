@@ -76,10 +76,10 @@
   * [Prometheus](https://github.com/prometheus/prometheus)
   * [Alertmanager](https://github.com/prometheus/alertmanager) + [alertmanager-notifier](https://github.com/ix-ai/alertmanager-notifier)
   * [Grafana](https://github.com/grafana/grafana)
-
 * [loki-stack](https://github.com/grafana/helm-charts/tree/main/charts/loki-stack)
   * [Loki](https://github.com/grafana/loki)
   * [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/)
+* [metrics-server](https://github.com/kubernetes-sigs/metrics-server)
 
 ### GitOps
 
