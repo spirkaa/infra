@@ -128,3 +128,7 @@ kube-prometheus-stack:
     service:
       port: 2381
       targetPort: 2381
+alertmanagernotifier:
+  name: alertmanager-notifier
+  image: ghcr.io/ix-ai/alertmanager-notifier:v0.4.3
+  port: 8899

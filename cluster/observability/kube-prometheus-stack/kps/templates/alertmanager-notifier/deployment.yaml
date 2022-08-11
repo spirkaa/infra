@@ -1,37 +1,40 @@
+{{- $name := .Values.alertmanagernotifier.name -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: alertmanager-notifier
+  name: {{ $name }}
   labels:
-    app: alertmanager-notifier
+    app: {{ $name }}
 {{ include "kube-prometheus-stack.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
-      app: alertmanager-notifier
+      app: {{ $name }}
   template:
     metadata:
       labels:
-        app: alertmanager-notifier
+        app: {{ $name }}
 {{ include "kube-prometheus-stack.labels" . | indent 8 }}
     spec:
       containers:
-        - name: alertmanager-notifier
-          image: registry.gitlab.com/ix.ai/alertmanager-notifier:v0.4.2
+        - name: {{ $name }}
+          image: {{ .Values.alertmanagernotifier.image }}
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               protocol: TCP
-              containerPort: 8899
+              containerPort: {{ .Values.alertmanagernotifier.port }}
           envFrom:
             - secretRef:
-                name: alertmanager-notifier
+                name: {{ $name }}
           livenessProbe:
             tcpSocket:
               port: http
+            initialDelaySeconds: 10
           readinessProbe:
             tcpSocket:
               port: http
+            initialDelaySeconds: 10
           resources:
             requests:
               cpu: 50m
