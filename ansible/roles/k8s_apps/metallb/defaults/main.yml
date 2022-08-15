@@ -1,3 +1,0 @@
----
-metallb_namespace: metallb-system
-metallb_addresses: 192.168.13.240-192.168.13.250

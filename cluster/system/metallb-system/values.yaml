@@ -1,9 +1,11 @@
 metallb:
-  existingConfigMap: metallb-config
   prometheus:
-    serviceAccount: prometheus-operator
-    namespace: monitoring
+    serviceAccount: kps-operator
+    namespace: observability
     podMonitor:
       enabled: true
     prometheusRule:
       enabled: true
+ipaddresspool:
+  name: default
+  addresses: 192.168.13.240-192.168.13.250
