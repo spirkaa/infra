@@ -194,18 +194,14 @@ data:
             icon: hl-unifi
             url: https://unifi-ui.home.devmem.ru
             id: 7_496_unifi
-          - title: NginxProxyMgr
-            icon: hl-nginxproxymanager
-            url: https://rp.home.devmem.ru
-            id: 8_496_nginxproxymgr
           - title: FreeIPA
             icon: hl-freeipa
             url: https://ipa.home.devmem.ru
-            id: 9_496_freeipa
+            id: 8_496_freeipa
           - title: phpLDAPadmin
             icon: hl-phpldapadmin
             url: https://ldap.home.devmem.ru
-            id: 10_496_phpldapadmin
+            id: 9_496_phpldapadmin
       - name: SPNAS
         displayData:
           sortBy: default
