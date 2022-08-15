@@ -122,6 +122,9 @@ argo-cd:
               end
               obj.metadata.annotations["force-sync"] = tostring(os.time(os.date("!*t")))
               return obj
+      resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
+        jqPathExpressions:
+          - '.spec.conversion.webhook.clientConfig.caBundle'
     rbacConfig:
       policy.csv: |
         g, argocd_admins, role:admin
