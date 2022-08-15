@@ -2,17 +2,42 @@
 
 Конфигурация моего домашнего кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://www.weave.works/technologies/gitops/).
 
-* Предыдущая версия конфигурации на основе Docker внутри LXC, без k8s - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
+* Предыдущая версия на основе Docker внутри LXC, без k8s - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
 * Для вдохновения можно посмотреть, как делают другие - [awesome-home-kubernetes](https://github.com/k8s-at-home/awesome-home-kubernetes).
 
 ## Обзор
 
 Основные компоненты разделены по директориям:
 
-* [ansible](ansible) - роли для настройки шаблонов ВМ и первоначального запуска кластера c помощью kubeadm.
-* [сluster](cluster) - конфигурация приложений, разворачиваемых с помощью ArgoCD.
+* [ansible](ansible) - роли для настройки шаблонов ВМ, первоначального запуска кластера c помощью kubeadm, обновления секретов Vault.
+* [сluster](cluster) - конфигурация приложений в виде чартов Helm, kustomize и простых манифестов k8s, разворачиваемых с помощью ArgoCD.
 * [packer](packer) - создание шаблонов ВМ.
 * [terraform](terraform) - запуск, настройка и управление жизненным циклом ВМ в кластере.
+
+### Скриншоты
+
+| [![01][screenshot-01]][screenshot-01] | [![02][screenshot-02]][screenshot-02] |
+| :---:                               | :---:                               |
+| Dashy                               | Proxmox                             |
+| [![03][screenshot-03]][screenshot-03] | [![04][screenshot-04]][screenshot-04] |
+| ArgoCD                              | Vault                               |
+| [![05][screenshot-05]][screenshot-05] | [![06][screenshot-06]][screenshot-06] |
+| Gitea                               | Jenkins                             |
+| [![07][screenshot-07]][screenshot-07] | [![08][screenshot-08]][screenshot-08] |
+| Longhorn                            | Minio                               |
+| [![09][screenshot-09]][screenshot-09] | [![10][screenshot-10]][screenshot-10] |
+| LibreNMS                            | Grafana                             |
+
+[screenshot-01]: https://user-images.githubusercontent.com/2718761/184634976-f7567825-498a-4f3f-9f3f-05ee30aa47f8.png
+[screenshot-02]: https://user-images.githubusercontent.com/2718761/184637345-9fd2d9a9-27de-4ca3-8a78-9ea3a391fa5a.png
+[screenshot-03]: https://user-images.githubusercontent.com/2718761/184636393-18709d37-35e1-4836-a084-dd04051fbf28.png
+[screenshot-04]: https://user-images.githubusercontent.com/2718761/184637717-4ca840a4-85e9-4a30-87a5-be6f5ddeb630.png
+[screenshot-05]: https://user-images.githubusercontent.com/2718761/184639944-dce2f6f6-bb93-401f-a869-85087072c12b.png
+[screenshot-06]: https://user-images.githubusercontent.com/2718761/184640072-31c8f927-e978-485e-b8ca-c3a27fdadc61.png
+[screenshot-07]: https://user-images.githubusercontent.com/2718761/184637197-68ff86a0-3faf-4a41-acad-bc2f5ef098d0.png
+[screenshot-08]: https://user-images.githubusercontent.com/2718761/184639800-8ba2028d-f033-4c28-a33a-1ee2592e2c57.png
+[screenshot-09]: https://user-images.githubusercontent.com/2718761/184639270-3ced1629-cd55-4bb8-9b72-d6ab41446a7f.png
+[screenshot-10]: https://user-images.githubusercontent.com/2718761/184641506-683e7800-baa7-46b0-936c-be4d49cac270.png
 
 ### Железо
 
@@ -36,8 +61,11 @@
 
 ### Внешние сервисы
 
-* Бесплатный DNS-хостинг от [selectel](https://selectel.ru/services/additional/dns/), потому что есть API и вебхук для cert-manager.
-* VPS от [sale-dedic](https://sale-dedic.com/?from=38415).
+* DNS - [selectel.ru](https://selectel.ru/services/additional/dns/). Бесплатный, есть API и вебхук для cert-manager.
+* VPS - [sale-dedic.com](https://sale-dedic.com/?from=38415).
+* Мониторинг выполнения cron - [healthchecks.io](https://healthchecks.io/).
+* Мониторинг доступности сервисов - [uptimerobot.com](https://uptimerobot.com/).
+* Сертификаты - [letsencrypt.org](https://letsencrypt.org/).
 
 ## Компоненты кластера Kubernetes
 
@@ -49,12 +77,12 @@
 
 ### База
 
-* [runc](https://github.com/opencontainers/runc/releases)
-* [cni](https://github.com/containernetworking/plugins/releases)
-* [containerd](https://github.com/containerd/containerd/releases)
-* [crictl](https://github.com/kubernetes-sigs/cri-tools/releases)
-* [nerdctl](https://github.com/containerd/nerdctl/releases)
-* [kubernetes](https://kubernetes.io/releases/)
+* [runc](https://github.com/opencontainers/runc)
+* [cni](https://github.com/containernetworking/plugins)
+* [containerd](https://github.com/containerd/containerd)
+* [crictl](https://github.com/kubernetes-sigs/cri-tools)
+* [nerdctl](https://github.com/containerd/nerdctl)
+* [kubelet, kubeadm, kubectl](https://github.com/kubernetes/kubernetes)
 
 ### Сеть
 
