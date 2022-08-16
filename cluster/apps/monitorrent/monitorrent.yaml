@@ -41,11 +41,11 @@ spec:
               mountPath: /config
           resources:
             requests:
-              memory: 100Mi
-              cpu: 50m
+              cpu: 10m
+              memory: 64Mi
             limits:
-              memory: 200Mi
               cpu: 100m
+              memory: 128Mi
       volumes:
         - name: config
           persistentVolumeClaim:
