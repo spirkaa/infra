@@ -98,6 +98,13 @@ nextcloud:
     fsGroupChangePolicy: OnRootMismatch
   nginx:
     enabled: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 64Mi
   internalDatabase:
     enabled: false
   externalDatabase:
@@ -122,6 +129,13 @@ nextcloud:
         devmem.ru/pve-host: spsrv
   cronjob:
     enabled: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 64Mi
   persistence:
     enabled: true
     storageClass: longhorn
@@ -130,6 +144,13 @@ nextcloud:
     nextcloudData:
       enabled: true
       existingClaim: nfs-cloud-pvc
+  resources:
+    requests:
+      cpu: 100m
+      memory: 576Mi
+    limits:
+      cpu: 2000m
+      memory: 1536Mi
   livenessProbe:
     enabled: false
   readinessProbe:
