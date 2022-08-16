@@ -26,9 +26,23 @@ vikunja:
         - name: config
           mountPath: /app/vikunja/config.yml
           subPath: config.yml
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
     - name: frontend
       image: vikunja/frontend:unstable
       imagePullPolicy: Always
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
   podSecurityContext:
     fsGroup: 1000
   persistence:
@@ -45,3 +59,10 @@ vikunja:
       name: vikunja-config-secret
   postgresql:
     enabled: false
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
