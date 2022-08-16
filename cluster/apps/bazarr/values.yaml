@@ -34,3 +34,10 @@ bazarr:
       enabled: true
       existingClaim: nfs-downloads-pvc
       mountPath: /downloads
+  resources:
+    requests:
+      cpu: 20m
+      memory: 512Mi
+    limits:
+      cpu: 100m
+      memory: 1024Mi
