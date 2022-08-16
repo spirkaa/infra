@@ -40,6 +40,13 @@ vaultwarden:
         - name: config
           mountPath: /config.toml
           subPath: config.toml
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
   persistence:
     data:
       enabled: true
@@ -57,3 +64,10 @@ vaultwarden:
     enabled: false
   mariadb:
     enabled: false
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
