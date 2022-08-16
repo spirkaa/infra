@@ -18,3 +18,10 @@ portainer:
     enabled: true
     storageClass: longhorn
     size: 1Gi
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
