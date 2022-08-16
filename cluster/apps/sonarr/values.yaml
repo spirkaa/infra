@@ -34,3 +34,10 @@ sonarr:
       enabled: true
       existingClaim: nfs-downloads-pvc
       mountPath: /downloads
+  resources:
+    requests:
+      cpu: 50m
+      memory: 768Mi
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
