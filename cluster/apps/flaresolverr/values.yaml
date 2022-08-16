@@ -7,3 +7,10 @@ flaresolverr:
     LOG_LEVEL: info
     LOG_HTML: "false"
     CAPTCHA_SOLVER: none
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
