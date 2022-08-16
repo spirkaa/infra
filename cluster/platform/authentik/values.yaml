@@ -84,7 +84,20 @@ authentik:
   prometheus:
     serviceMonitor:
       create: true
-      interval: 30s
-      scrapeTimeout: 3s
     rules:
       create: true
+  resources:
+    server:
+      requests:
+        cpu: 50m
+        memory: 300Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+    worker:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
