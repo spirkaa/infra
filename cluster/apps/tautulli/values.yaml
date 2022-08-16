@@ -36,3 +36,10 @@ tautulli:
       accessMode: ReadWriteOnce
       storageClass: longhorn
       size: 2Gi
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
