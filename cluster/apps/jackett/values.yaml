@@ -30,3 +30,10 @@ jackett:
       accessMode: ReadWriteOnce
       storageClass: longhorn
       size: 1Gi
+  resources:
+    requests:
+      cpu: 10m
+      memory: 200Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
