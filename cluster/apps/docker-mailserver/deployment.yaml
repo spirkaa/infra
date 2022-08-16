@@ -91,10 +91,10 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 100m
-              memory: 1536Mi
+              cpu: 40m
+              memory: 1792Mi
             limits:
-              cpu: 1000m
+              cpu: 1050m
               memory: 3072Mi
           lifecycle:
             postStart:
@@ -126,7 +126,7 @@ spec:
               cpu: 10m
               memory: 32Mi
             limits:
-              cpu: 100m
+              cpu: 50m
               memory: 64Mi
       volumes:
         - name: data
