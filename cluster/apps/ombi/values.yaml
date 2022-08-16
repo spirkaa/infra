@@ -36,3 +36,10 @@ ombi:
       accessMode: ReadWriteOnce
       storageClass: longhorn
       size: 1Gi
+  resources:
+    requests:
+      cpu: 50m
+      memory: 384Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
