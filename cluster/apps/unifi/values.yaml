@@ -64,3 +64,10 @@ unifi:
       storageClass: longhorn
       size: 2Gi
       mountPath: /unifi
+  resources:
+    requests:
+      cpu: 10m
+      memory: 1024Mi
+    limits:
+      cpu: 1000m
+      memory: 1536Mi
