@@ -34,3 +34,10 @@ lidarr:
       enabled: true
       existingClaim: nfs-downloads-pvc
       mountPath: /downloads
+  resources:
+    requests:
+      cpu: 10m
+      memory: 200Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
