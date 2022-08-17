@@ -34,22 +34,17 @@ spec:
           volumeMounts:
             - name: kuard-volume
               mountPath: /volume
-            - name: nfs-downloads
-              mountPath: /downloads
           resources:
             requests:
-              memory: 100Mi
-              cpu: 100m
+              cpu: 10m
+              memory: 32Mi
             limits:
-              memory: 200Mi
-              cpu: 200m
+              cpu: 100m
+              memory: 64Mi
       volumes:
         - name: kuard-volume
           persistentVolumeClaim:
             claimName: kuard-pvc
-        - name: nfs-downloads
-          persistentVolumeClaim:
-            claimName: nfs-downloads-pvc
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -95,4 +90,3 @@ spec:
   tls:
     - hosts:
         - *host
-      secretName: kuard-tls
