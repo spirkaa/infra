@@ -29,6 +29,7 @@ pve_api_role_privs: >
   VM.Monitor
   VM.PowerMgmt
 
+pve_api_token_dest_file: ../.env
 pve_api_token_id_env: TF_VAR_proxmox_username
 pve_api_token_value_env: TF_VAR_proxmox_token
 pve_api_token_id: "{{ lookup('env', pve_api_token_id_env) }}"

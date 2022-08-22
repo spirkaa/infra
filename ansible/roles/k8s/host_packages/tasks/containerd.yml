@@ -6,7 +6,7 @@
     mode: 0755
     owner: root
     group: root
-    remote_src: yes
+    remote_src: true
     extra_opts:
       - --strip-components=1
   notify: containerd - restart
@@ -43,5 +43,5 @@
 - name: containerd - enable and start
   ansible.builtin.service:
     name: containerd
-    enabled: yes
+    enabled: true
     state: started

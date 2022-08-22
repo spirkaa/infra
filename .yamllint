@@ -12,7 +12,6 @@ rules:
     spaces: 2
     indent-sequences: consistent
   line-length: disable
-  truthy: disable
   document-start: disable
 
 ignore: |

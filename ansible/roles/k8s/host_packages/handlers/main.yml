@@ -3,10 +3,10 @@
   ansible.builtin.service:
     name: containerd
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: kubelet - restart
   ansible.builtin.service:
     name: kubelet
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true

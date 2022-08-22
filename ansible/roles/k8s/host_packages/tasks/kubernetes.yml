@@ -27,7 +27,7 @@
   ansible.builtin.file:
     path: /etc/systemd/system/kubelet.service.d
     state: directory
-    recurse: yes
+    recurse: true
 
 - name: kubernetes - kubelet - copy service override
   ansible.builtin.template:
@@ -44,7 +44,7 @@
 - name: kubernetes - kubelet - enable and start
   ansible.builtin.service:
     name: kubelet
-    enabled: yes
+    enabled: true
     state: started
 
 - name: kubernetes - pull images

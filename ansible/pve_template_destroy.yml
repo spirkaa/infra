@@ -1,7 +1,7 @@
 ---
 - name: pve template - destroy
-  hosts: "{{ lookup('env','PROXMOX_NODE') }}"
-  gather_facts: no
+  hosts: "{{ lookup('env', 'PROXMOX_NODE') }}"
+  gather_facts: false
 
   vars:
     pve_template_destroy: true

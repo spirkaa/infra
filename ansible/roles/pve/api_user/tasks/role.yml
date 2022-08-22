@@ -7,6 +7,11 @@
 
 - name: role - add
   ansible.builtin.command: >
-    pveum role add {{ pve_api_role_name }} -privs "{{ pve_api_role_privs }}"
+    pveum role add {{ pve_api_role_name }}
+      -privs "{{ pve_api_role_privs }}"
   changed_when: true
-  when: not (_role_check.stdout | from_json | selectattr('roleid', 'equalto', pve_api_role_name) | list)
+  when: >
+    not (_role_check.stdout |
+    from_json |
+    selectattr('roleid', 'equalto', pve_api_role_name) |
+    list)

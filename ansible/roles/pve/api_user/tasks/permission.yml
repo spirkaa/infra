@@ -11,7 +11,8 @@
       -user {{ pve_api_user }}
       -role {{ pve_api_role_name }}
   changed_when: true
-  when: not (_permission_check.stdout |
+  when: >
+    not (_permission_check.stdout |
     from_json |
     dict2items(key_name='path', value_name='privs') |
     selectattr('path', 'equalto', pve_api_permission_path) |

@@ -7,5 +7,7 @@
 
 - name: resources - set facts
   ansible.builtin.set_fact:
-    pve_resource_exists: "{{ _resource_list.stdout | from_yaml | selectattr('vmid', 'equalto', pve_template_vmid | int) | list }}"
-    pve_resource_list: "{{ _resource_list.stdout | from_yaml }}"
+    pve_resource_exists: >-
+      {{ _resource_list.stdout | from_yaml | selectattr('vmid', 'equalto', pve_template_vmid | int) | list }}
+    pve_resource_list: >-
+      {{ _resource_list.stdout | from_yaml }}

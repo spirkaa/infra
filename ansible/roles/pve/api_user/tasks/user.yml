@@ -7,6 +7,11 @@
 
 - name: user - add
   ansible.builtin.command: >
-    pveum user add {{ pve_api_user }} -comment "{{ pve_api_user_comment }}"
+    pveum user add {{ pve_api_user }}
+      -comment "{{ pve_api_user_comment }}"
   changed_when: true
-  when: not (_user_check.stdout | from_json | selectattr('userid', 'equalto', pve_api_user) | list)
+  when: >
+    not (_user_check.stdout |
+    from_json |
+    selectattr('userid', 'equalto', pve_api_user) |
+    list)

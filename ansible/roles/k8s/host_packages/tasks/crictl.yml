@@ -6,7 +6,7 @@
     mode: 0755
     owner: root
     group: root
-    remote_src: yes
+    remote_src: true
 
 - name: crictl - copy config
   ansible.builtin.template:

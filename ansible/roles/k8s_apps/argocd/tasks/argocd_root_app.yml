@@ -34,7 +34,7 @@
     kind: ApplicationSet
     name: "{{ item }}"
     namespace: "{{ argocd_namespace }}"
-    wait: yes
+    wait: true
     wait_condition:
       type: ResourcesUpToDate
       status: "True"

@@ -45,14 +45,14 @@
         mode: 0600
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
-        remote_src: yes
+        remote_src: true
       become: true
 
     - name: kubeconfig - fetch to ansible host
       ansible.builtin.fetch:
         src: "{{ k8s_cluster_kubeconfig_remote }}"
         dest: "{{ k8s_cluster_kubeconfig_localhost }}"
-        flat: yes
+        flat: true
 
     - name: pod network - create dir
       ansible.builtin.file:
@@ -77,7 +77,7 @@
         mode: 0644
       register: _download_manifest
 
-    - name: pod network - apply kustomized manifest
+    - name: pod network - apply kustomized manifest to cluster
       ansible.builtin.command: >
         kubectl apply --kustomize {{ k8s_cluster_pod_network_manifest_dir }}/
       register: k8s_cluster_network_result
@@ -101,32 +101,32 @@
 
 - name: set kubeadm join command for all hosts
   ansible.builtin.set_fact:
-    k8s_cluster_join_command: >
+    k8s_cluster_join_command: >-
       {{ k8s_cluster_join_command_result.stdout }}
-    k8s_cluster_certs_key: >
+    k8s_cluster_certs_key: >-
       {{ k8s_cluster_certs_key_result.stdout_lines[-1] }}
   delegate_to: "{{ item }}"
   run_once: true
   loop: "{{ ansible_play_hosts }}"
-  when: >
-    k8s_cluster_join_command_result.stdout is defined and
-    k8s_cluster_certs_key_result.stdout is defined
+  when:
+    - k8s_cluster_join_command_result.stdout is defined
+    - k8s_cluster_certs_key_result.stdout is defined
 
-- name: kubeadm - control plane nodes - join cluster
+- name: control plane nodes - join cluster
   ansible.builtin.command: >
     {{ k8s_cluster_join_command }}
     --control-plane
     --certificate-key {{ k8s_cluster_certs_key }}
   become: true
-  when: >
-    k8s_cluster_controlplane_group in group_names and
-    not k8s_cluster_kubelet_conf.stat.exists and
-    inventory_hostname != groups[k8s_cluster_controlplane_group][0]
+  when:
+    - inventory_hostname != groups[k8s_cluster_controlplane_group][0]
+    - k8s_cluster_controlplane_group in group_names
+    - not k8s_cluster_kubelet_conf.stat.exists
 
-- name: kubeadm - worker nodes - join cluster
+- name: worker nodes - join cluster
   ansible.builtin.command: >
     {{ k8s_cluster_join_command }}
   become: true
-  when: >
-    k8s_cluster_workers_group in group_names and
-    not k8s_cluster_kubelet_conf.stat.exists
+  when:
+    - k8s_cluster_workers_group in group_names
+    - not k8s_cluster_kubelet_conf.stat.exists

@@ -12,7 +12,7 @@
     kind: Pod
     name: "{{ vault_pod }}"
     namespace: "{{ vault_namespace }}"
-    wait: yes
+    wait: true
     wait_condition:
       type: Ready
       status: "True"
@@ -24,13 +24,14 @@
       kubernetes.core.k8s_info:
         api_version: v1
         kind: Secret
-        name: "{{ vault_token_k8s_secret.name }}"
+        name: "{{ vault_token_k8s_secret_name }}"
         namespace: "{{ vault_namespace }}"
       register: _vault_token_query
 
     - name: vault - set token as fact
       ansible.builtin.set_fact:
-        vault_token: "{{ _vault_token_query.resources[0].data[vault_token_k8s_secret.key] | b64decode }}"
+        vault_token: >-
+          {{ _vault_token_query.resources[0].data[vault_token_k8s_secret_key] | b64decode }}
   no_log: true
   when: not vault_token
 
