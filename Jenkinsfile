@@ -46,10 +46,10 @@ pipeline {
   stages {
     stage('init') {
       when {
-        branch 'main'
         anyOf {
           triggeredBy cause: 'UserIdCause'
           triggeredBy 'TimerTrigger'
+          changeRequest()
         }
       }
       steps {
@@ -71,6 +71,23 @@ pipeline {
           sh '''#!/bin/bash
             mkdir ~/.ssh && chmod 700 ~/.ssh
             cat $SSH_KEY > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+          '''
+        }
+      }
+    }
+
+    stage('pre-commit') {
+      when {
+        anyOf {
+          triggeredBy cause: 'UserIdCause'
+          triggeredBy 'TimerTrigger'
+          changeRequest()
+        }
+      }
+      steps {
+        cache(path: "/home/jenkins/agent/workspace/.cache/pre-commit", key: "infra-pre-commit-${hashFiles('.pre-commit-config.yaml')}") {
+          sh '''#!/bin/bash
+            PRE_COMMIT_HOME=/home/jenkins/agent/workspace/.cache/pre-commit pre-commit run --all-files --verbose --color always
           '''
         }
       }
