@@ -1,6 +1,6 @@
 # Infra (Home Kubernetes)
 
-Конфигурация моего домашнего кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://www.weave.works/technologies/gitops/).
+Конфигурация моего персонального кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://www.weave.works/technologies/gitops/).
 
 * Предыдущая версия на основе Docker внутри LXC, без k8s - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
 * Для вдохновения можно посмотреть, как делают другие - [awesome-home-kubernetes](https://github.com/k8s-at-home/awesome-home-kubernetes).
@@ -73,7 +73,7 @@
 
 * 3x Control Plane (2 vCPU, 4 GB)
 * 3x Worker (4/6 vCPU, 16 GB)
-* 2x Control Plane Load Balancer (1 vCPU, 1GB)
+* 2x Control Plane Load Balancer (1 vCPU, 1 GB)
 
 ### База
 
@@ -157,6 +157,12 @@
 * [UniFi Network](https://help.ui.com/hc/en-us/categories/200320654)
 * [docker-mailserver](https://github.com/docker-mailserver/docker-mailserver)
 
+### Мои проекты
+
+* [gia-api](https://github.com/spirkaa/gia-api)
+* [samgrabby](https://github.com/spirkaa/samgrabby)
+* [devmem.ru](https://github.com/spirkaa/devmem.ru)
+
 ## Запуск кластера
 
 ### Требования
@@ -164,7 +170,48 @@
 * Сервер Proxmox
 * Клиент Linux с установленными `git` и `docker` для запуска контейнера с утилитами
 
-### Пользователь для доступа Packer и Terraform к API Proxmox
+### Алгоритм запуска
+
+1. Клонировать репозиторий
+
+    `git clone --recurse-submodules https://github.com/spirkaa/infra`
+
+2. Перейти в каталог
+
+    `cd infra`
+
+3. Скопировать env-файл
+
+    `cp .env.example .env`
+
+4. Указать необходимые значения в env-файле
+
+    `nano .env`
+
+5. Проверить/изменить значения переменных
+
+    * ansible/roles/\**/**/defaults/main.yml
+    * [packer/variables.pkr.hcl](packer/variables.pkr.hcl)
+    * [terraform/locals.tf](terraform/locals.tf)
+
+6. Собрать образ с утилитами и запустить контейнер
+
+    `make tools`
+
+7. Запустить развертывание кластера
+
+    `make cluster`
+
+После запуска автоматически выполняются следующие шаги:
+
+|     | Описание                                   | Инструменты        |
+| :-: | -                                          | -                  |
+| 8   | Создать пользователя для API Proxmox       | Ansible            |
+| 9   | Подготовить шаблоны ВМ                     | Packer, Ansible    |
+| 10  | Создать ВМ из шаблонов, развернуть кластер | Terraform, Ansible |
+| 11  | Развернуть приложения в кластере           | ArgoCD             |
+
+## Пользователь для доступа Packer и Terraform к API Proxmox
 
 Создать пользователя можно с помощью роли [pve/api_user](ansible/roles/pve/api_user) или вручную, выполнив команды в консоли сервера Proxmox и сохранив вывод последней.
 
@@ -175,32 +222,6 @@
 `pveum aclmod / -user hashicorp@pve -role Provisioner`
 
 `pveum user token add hashicorp@pve packer-terraform --privsep 0`
-
-### Алгоритм запуска
-
-1. Клонировать репозиторий
-
-    `git clone --recurse-submodules https://github.com/spirkaa/infra`
-
-1. Перейти в каталог
-
-    `cd infra`
-
-1. Скопировать env-файл
-
-    `cp .env.example .env`
-
-1. Указать необходимые значения в env-файле
-
-    `nano .env`
-
-1. Собрать образ с утилитами и запустить контейнер
-
-    `make tools`
-
-1. Запустить развертывание кластера
-
-    `make cluster`
 
 ## Базовый шаблон ВМ (cloud-init)
 
