@@ -210,58 +210,54 @@ data:
           collapsed: false
           hideForGuests: false
         items:
-          - title: SPNAS
-            icon: generative
-            url: https://spnas.home.devmem.ru
-            id: 0_389_spnas
           - title: Plex
             icon: hl-plex
             url: https://plex.devmem.ru/web/index.html
-            id: 1_389_plex
+            id: 0_389_plex
           - title: Tautulli
             icon: hl-tautulli
             url: https://tautulli.devmem.ru
-            id: 2_389_tautulli
+            id: 1_389_tautulli
           - title: Ombi
             icon: hl-ombi
             url: https://ombi.devmem.ru
-            id: 3_389_ombi
+            id: 2_389_ombi
           - title: Jellyfin
             icon: hl-jellyfin
             url: https://j.devmem.ru/web/index.html
-            id: 4_389_jellyfin
+            id: 3_389_jellyfin
           - title: Deluge
             icon: hl-deluge
             url: https://deluge.home.devmem.ru
-            id: 5_389_deluge
+            id: 4_389_deluge
           - title: Sonarr
             icon: hl-sonarr
             url: https://sonarr.home.devmem.ru
-            id: 6_389_sonarr
+            id: 5_389_sonarr
           - title: Radarr
             icon: hl-radarr
             url: https://radarr.home.devmem.ru
-            id: 7_389_radarr
+            id: 6_389_radarr
           - title: Prowlarr
             icon: hl-prowlarr
             url: https://prowlarr.home.devmem.ru
-            id: 8_389_prowlarr
+            id: 7_389_prowlarr
           - title: Jackett
             icon: hl-jackett
             url: https://jackett.home.devmem.ru
-            id: 9_389_jackett
+            id: 8_389_jackett
           - title: Lidarr
             icon: hl-lidarr
             url: https://lidarr.home.devmem.ru
-            id: 10_389_lidarr
+            id: 9_389_lidarr
           - title: Bazarr
             icon: hl-bazarr
             url: https://bazarr.home.devmem.ru
-            id: 11_389_bazarr
+            id: 10_389_bazarr
           - title: Monitorrent
             icon: generative
             url: https://monitorrent.home.devmem.ru
-            id: 12_389_monitorrent
+            id: 11_389_monitorrent
       - name: k8s
         displayData:
           sortBy: default
