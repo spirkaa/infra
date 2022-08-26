@@ -1,6 +1,7 @@
 kube-prometheus-stack:
   fullnameOverride: kps
   alertmanager:
+    externalUrl: https://alertmanager.k8s.devmem.ru
     fullnameOverride: alertmanager
     alertmanagerSpec:
       storage:
@@ -84,6 +85,7 @@ kube-prometheus-stack:
       analytics:
         check_for_updates: false
       server:
+        root_url: https://grafana.devmem.ru
         enable_gzip: true
       auth.ldap:
         enabled: true
@@ -98,6 +100,7 @@ kube-prometheus-stack:
   prometheus:
     fullnameOverride: prometheus
     prometheusSpec:
+      externalUrl: https://prometheus.k8s.devmem.ru
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
