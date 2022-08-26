@@ -29,7 +29,7 @@ prowlarr:
       type: pvc
       accessMode: ReadWriteOnce
       storageClass: longhorn
-      size: 1Gi
+      size: 2Gi
   resources:
     requests:
       cpu: 10m
