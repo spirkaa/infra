@@ -1,0 +1,23 @@
+karma:
+  image:
+    repository: ghcr.io/prymitive/karma
+    tag: v0.107
+  env:
+    - name: ALERTMANAGER_URI
+      value: http://kps-alertmanager:9093
+    - name: ALERTMANAGER_EXTERNAL_URI
+      value: https://alertmanager.k8s.devmem.ru
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+      - &host karma.k8s.devmem.ru
+    path: /
+    tls:
+      - hosts:
+          - *host
+        secretName: null
+  serviceMonitor:
+    enabled: true

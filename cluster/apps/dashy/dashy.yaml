@@ -282,22 +282,26 @@ data:
             icon: hl-alertmanager
             url: https://alertmanager.k8s.devmem.ru
             id: 3_278_alertmanager
+          - title: Karma
+            icon: mdi-recycle-variant
+            url: https://karma.k8s.devmem.ru
+            id: 4_278_karma
           - title: Longhorn
             icon: hl-longhorn
             url: https://longhorn.k8s.devmem.ru
-            id: 4_278_longhorn
+            id: 5_278_longhorn
           - title: Vault
             icon: hl-vault
             url: https://vault.k8s.devmem.ru
-            id: 5_278_vault
+            id: 6_278_vault
           - title: Teleport
             icon: https://tele.devmem.ru/web/app/favicon.ico
             url: https://tele.devmem.ru
-            id: 6_278_teleport
+            id: 7_278_teleport
           - title: Authentik
             icon: hl-authentik
             url: https://authentik.auth.devmem.ru
-            id: 7_278_authentik
+            id: 8_278_authentik
       - name: Home
         displayData:
           sortBy: default

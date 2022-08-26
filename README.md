@@ -108,6 +108,7 @@
   * [Loki](https://github.com/grafana/loki)
   * [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/)
 * [metrics-server](https://github.com/kubernetes-sigs/metrics-server)
+* [karma](https://github.com/prymitive/karma)
 
 ### GitOps
 
