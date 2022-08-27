@@ -160,7 +160,6 @@ argo-cd:
     argocdUrl: https://argocd.k8s.devmem.ru
     secret:
       create: false
-      name: argocd-secret
     notifiers:
       service.email: |
         host: $email-host
