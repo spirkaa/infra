@@ -101,6 +101,10 @@ reverse-proxy:
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+          nginx.ingress.kubernetes.io/server-snippet: |
+              location /prometheus {
+                  deny all;
+              }
         hosts:
           - host: &host jenkins.devmem.ru
             path: /
