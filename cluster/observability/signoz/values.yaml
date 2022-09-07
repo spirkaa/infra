@@ -1,0 +1,75 @@
+signoz:
+  clickhouse:
+    user: admin
+    password: <path:secret/data/signoz#clickhouse-password>
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      accessModes:
+        - ReadWriteOnce
+      size: 20Gi
+    coldStorage:
+      enabled: true
+      endpoint: https://s3.home.devmem.ru/signoz/data/
+      accessKey: <path:secret/data/signoz#s3-key>
+      secretAccess: <path:secret/data/signoz#s3-key-secret>
+  queryService:
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi
+  frontend:
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host signoz.k8s.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+              port: 3301
+      tls:
+        - hosts:
+            - *host
+  alertmanager:
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host signoz-am.k8s.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+              port: 9093
+      tls:
+        - hosts:
+            - *host
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      accessModes:
+        - ReadWriteOnce
+      size: 100Mi
+  otelCollector:
+    service:
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: 192.168.13.243
+      type: LoadBalancer
+    resources:
+      requests:
+        cpu: 200m
+        memory: 400Mi
+      limits:
+        cpu: '1'
+        memory: 2Gi
+    config:
+      service:
+        pipelines:
+          logs:
+            receivers: [otlp]

@@ -71,6 +71,13 @@ argo-cd:
           generate:
             command: ["sh", "-c"]
             args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - | argocd-vault-plugin generate -"]
+        - name: argocd-vault-plugin-kustomized-helm
+          init:
+            command: ["sh", "-c"]
+            args: ["helm dependency build || true"]
+          generate:
+            command: ["sh", "-c"]
+            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build | argocd-vault-plugin generate -"]
         - name: kustomized-helm
           init:
             command: ["sh", "-c"]
@@ -125,6 +132,7 @@ argo-cd:
       resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
         jqPathExpressions:
           - '.spec.conversion.webhook.clientConfig.caBundle'
+          - '.spec.versions[]?.additionalPrinterColumns[]?.priority | select(. == 0)'
     rbacConfig:
       policy.csv: |
         g, argocd_admins, role:admin
