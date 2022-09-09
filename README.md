@@ -111,10 +111,12 @@
 * [karma](https://github.com/prymitive/karma)
 * [signoz](https://github.com/SigNoz/signoz)
 
-### GitOps
+### CI/CD, GitOps
 
 * [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin) + [argocd-vault-plugin](https://github.com/argoproj-labs/argocd-vault-plugin)
 * [Renovate](https://github.com/renovatebot/renovate)
+* [gitlab-runner](https://gitlab.com/gitlab-org/charts/gitlab-runner)
+* [jenkins](https://github.com/jenkinsci/jenkins)
 
 ### Secrets
 
