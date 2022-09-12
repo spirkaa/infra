@@ -95,7 +95,7 @@ reverse-proxy:
       enabled: true
       test: false
       externalName: dev.home.devmem.ru
-      port: 8081
+      port: 8080
       ingress:
         ingressClassName: nginx
         annotations:
