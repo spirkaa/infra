@@ -12,4 +12,5 @@ patchesJson6902:
       - op: add
         path: /metadata/annotations
         value:
-          argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+          argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true,Prune=false"
+          argocd.argoproj.io/compare-options: IgnoreExtraneous
