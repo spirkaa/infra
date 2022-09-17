@@ -6,3 +6,5 @@ exclude_paths:
 warn_list:
   - meta-no-info
   - schema
+skip_list:
+  - name[casing]
