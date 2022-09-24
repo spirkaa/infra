@@ -6,6 +6,12 @@
   changed_when: false
 
 - name: token tasks
+  no_log: true
+  when: >
+    not (_token_check.stdout |
+    from_json |
+    selectattr('tokenid', 'equalto', pve_api_token_name) |
+    list)
   block:
     - name: token - add
       ansible.builtin.command: >
@@ -30,9 +36,3 @@
         - { regexp: "^TF_VAR_proxmox_username", line: "TF_VAR_proxmox_username={{ pve_api_token_id }}" }
         - { regexp: "^TF_VAR_proxmox_token", line: "TF_VAR_proxmox_token={{ pve_api_token_value }}" }
       delegate_to: localhost
-  no_log: true
-  when: >
-    not (_token_check.stdout |
-    from_json |
-    selectattr('tokenid', 'equalto', pve_api_token_name) |
-    list)

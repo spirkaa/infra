@@ -19,6 +19,8 @@
     wait_timeout: 1200
 
 - name: vault token tasks
+  no_log: true
+  when: not vault_token
   block:
     - name: vault - get token from k8s secret
       kubernetes.core.k8s_info:
@@ -32,8 +34,6 @@
       ansible.builtin.set_fact:
         vault_token: >-
           {{ _vault_token_query.resources[0].data[vault_token_k8s_secret_key] | b64decode }}
-  no_log: true
-  when: not vault_token
 
 - name: vault - put secrets
   kubernetes.core.k8s_exec:

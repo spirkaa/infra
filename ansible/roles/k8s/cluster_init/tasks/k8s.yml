@@ -10,6 +10,8 @@
   register: k8s_cluster_kubelet_conf
 
 - name: first control plane node - cluster init tasks
+  run_once: true
+  when: inventory_hostname == groups[k8s_cluster_controlplane_group][0]
   block:
     - name: kubeadm - create dir
       ansible.builtin.file:
@@ -96,8 +98,6 @@
       changed_when: false
       register: k8s_cluster_certs_key_result
       become: true
-  run_once: true
-  when: inventory_hostname == groups[k8s_cluster_controlplane_group][0]
 
 - name: set kubeadm join command for all hosts
   ansible.builtin.set_fact:

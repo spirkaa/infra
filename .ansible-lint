@@ -3,8 +3,7 @@ exclude_paths:
   - packer/
   - terraform/
   - tools/
-warn_list:
-  - meta-no-info
-  - schema
 skip_list:
+  - meta-no-info
   - name[casing]
+  - schema

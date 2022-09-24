@@ -3,6 +3,7 @@
   ansible.builtin.include_tasks: util_resource_facts.yml
 
 - name: template tasks
+  when: not pve_resource_exists
   block:
     - name: packages - install
       ansible.builtin.package:
@@ -76,4 +77,3 @@
       ansible.builtin.file:
         path: "{{ pve_template_image_path }}"
         state: absent
-  when: not pve_resource_exists
