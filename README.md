@@ -137,7 +137,7 @@
 ### Утилиты
 
 * [descheduler](https://github.com/kubernetes-sigs/descheduler)
-* [Kured](https://github.com/weaveworks/kured)
+* [kured](https://github.com/kubereboot/kured)
 * [Reloader](https://github.com/stakater/Reloader)
 
 ## Пользовательские приложения
