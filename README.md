@@ -46,15 +46,13 @@
 * 1x Custom NAS (Fractal Design Define R6, Corsair RM650x)
   * Intel Xeon E3-1230 v5
   * 64GB DDR4 ECC UDIMM
-  * 512GB NVMe SSD (lvm)
-  * 10x 8 TB HDD (mergerfs+snapraid)
-  * 2x 12 TB HDD (zfs mirror)
-
+  * 512GB NVMe SSD (LVM)
+  * 10x 8 TB HDD ([MergerFS](https://perfectmediaserver.com/tech-stack/mergerfs/) + [SnapRAID](https://perfectmediaserver.com/tech-stack/snapraid/))
+  * 2x 12 TB HDD (ZFS mirror)
 * 2x Lenovo IdeaCentre G5-14IMB05
   * Intel Core i5-10400
   * 32GB DDR4
-  * 512GB NVMe SSD (lvm)
-
+  * 512GB NVMe SSD (LVM)
 * 1x Ubiquiti EdgeRouter X
 * 1x Ubiquiti EdgeSwitch 24 Lite
 * 1x CyberPower CP900EPFC
@@ -98,7 +96,7 @@
 * [minio](https://github.com/minio/minio)
 * NFS
 
-### Observability (логи, метрики, трейсы)
+### Observability (логи, метрики, трейсы, алерты)
 
 * [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts)
   * [Prometheus](https://github.com/prometheus/prometheus)
@@ -116,7 +114,7 @@
 * [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin) + [argocd-vault-plugin](https://github.com/argoproj-labs/argocd-vault-plugin)
 * [Renovate](https://github.com/renovatebot/renovate)
 * [gitlab-runner](https://gitlab.com/gitlab-org/charts/gitlab-runner)
-* [jenkins](https://github.com/jenkinsci/jenkins)
+* [jenkins k8s agent](https://github.com/jenkinsci/jenkins)
 
 ### Secrets
 
@@ -125,10 +123,10 @@
 
 ### Auth
 
-* [authentik](https://github.com/goauthentik/authentik)
 * [dex](https://github.com/dexidp/dex)
 * [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy)
 * [teleport](https://github.com/gravitational/teleport)
+* [authentik](https://github.com/goauthentik/authentik)
 
 ### Backup
 
@@ -140,13 +138,23 @@
 * [kured](https://github.com/kubereboot/kured)
 * [Reloader](https://github.com/stakater/Reloader)
 
-## Пользовательские приложения
+## Полезные нагрузки (пользовательские приложения)
 
-* [Portainer](https://github.com/portainer/portainer)
-* [Dashy](https://github.com/lissy93/dashy)
-* [Vikunja](https://vikunja.io/)
-* [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
+### Мои разработки
+
+* [gia-api](https://github.com/spirkaa/gia-api)
+* [samgrabby](https://github.com/spirkaa/samgrabby)
+* [devmem.ru](https://github.com/spirkaa/devmem.ru)
+
+### Частное облако
+
 * [Nextcloud](https://github.com/nextcloud/server)
+* [docker-mailserver](https://github.com/docker-mailserver/docker-mailserver)
+* [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
+* [Vikunja](https://vikunja.io/)
+
+### Медиа-сервер
+
 * [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr)
 * [Bazarr](https://github.com/morpheus65535/bazarr)
 * [Radarr](https://github.com/Radarr/Radarr)
@@ -158,14 +166,12 @@
 * [Deluge](https://github.com/binhex/arch-delugevpn)
 * [Tautulli](https://github.com/Tautulli/Tautulli)
 * [Ombi](https://github.com/Ombi-app/Ombi)
+
+### Управление
+
+* [Dashy](https://github.com/lissy93/dashy)
+* [Portainer](https://github.com/portainer/portainer)
 * [UniFi Network](https://help.ui.com/hc/en-us/categories/200320654)
-* [docker-mailserver](https://github.com/docker-mailserver/docker-mailserver)
-
-### Мои проекты
-
-* [gia-api](https://github.com/spirkaa/gia-api)
-* [samgrabby](https://github.com/spirkaa/samgrabby)
-* [devmem.ru](https://github.com/spirkaa/devmem.ru)
 
 ## Запуск кластера
 
@@ -217,7 +223,7 @@
 
 ## Пользователь для доступа Packer и Terraform к API Proxmox
 
-Создать пользователя можно с помощью роли [pve/api_user](ansible/roles/pve/api_user) или вручную, выполнив команды в консоли сервера Proxmox и сохранив вывод последней.
+Создать пользователя можно с помощью роли [pve/api_user](ansible/roles/pve/api_user) или вручную, выполнив команды в консоли сервера Proxmox и сохранив вывод последней. **Для работы с кластером Proxmox назначены дополнительные права, не указанные в документации провайдера [telmate/proxmox](https://github.com/Telmate/terraform-provider-proxmox/blob/master/docs/index.md#creating-the-proxmox-user-and-role-for-terraform)**
 
 `pveum role add Provisioner -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Pool.Audit Sys.Audit Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Console VM.Monitor VM.PowerMgmt"`
 
@@ -231,7 +237,7 @@
 
 Подготовка выполняется в 2 этапа:
 
-1. [Ansible](https://www.ansible.com/) скачивает образ [Ubuntu Cloud](https://cloud-images.ubuntu.com/releases/jammy/), с помощью `virt-customize` устанавливает в него пакет `qemu-guest-agent`, создает ВМ в Proxmox и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
+1. [Ansible](https://www.ansible.com/) скачивает образ [Ubuntu Cloud](https://cloud-images.ubuntu.com/releases/jammy/), с помощью `virt-customize` устанавливает в образ пакет `qemu-guest-agent` и сбрасывает `machine-id`, создает ВМ в Proxmox и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
 1. [Packer](https://www.packer.io/) клонирует шаблон из п.1, запускает ВМ, настраивает с помощью Ansible, преобразует в шаблон.
 
 Разворачивание ВМ из шаблона выполняется с помощью [Terraform](https://www.terraform.io/).
