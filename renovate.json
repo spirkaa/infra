@@ -12,6 +12,17 @@
       "groupName": "k8s-at-home"
     },
     {
+      "matchDatasources": ["helm"],
+      "schedule": "on saturday",
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "renovate"
+      ]
+    },
+    {
       "matchDatasources": ["docker"],
       "schedule": "on saturday",
       "automerge": true,
