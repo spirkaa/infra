@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: mailserver
-          image: mailserver/docker-mailserver:11.1.0
+          image: mailserver/docker-mailserver:11.2.0
           envFrom:
             - secretRef:
                 name: docker-mailserver
