@@ -1,7 +1,7 @@
 karma:
   image:
     repository: ghcr.io/prymitive/karma
-    tag: v0.108
+    tag: v0.109
   env:
     - name: ALERTMANAGER_URI
       value: http://kps-alertmanager:9093
