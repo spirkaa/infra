@@ -1,7 +1,7 @@
 radarr:
   image:
     repository: ghcr.io/k8s-at-home/radarr-nightly
-    tag: v4.3.0.6637
+    tag: v4.3.0.6663
   env:
     TZ: Europe/Moscow
   ingress:
