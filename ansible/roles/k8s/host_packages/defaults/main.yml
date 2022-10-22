@@ -16,7 +16,7 @@ containerd_cfg_dir: /etc/containerd
 crictl_version: v1.24.2
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-linux-amd64.tar.gz
 # renovate: depName=containerd/nerdctl
-nerdctl_version: v0.23.0
+nerdctl_version: v1.0.0
 nerdctl_url: https://github.com/containerd/nerdctl/releases/download/{{ nerdctl_version }}/nerdctl-{{ nerdctl_version[1:] }}-linux-amd64.tar.gz
 nerdctl_cfg_dir: /etc/nerdctl
 
