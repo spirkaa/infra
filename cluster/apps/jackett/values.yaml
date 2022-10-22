@@ -1,7 +1,7 @@
 jackett:
   image:
     repository: ghcr.io/k8s-at-home/jackett
-    tag: v0.20.2101
+    tag: v0.20.2134
   env:
     TZ: Europe/Moscow
   ingress:
