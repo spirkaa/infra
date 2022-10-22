@@ -61,10 +61,10 @@ nextcloud:
       zz-php-fpm.conf: |
         [www]
         pm = dynamic
-        pm.max_children = 25
-        pm.start_servers = 10
-        pm.min_spare_servers = 5
-        pm.max_spare_servers = 20
+        pm.max_children = 50
+        pm.start_servers = 12
+        pm.min_spare_servers = 6
+        pm.max_spare_servers = 18
         pm.max_requests = 498
         access.log = /dev/null
         php_admin_value[post_max_size] = 10G
@@ -140,17 +140,17 @@ nextcloud:
     enabled: true
     storageClass: longhorn
     accessMode: ReadWriteOnce
-    size: 2Gi
+    size: 5Gi
     nextcloudData:
       enabled: true
       existingClaim: nfs-cloud-pvc
   resources:
     requests:
-      cpu: 100m
+      cpu: 500m
       memory: 576Mi
     limits:
-      cpu: 2000m
-      memory: 1536Mi
+      cpu: 3500m
+      memory: 4096Mi
   livenessProbe:
     enabled: false
   readinessProbe:
