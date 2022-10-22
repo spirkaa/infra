@@ -68,8 +68,5 @@ signoz:
       limits:
         cpu: '1'
         memory: 2Gi
-    config:
-      service:
-        pipelines:
-          logs:
-            receivers: [otlp]
+  k8s-infra:
+    enabled: false
