@@ -1,8 +1,15 @@
 kured:
   configuration:
-    prometheusUrl: "http://kps-prometheus.observability.svc.cluster.local:9090"
+    prometheusUrl: http://kps-prometheus.observability.svc.cluster.local:9090
     alertFilterRegexp: "^(RebootRequired|RebootScheduled|Watchdog|InfoInhibitor|LonghornVolumeActualSpaceUsedWarning)$"
     alertFiringOnly: true
+    lockReleaseDelay: 15m
+    lockTtl: 24h
+    timeZone: Europe/Moscow
+    rebootDays: [mo, tu, we, th]
+    startTime: 12:00
+    endTime: 16:00
+    period: 30m
   extraEnvVars:
     - name: KURED_NOTIFY_URL
       valueFrom:
