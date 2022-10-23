@@ -49,11 +49,11 @@ spec:
               mountPath: /downloads
           resources:
             requests:
+              cpu: 600m
               memory: 1280Mi
-              cpu: 300m
             limits:
-              memory: 1536Mi
               cpu: 1100m
+              memory: 1536Mi
           securityContext:
             privileged: true
           lifecycle:
