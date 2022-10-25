@@ -9,7 +9,7 @@ cni_url: https://github.com/containernetworking/plugins/releases/download/{{ cni
 cni_bin_dir: /opt/cni/bin
 cni_cfg_dir: /etc/cni/net.d
 # renovate: depName=containerd/containerd
-containerd_version: v1.6.8
+containerd_version: v1.6.9
 containerd_url: https://github.com/containerd/containerd/releases/download/{{ containerd_version }}/containerd-{{ containerd_version[1:] }}-linux-amd64.tar.gz
 containerd_cfg_dir: /etc/containerd
 # renovate: depName=kubernetes-sigs/cri-tools
