@@ -2,7 +2,7 @@ nextcloud:
   fullnameOverride: nextcloud
   image:
     repository: nextcloud
-    tag: 25.0.0-fpm-alpine
+    tag: 25.0.1-fpm-alpine
   ingress:
     enabled: true
     className: nginx
