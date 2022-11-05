@@ -16,6 +16,7 @@ kured:
         secretKeyRef:
           name: notify-url
           key: url
+  hostNetwork: false
   metrics:
     create: true
   service:
