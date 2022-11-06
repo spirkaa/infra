@@ -6,13 +6,13 @@ repos:
       - id: check-merge-conflict
       - id: mixed-line-ending
       - id: trailing-whitespace
-  - repo: https://github.com/adrienverge/yamllint.git
+  - repo: https://github.com/adrienverge/yamllint
     rev: v1.28.0
     hooks:
       - id: yamllint
         args: [--strict]
-  - repo: https://github.com/ansible/ansible-lint.git
-    rev: v6.8.2
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v6.8.6
     hooks:
       - id: ansible-lint
   - repo: https://github.com/antonbabenko/pre-commit-terraform
