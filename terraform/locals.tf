@@ -52,7 +52,7 @@ locals {
       ip_data          = "10.10.20.214"
       cores            = 6
       memory           = 16384
-      disk             = "40G"
+      disk             = "50G"
     },
     k8s-worker-05 = {
       target_node      = "sppve"
@@ -62,7 +62,7 @@ locals {
       ip_data          = "10.10.20.215"
       cores            = 6
       memory           = 16384
-      disk             = "40G"
+      disk             = "50G"
     },
     k8s-worker-06 = {
       target_node      = "spsrv"
@@ -72,7 +72,7 @@ locals {
       ip_data          = "10.10.20.216"
       cores            = 4
       memory           = 16384
-      disk             = "40G"
+      disk             = "50G"
     }
   }
 
