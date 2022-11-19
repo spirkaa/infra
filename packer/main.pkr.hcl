@@ -2,7 +2,7 @@ packer {
   required_plugins {
     proxmox = {
       source  = "github.com/hashicorp/proxmox"
-      version = "1.0.8"
+      version = "1.1.0"
     }
     ansible = {
       source  = "github.com/hashicorp/ansible"
