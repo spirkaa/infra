@@ -89,6 +89,7 @@
 * [ingress-nginx](https://github.com/kubernetes/ingress-nginx)
 * [cert-manager](https://github.com/cert-manager/cert-manager) + [cert-manager-webhook-selectel](https://github.com/selectel/cert-manager-webhook-selectel)
 * [Keepalived](https://www.keepalived.org) + [HAProxy](https://www.haproxy.com) вне кластера для Control Plane
+* [consul](https://github.com/hashicorp/consul)
 
 ### Хранилище
 

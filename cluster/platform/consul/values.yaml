@@ -1,0 +1,45 @@
+consul:
+  global:
+    name: consul
+    acls:
+      manageSystemACLs: true
+    metrics:
+      enabled: true
+      enableAgentMetrics: true
+  server:
+    enalbed: true
+    replicas: 3
+    storage: 1Gi
+    storageClass: longhorn
+    extraConfig: |
+      {
+        "telemetry": {
+          "prometheus_retention_time": "1m",
+          "disable_hostname": true
+        }
+      }
+  ui:
+    enalbed: true
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - host: &host consul.k8s.devmem.ru
+      tls:
+        - hosts:
+            - *host
+          secretName: null
+    metrics:
+      baseURL: http://kps-prometheus.observability:9090/
+  connectInject:
+    enabled: false
+  tests:
+    enabled: false
+prometheus-consul-exporter:
+  fullnameOverride: consul-exporter
+  image:
+    repository: prom/consul-exporter
+    tag: v0.8.0
+  consulServer: consul-server:8500
+  serviceMonitor:
+    enabled: true

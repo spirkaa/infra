@@ -289,7 +289,7 @@ data:
           - title: SigNoz
             icon: https://signoz.k8s.devmem.ru/signoz-signup.svg
             url: https://signoz.k8s.devmem.ru
-            id: 5_278_prometheus
+            id: 5_278_signoz
           - title: Longhorn
             icon: hl-longhorn
             url: https://longhorn.k8s.devmem.ru
@@ -298,14 +298,18 @@ data:
             icon: hl-vault
             url: https://vault.k8s.devmem.ru
             id: 7_278_vault
+          - title: Consul
+            icon: https://consul.k8s.devmem.ru/ui/assets/favicon.ico
+            url: https://consul.k8s.devmem.ru/
+            id: 8_278_consul
           - title: Teleport
             icon: https://tele.devmem.ru/web/app/favicon.ico
             url: https://tele.devmem.ru
-            id: 8_278_teleport
+            id: 9_278_teleport
           - title: Authentik
             icon: hl-authentik
             url: https://authentik.auth.devmem.ru
-            id: 9_278_authentik
+            id: 10_278_authentik
       - name: Home
         displayData:
           sortBy: default
