@@ -69,6 +69,10 @@ reverse-proxy:
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            location /minio/v2/metrics/cluster {
+                deny all;
+            }
         hosts:
           - host: &host s3.devmem.ru
             path: /
@@ -85,6 +89,10 @@ reverse-proxy:
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            location /metrics {
+                deny all;
+            }
         hosts:
           - host: &host git.devmem.ru
             path: /
@@ -102,9 +110,9 @@ reverse-proxy:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
           nginx.ingress.kubernetes.io/server-snippet: |
-              location /prometheus {
-                  deny all;
-              }
+            location /prometheus {
+                deny all;
+            }
         hosts:
           - host: &host jenkins.devmem.ru
             path: /
