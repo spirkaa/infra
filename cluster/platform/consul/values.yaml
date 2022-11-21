@@ -10,7 +10,7 @@ consul:
     enalbed: true
     replicas: 3
     storage: 1Gi
-    storageClass: longhorn
+    storageClass: longhorn-sts
     extraConfig: |
       {
         "telemetry": {
@@ -29,8 +29,6 @@ consul:
         - hosts:
             - *host
           secretName: null
-    metrics:
-      baseURL: http://kps-prometheus.observability:9090/
   connectInject:
     enabled: false
   tests:
