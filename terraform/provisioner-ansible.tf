@@ -5,7 +5,7 @@ resource "local_file" "ansible_inventory_file" {
     proxmox_vm_qemu.k8s_lb
   ]
 
-  content = templatefile("templates/ansible-inventory.tpl", {
+  content = templatefile("templates/ansible-inventory.tftpl", {
     k8s_controlplane = zipmap(
       values(proxmox_vm_qemu.k8s_controlplane)[*].name,
       values(proxmox_vm_qemu.k8s_controlplane)[*].ssh_forward_ip
