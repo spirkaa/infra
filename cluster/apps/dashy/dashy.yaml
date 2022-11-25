@@ -182,9 +182,9 @@ data:
             icon: hl-jenkins
             url: https://jenkins.devmem.ru
             id: 4_496_jenkins
-          - title: Prometheus
-            icon: hl-prometheus
-            url: https://prometheus.home.devmem.ru/targets
+          - title: Nexus
+            icon: https://nexus.home.devmem.ru/static/rapture/resources/favicon.ico
+            url: https://nexus.home.devmem.ru/targets
             id: 5_496_prometheus
           - title: LibreNMS
             icon: hl-librenms
