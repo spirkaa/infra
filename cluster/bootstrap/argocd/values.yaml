@@ -51,6 +51,16 @@ argo-cd:
       enabled: true
       serviceMonitor:
         enabled: true
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+                - key: devmem.ru/pve-host
+                  operator: NotIn
+                  values:
+                    - spsrv
   server:
     config:
       url: https://argocd.k8s.devmem.ru
