@@ -15,6 +15,6 @@ dex:
     tls:
       - hosts:
           - *host
-        secretName: dex-tls
+        secretName: null
   serviceMonitor:
     enabled: true

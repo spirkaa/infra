@@ -12,7 +12,7 @@ oauth2-proxy:
     tls:
       - hosts:
           - *host
-        secretName: oauth2-proxy-tls
+        secretName: null
   extraArgs:
     provider: oidc
     oidc-issuer-url: https://dex.auth.devmem.ru

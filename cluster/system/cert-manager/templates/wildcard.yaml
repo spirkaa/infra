@@ -12,5 +12,6 @@ spec:
   dnsNames:
     - "devmem.ru"
     - "*.devmem.ru"
+    - "*.auth.devmem.ru"
     - "*.home.devmem.ru"
     - "*.k8s.devmem.ru"

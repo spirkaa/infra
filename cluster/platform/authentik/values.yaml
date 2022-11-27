@@ -12,7 +12,7 @@ authentik:
     tls:
       - hosts:
           - *host
-        secretName: authentik-tls
+        secretName: null
   authentik:
     secret_key: ""
     postgresql:
