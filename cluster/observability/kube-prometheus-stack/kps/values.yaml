@@ -127,6 +127,10 @@ kube-prometheus-stack:
               regex: .*,metrics_path=([^,]+),.*
               replacement: $1
               target_label: __metrics_path__
+            - source_labels: [__meta_consul_tags]
+              regex: .*,metrics_scheme=([^,]+),.*
+              replacement: $1
+              target_label: __scheme__
     ingress:
       enabled: true
       ingressClassName: nginx
