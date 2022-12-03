@@ -3,7 +3,7 @@
 Конфигурация моего персонального кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://www.weave.works/technologies/gitops/).
 
 * Предыдущая версия на основе Docker внутри LXC, без k8s - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
-* Для вдохновения можно посмотреть, как делают другие - [awesome-home-kubernetes](https://github.com/k8s-at-home/awesome-home-kubernetes).
+* Для вдохновения можно посмотреть, как делают другие - [k8s-at-home](https://github.com/topics/k8s-at-home).
 
 ## Обзор
 

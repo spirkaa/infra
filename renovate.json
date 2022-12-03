@@ -7,9 +7,9 @@
     },
     {
       "matchDatasources": ["helm"],
-      "matchSourceUrlPrefixes": ["https://github.com/k8s-at-home/"],
+      "matchSourceUrlPrefixes": ["https://github.com/onedr0p/"],
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "k8s-at-home"
+      "groupName": "onedr0p"
     },
     {
       "matchDatasources": ["helm"],
@@ -28,13 +28,13 @@
       "ignoreTests": true,
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
-        "ghcr.io/k8s-at-home/bazarr",
-        "ghcr.io/k8s-at-home/jackett",
-        "ghcr.io/k8s-at-home/lidarr-nightly",
-        "ghcr.io/k8s-at-home/prowlarr-nightly",
-        "ghcr.io/k8s-at-home/radarr-nightly",
-        "ghcr.io/k8s-at-home/sonarr-nightly",
-        "ghcr.io/k8s-at-home/tautulli",
+        "ghcr.io/onedr0p/bazarr",
+        "ghcr.io/onedr0p/jackett",
+        "ghcr.io/onedr0p/lidarr-nightly",
+        "ghcr.io/onedr0p/prowlarr-nightly",
+        "ghcr.io/onedr0p/radarr-nightly",
+        "ghcr.io/onedr0p/sonarr-develop",
+        "ghcr.io/onedr0p/tautulli",
         "ghcr.io/linuxserver/ombi",
         "flaresolverr/flaresolverr"
       ]
