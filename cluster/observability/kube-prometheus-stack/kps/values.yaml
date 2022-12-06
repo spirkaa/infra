@@ -131,6 +131,32 @@ kube-prometheus-stack:
               regex: .*,metrics_scheme=([^,]+),.*
               replacement: $1
               target_label: __scheme__
+        - job_name: blackbox-kubernetes-ingresses
+          metrics_path: /probe
+          params:
+            module: [http_2xx]
+          kubernetes_sd_configs:
+            - role: ingress
+          relabel_configs:
+            - source_labels:
+                [
+                  __meta_kubernetes_ingress_scheme,
+                  __address__,
+                  __meta_kubernetes_ingress_path,
+                ]
+              regex: (.+);(.+);(.+)
+              replacement: ${1}://${2}${3}
+              target_label: __param_target
+            - target_label: __address__
+              replacement: blackbox-exporter:9115
+            - source_labels: [__param_target]
+              target_label: instance
+            - action: labelmap
+              regex: __meta_kubernetes_ingress_label_(.+)
+            - source_labels: [__meta_kubernetes_namespace]
+              target_label: kubernetes_namespace
+            - source_labels: [__meta_kubernetes_ingress_name]
+              target_label: kubernetes_name
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -154,3 +180,20 @@ alertmanagernotifier:
   name: alertmanager-notifier
   image: ghcr.io/ix-ai/alertmanager-notifier:v0.4.4
   port: 8899
+prometheus-blackbox-exporter:
+  fullnameOverride: blackbox-exporter
+  ingress:
+    enabled: true
+    className: nginx
+    hosts:
+      - host: &host blackbox-exporter.k8s.devmem.ru
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - *host
+        secretName: null
+  serviceMonitor:
+    selfMonitor:
+      enabled: true
