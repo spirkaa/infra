@@ -17,16 +17,16 @@
 ### Скриншоты
 
 | [![01][screenshot-01]][screenshot-01] | [![02][screenshot-02]][screenshot-02] |
-| :---:                               | :---:                               |
-| Dashy                               | Proxmox                             |
+| :---:                                 | :---:                                 |
+| Dashy                                 | Proxmox                               |
 | [![03][screenshot-03]][screenshot-03] | [![04][screenshot-04]][screenshot-04] |
-| ArgoCD                              | Vault                               |
+| ArgoCD                                | Vault                                 |
 | [![05][screenshot-05]][screenshot-05] | [![06][screenshot-06]][screenshot-06] |
-| Gitea                               | Jenkins                             |
+| Gitea                                 | Jenkins                               |
 | [![07][screenshot-07]][screenshot-07] | [![08][screenshot-08]][screenshot-08] |
-| Longhorn                            | Minio                               |
+| Longhorn                              | Minio                                 |
 | [![09][screenshot-09]][screenshot-09] | [![10][screenshot-10]][screenshot-10] |
-| LibreNMS                            | Grafana                             |
+| LibreNMS                              | Grafana                               |
 
 [screenshot-01]: https://user-images.githubusercontent.com/2718761/184634976-f7567825-498a-4f3f-9f3f-05ee30aa47f8.png
 [screenshot-02]: https://user-images.githubusercontent.com/2718761/184637345-9fd2d9a9-27de-4ca3-8a78-9ea3a391fa5a.png
