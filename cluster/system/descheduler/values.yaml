@@ -1,6 +1,8 @@
 descheduler:
   schedule: "*/5 * * * *"
   deschedulerPolicy:
+    maxNoOfPodsToEvictPerNode: 2
+    maxNoOfPodsToEvictPerNamespace: 2
     strategies:
       RemoveDuplicates:
         enabled: true
@@ -14,7 +16,22 @@ descheduler:
       RemovePodsViolatingInterPodAntiAffinity:
         enabled: true
       LowNodeUtilization:
-        enabled: false
+        enabled: true
+        params:
+          nodeFit: true
+          nodeResourceUtilizationThresholds:
+            thresholds:
+              cpu: 40
+              memory: 30
+              pods: 25
+            targetThresholds:
+              cpu: 75
+              memory: 50
+              pods: 50
+          namespaces:
+            exclude:
+              - "longhorn-system"
+              - "metallb-system"
       RemovePodsHavingTooManyRestarts:
         enabled: true
         params:
