@@ -16,7 +16,7 @@ descheduler:
       RemovePodsViolatingInterPodAntiAffinity:
         enabled: true
       LowNodeUtilization:
-        enabled: true
+        enabled: false
         params:
           nodeFit: true
           nodeResourceUtilizationThresholds:
