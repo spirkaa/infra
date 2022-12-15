@@ -140,7 +140,7 @@ nextcloud:
     enabled: true
     storageClass: longhorn
     accessMode: ReadWriteOnce
-    size: 5Gi
+    size: 11Gi
     nextcloudData:
       enabled: true
       existingClaim: nfs-cloud-pvc
