@@ -132,6 +132,7 @@ kube-prometheus-stack:
               replacement: $1
               target_label: __scheme__
         - job_name: blackbox-kubernetes-ingresses
+          scrape_timeout: 15s
           metrics_path: /probe
           params:
             module: [http_2xx]
@@ -209,3 +210,50 @@ prometheus-blackbox-exporter:
   serviceMonitor:
     selfMonitor:
       enabled: true
+  prometheusRule:
+    enabled: true
+    rules:
+      - alert: BlackboxProbeFailed
+        expr: |-
+          probe_success == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary:
+            Blackbox probe failed.
+          description:
+            The host {{ $labels.instance }} is currently unreachable.
+      - alert: BlackboxSlowProbe
+        expr: |-
+          avg_over_time(probe_duration_seconds[2m]) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary:
+            Blackbox slow probe.
+          description:
+            Blackbox probe on {{ $labels.instance }} took more than 1s to complete.
+      - alert: BlackboxSslCertExpiringSoon
+        expr: |-
+          probe_ssl_earliest_cert_expiry - time() < 86400 * 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary:
+            SSL certificate is about to expire.
+          description:
+            SSL certificate for {{ $labels.instance }} will expire in less than 3 days.
+      - alert: BlackboxSslCertExpired
+        expr: |-
+          probe_ssl_earliest_cert_expiry - time() <= 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary:
+            SSL certificate has expired.
+          description:
+            SSL certificate for {{ $labels.instance }} has expired.
