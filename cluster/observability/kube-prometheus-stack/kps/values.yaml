@@ -195,6 +195,20 @@ alertmanagernotifier:
   port: 8899
 prometheus-blackbox-exporter:
   fullnameOverride: blackbox-exporter
+  config:
+    modules:
+      http_2xx:
+        prober: http
+        timeout: 10s
+        http:
+          valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+          follow_redirects: true
+          preferred_ip_protocol: "ip4"
+      icmp:
+        prober: icmp
+        timeout: 10s
+        icmp:
+          preferred_ip_protocol: "ip4"
   ingress:
     enabled: true
     className: nginx
