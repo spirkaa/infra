@@ -157,6 +157,12 @@ kube-prometheus-stack:
               target_label: kubernetes_namespace
             - source_labels: [__meta_kubernetes_ingress_name]
               target_label: kubernetes_name
+            - source_labels: [__meta_kubernetes_ingress_annotation_nginx_ingress_kubernetes_io_auth_url]
+              regex: .*oauth2-proxy.*
+              action: drop
+            - source_labels: [__meta_kubernetes_ingress_label_app]
+              regex: oauth2-proxy
+              action: drop
     ingress:
       enabled: true
       ingressClassName: nginx
