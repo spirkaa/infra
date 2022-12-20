@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: mailserver
-          image: mailserver/docker-mailserver:11.2.0
+          image: mailserver/docker-mailserver:11.3.0
           envFrom:
             - secretRef:
                 name: docker-mailserver
@@ -102,9 +102,7 @@ spec:
                 command:
                   - "/bin/bash"
                   - "-c"
-                  - |
-                    echo 'TLS_REQCERT allow' >> /etc/ldap/ldap.conf;
-                    sed -i 's/{ type <addr_type>\\; \\}/{ type <addr_type>\\; flags interval\\; \\}/g' /etc/fail2ban/action.d/nftables.conf
+                  - "echo 'TLS_REQCERT allow' >> /etc/ldap/ldap.conf;"
           securityContext:
             capabilities:
               add:
