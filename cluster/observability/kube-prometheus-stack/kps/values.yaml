@@ -240,7 +240,7 @@ prometheus-blackbox-exporter:
             The host {{ $labels.instance }} is currently unreachable.
       - alert: BlackboxSlowProbe
         expr: |-
-          avg_over_time(probe_duration_seconds[2m]) > 1
+          avg_over_time(probe_duration_seconds[5m]) > 2
         for: 5m
         labels:
           severity: warning
