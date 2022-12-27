@@ -354,6 +354,10 @@ data:
             icon: hl-bitwarden
             url: https://vaultwarden.devmem.ru
             id: 2_503_vaultwarden
+          - title: Syncthing
+            icon: hl-syncthing
+            url: https://syncthing.home.devmem.ru
+            id: 3_503_syncthing
       - name: HW
         displayData:
           sortBy: default
