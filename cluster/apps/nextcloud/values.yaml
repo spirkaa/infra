@@ -3,6 +3,11 @@ nextcloud:
   image:
     repository: nextcloud
     tag: 25.0.2-fpm-alpine
+    pullPolicy: Always
+    pullSecrets:
+      - regcred
+  nodeSelector:
+    devmem.ru/pve-host: spsrv
   ingress:
     enabled: true
     className: nginx
@@ -96,46 +101,6 @@ nextcloud:
     runAsGroup: 1000
     fsGroup: 1000
     fsGroupChangePolicy: OnRootMismatch
-  nginx:
-    enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 32Mi
-      limits:
-        cpu: 100m
-        memory: 64Mi
-  internalDatabase:
-    enabled: false
-  externalDatabase:
-    existingSecret:
-      enabled: true
-  postgresql:
-    enabled: true
-    architecture: standalone
-    auth:
-      username: nextcloud
-      database: nextcloud
-      existingSecret: nextcloud
-      secretKeys:
-        adminPasswordKey: postgresql-postgres-password
-        userPasswordKey: postgresql-password
-    primary:
-      persistence:
-        enabled: true
-        storageClass: longhorn
-        size: 2Gi
-      nodeSelector:
-        devmem.ru/pve-host: spsrv
-  cronjob:
-    enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 32Mi
-      limits:
-        cpu: 100m
-        memory: 64Mi
   persistence:
     enabled: true
     storageClass: longhorn
@@ -155,5 +120,50 @@ nextcloud:
     enabled: false
   readinessProbe:
     enabled: false
-  nodeSelector:
-    devmem.ru/pve-host: spsrv
+  cronjobs:
+    enabled: true
+    image:
+      repository: git.devmem.ru/projects/kubectl
+      tag: latest
+    cronjobs:
+      - name: cron
+        schedule: "*/5 * * * *"
+        command: php -f /var/www/html/cron.php
+      - name: occ-files-scan
+        schedule: "*/2 * * * *"
+        command: /var/www/html/occ files:scan -q -n -p piv/files/Notes
+  nginx:
+    enabled: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 64Mi
+  internalDatabase:
+    enabled: false
+  externalDatabase:
+    existingSecret:
+      enabled: true
+  postgresql:
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/postgresql
+      tag: 14.6.0-debian-11-r17
+    architecture: standalone
+    auth:
+      username: nextcloud
+      database: nextcloud
+      existingSecret: nextcloud
+      secretKeys:
+        adminPasswordKey: postgresql-postgres-password
+        userPasswordKey: postgresql-password
+    primary:
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 2Gi
+      nodeSelector:
+        devmem.ru/pve-host: spsrv
