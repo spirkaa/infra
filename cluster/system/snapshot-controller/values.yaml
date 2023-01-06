@@ -3,4 +3,4 @@ snapshot-controller:
   controller:
     image:
       repository: k8s.gcr.io/sig-storage/snapshot-controller
-      tag: v6.0.1
+      tag: v6.2.1
