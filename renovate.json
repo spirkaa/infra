@@ -7,12 +7,6 @@
     },
     {
       "matchDatasources": ["helm"],
-      "matchSourceUrlPrefixes": ["https://github.com/onedr0p/"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "onedr0p"
-    },
-    {
-      "matchDatasources": ["helm"],
       "schedule": "on saturday",
       "automerge": true,
       "automergeType": "branch",
@@ -28,15 +22,15 @@
       "ignoreTests": true,
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
+        "flaresolverr/flaresolverr",
         "ghcr.io/onedr0p/bazarr",
-        "ghcr.io/onedr0p/jackett",
         "ghcr.io/onedr0p/lidarr-nightly",
         "ghcr.io/onedr0p/prowlarr-nightly",
         "ghcr.io/onedr0p/radarr-nightly",
         "ghcr.io/onedr0p/sonarr-develop",
         "ghcr.io/onedr0p/tautulli",
-        "ghcr.io/linuxserver/ombi",
-        "flaresolverr/flaresolverr"
+        "ghcr.io/spirkaa/jackett",
+        "ghcr.io/spirkaa/ombi"
       ]
     },
     {
