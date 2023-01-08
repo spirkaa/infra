@@ -99,12 +99,22 @@ kube-prometheus-stack:
     envFromSecret: grafana-smtp
   prometheus:
     fullnameOverride: prometheus
+    thanosService:
+      enabled: true
+    thanosServiceMonitor:
+      enabled: true
     prometheusSpec:
       externalUrl: https://prometheus.k8s.devmem.ru
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
       probeSelectorNilUsesHelmValues: false
+      enableAdminAPI: true
+      thanos:
+        image: quay.io/thanos/thanos:v0.30.1
+        objectStorageConfig:
+          name: thanos-objstore
+          key: objstore.yml
       storageSpec:
         volumeClaimTemplate:
           spec:
