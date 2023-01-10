@@ -13,6 +13,7 @@ consul:
     storageClass: longhorn-sts
     extraConfig: |
       {
+        "leave_on_terminate": true,
         "telemetry": {
           "prometheus_retention_time": "1m",
           "disable_hostname": true
