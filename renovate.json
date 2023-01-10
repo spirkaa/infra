@@ -44,6 +44,12 @@
       "additionalBranchPrefix": "",
       "separateMinorPatch": true,
       "matchPackageNames": ["kubernetes/kubernetes"]
+    },
+    {
+      "description": "Consul images and charts",
+      "matchDatasources": ["docker", "helm"],
+      "groupName": "consul",
+      "matchPackagePatterns": ["consul"]
     }
   ],
   "ansible": {
@@ -65,7 +71,8 @@
       ],
       "matchStrings": [
         "depName=(?<depName>.*?)( datasource=(?<datasource>.*?))?( versioning=(?<versioning>.*?))?\n.*?_version: (?<currentValue>.*)\n",
-        "depName=(?<depName>.*?)( datasource=(?<datasource>.*?))?( versioning=(?<versioning>.*?))?\n.*?value: \"(?<currentValue>.*)\"\n"
+        "depName=(?<depName>.*?)( datasource=(?<datasource>.*?))?( versioning=(?<versioning>.*?))?\n.*?value: \"(?<currentValue>.*)\"\n",
+        "datasource=(?<datasource>.*?)( versioning=(?<versioning>.*?))?\n.*?image.+: (?<depName>.*?):(?<currentValue>.*)\n"
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
