@@ -11,6 +11,13 @@ consul:
     replicas: 3
     storage: 1Gi
     storageClass: longhorn-sts
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
     extraConfig: |
       {
         "leave_on_terminate": true,
