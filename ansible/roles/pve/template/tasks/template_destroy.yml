@@ -4,6 +4,6 @@
 
 - name: destroy vmid {{ pve_template_vmid }}
   ansible.builtin.command: >
-    qm destroy {{ pve_template_vmid }}
+    pvesh delete /nodes/{{ pve_resource_exists[0]['node'] }}/{{ pve_resource_exists[0]['id'] }}
   changed_when: true
   when: pve_resource_exists
