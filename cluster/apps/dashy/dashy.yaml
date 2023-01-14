@@ -310,6 +310,10 @@ data:
             icon: hl-authentik
             url: https://authentik.auth.devmem.ru
             id: 10_278_authentik
+          - title: Goldilocks
+            icon: https://goldilocks.k8s.devmem.ru/static/images/favicon.ico
+            url: https://goldilocks.k8s.devmem.ru
+            id: 11_278_goldilocks
       - name: Home
         displayData:
           sortBy: default

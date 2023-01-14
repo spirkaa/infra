@@ -1,0 +1,42 @@
+goldilocks:
+  controller:
+    logVerbosity: "1"
+    rbac:
+      extraRules:
+        - apiGroups:
+            - "batch"
+          resources:
+            - "jobs"
+            - "cronjobs"
+          verbs:
+            - "get"
+            - "list"
+            - "watch"
+    resources:
+      limits:
+        memory: 64Mi
+      requests:
+        cpu: 25m
+        memory: 64Mi
+  dashboard:
+    replicaCount: 1
+    logVerbosity: "1"
+    resources:
+      limits:
+        memory: 64Mi
+      requests:
+        cpu: 25m
+        memory: 64Mi
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host goldilocks.k8s.devmem.ru
+          paths:
+            - path: /
+              type: Prefix
+      tls:
+        - hosts:
+            - *host

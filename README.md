@@ -139,6 +139,7 @@
 * [kured](https://github.com/kubereboot/kured)
 * [Reloader](https://github.com/stakater/Reloader)
 * [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
+* [Goldilocks](https://github.com/FairwindsOps/goldilocks)
 
 ## Полезные нагрузки (пользовательские приложения)
 
