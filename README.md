@@ -138,6 +138,7 @@
 * [descheduler](https://github.com/kubernetes-sigs/descheduler)
 * [kured](https://github.com/kubereboot/kured)
 * [Reloader](https://github.com/stakater/Reloader)
+* [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
 
 ## Полезные нагрузки (пользовательские приложения)
 
