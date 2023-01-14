@@ -138,6 +138,7 @@
 * [descheduler](https://github.com/kubernetes-sigs/descheduler)
 * [kured](https://github.com/kubereboot/kured)
 * [Reloader](https://github.com/stakater/Reloader)
+* [kubernetes-event-exporter](https://github.com/resmoio/kubernetes-event-exporter)
 * [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
 * [Goldilocks](https://github.com/FairwindsOps/goldilocks)
 
