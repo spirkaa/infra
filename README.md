@@ -101,6 +101,7 @@
 
 * [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts)
   * [Prometheus](https://github.com/prometheus/prometheus) + [Blackbox Exporter](https://github.com/prometheus/blackbox_exporter)
+  * [Thanos](https://github.com/thanos-io/thanos)
   * [Alertmanager](https://github.com/prometheus/alertmanager) + [alertmanager-notifier](https://github.com/ix-ai/alertmanager-notifier)
   * [Grafana](https://github.com/grafana/grafana)
 * [loki-stack](https://github.com/grafana/helm-charts/tree/main/charts/loki-stack)

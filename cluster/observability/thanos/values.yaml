@@ -1,0 +1,54 @@
+thanos:
+  existingObjstoreSecret: thanos-objstore
+  query:
+    enabled: true
+    replicaLabels:
+      - replica
+    dnsDiscovery:
+      sidecarsService: kps-thanos-discovery
+      sidecarsNamespace: observability
+    ingress:
+      enabled: true
+      hostname: &host thanos.k8s.devmem.ru
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      extraTls:
+        - hosts:
+            - *host
+          secretName: null
+  queryFrontend:
+    enabled: false
+  bucketweb:
+    enabled: true
+    ingress:
+      enabled: true
+      hostname: &host thanos-bucketweb.k8s.devmem.ru
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      extraTls:
+        - hosts:
+            - *host
+          secretName: null
+  compactor:
+    enabled: true
+    retentionResolutionRaw: 30d
+    retentionResolution5m: 30d
+    retentionResolution1h: 30d
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 10Gi
+  storegateway:
+    enabled: true
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 1Gi
+  ruler:
+    enabled: false
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true

@@ -274,46 +274,50 @@ data:
             icon: hl-grafana
             url: https://grafana.devmem.ru
             id: 1_278_grafana
+          - title: Thanos
+            icon: hl-thanos
+            url: https://thanos.k8s.devmem.ru/alerts
+            id: 2_278_thanos
           - title: Prometheus
             icon: hl-prometheus
             url: https://prometheus.k8s.devmem.ru/alerts
-            id: 2_278_prometheus
+            id: 3_278_prometheus
           - title: Alertmanager
             icon: hl-alertmanager
             url: https://alertmanager.k8s.devmem.ru
-            id: 3_278_alertmanager
+            id: 4_278_alertmanager
           - title: Karma
             icon: mdi-recycle-variant
             url: https://karma.k8s.devmem.ru
-            id: 4_278_karma
+            id: 5_278_karma
           - title: SigNoz
             icon: https://signoz.k8s.devmem.ru/signoz-signup.svg
             url: https://signoz.k8s.devmem.ru
-            id: 5_278_signoz
+            id: 6_278_signoz
           - title: Longhorn
             icon: hl-longhorn
             url: https://longhorn.k8s.devmem.ru
-            id: 6_278_longhorn
+            id: 7_278_longhorn
           - title: Vault
             icon: hl-vault
             url: https://vault.k8s.devmem.ru
-            id: 7_278_vault
+            id: 8_278_vault
           - title: Consul
             icon: https://consul.k8s.devmem.ru/ui/assets/favicon.ico
             url: https://consul.k8s.devmem.ru/
-            id: 8_278_consul
+            id: 9_278_consul
           - title: Teleport
             icon: https://tele.devmem.ru/web/app/favicon.ico
             url: https://tele.devmem.ru
-            id: 9_278_teleport
+            id: 10_278_teleport
           - title: Authentik
             icon: hl-authentik
             url: https://authentik.auth.devmem.ru
-            id: 10_278_authentik
+            id: 11_278_authentik
           - title: Goldilocks
             icon: https://goldilocks.k8s.devmem.ru/static/images/favicon.ico
             url: https://goldilocks.k8s.devmem.ru
-            id: 11_278_goldilocks
+            id: 12_278_goldilocks
       - name: Home
         displayData:
           sortBy: default

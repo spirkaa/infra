@@ -43,6 +43,7 @@ kube-prometheus-stack:
       datasources:
         enabled: true
         searchNamespace: ALL
+        isDefaultDatasource: false
       dashboards:
         enabled: true
         searchNamespace: ALL
@@ -105,11 +106,13 @@ kube-prometheus-stack:
       enabled: true
     prometheusSpec:
       externalUrl: https://prometheus.k8s.devmem.ru
+      replicaExternalLabelName: replica
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
       probeSelectorNilUsesHelmValues: false
       enableAdminAPI: true
+      retention: 2d
       thanos:
         image: quay.io/thanos/thanos:v0.30.1
         objectStorageConfig:
