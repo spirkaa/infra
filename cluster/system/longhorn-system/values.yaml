@@ -10,6 +10,9 @@ longhorn:
     defaultClass: true
     defaultClassReplicaCount: 2
     reclaimPolicy: Retain
+    removeSnapshotsDuringFilesystemTrim: enabled
+  longhornUI:
+    replicas: 1
   ingress:
     enabled: true
     ingressClassName: nginx
