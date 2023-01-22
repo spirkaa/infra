@@ -61,8 +61,8 @@ argo-cd:
                   operator: NotIn
                   values:
                     - spsrv
-  server:
-    config:
+  configs:
+    cm:
       url: https://argocd.k8s.devmem.ru
       admin.enabled: "false"
       oidc.config: |
@@ -143,9 +143,10 @@ argo-cd:
         jqPathExpressions:
           - '.spec.conversion.webhook.clientConfig.caBundle'
           - '.spec.versions[]?.additionalPrinterColumns[]?.priority | select(. == 0)'
-    rbacConfig:
+    rbac:
       policy.csv: |
         g, argocd_admins, role:admin
+  server:
     ingress:
       enabled: true
       annotations:
