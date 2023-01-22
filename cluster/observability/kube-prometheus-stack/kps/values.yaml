@@ -10,7 +10,7 @@ kube-prometheus-stack:
             storageClassName: longhorn
             resources:
               requests:
-                storage: 1Gi
+                storage: 100Mi
       useExistingSecret: true
       configSecret: alertmanager-config
     ingress:
@@ -113,6 +113,7 @@ kube-prometheus-stack:
       probeSelectorNilUsesHelmValues: false
       enableAdminAPI: true
       retention: 2d
+      retentionSize: "4GB"
       thanos:
         image: quay.io/thanos/thanos:v0.30.1
         objectStorageConfig:
@@ -124,7 +125,7 @@ kube-prometheus-stack:
             storageClassName: longhorn
             resources:
               requests:
-                storage: 25Gi
+                storage: 5Gi
       additionalScrapeConfigs:
         - job_name: consul-sd
           scheme: https
