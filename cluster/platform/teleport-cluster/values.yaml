@@ -19,3 +19,5 @@ teleport-cluster:
   authenticationType: local
   authenticationSecondFactor:
     secondFactor: otp
+  podSecurityPolicy:
+    enabled: false
