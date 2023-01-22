@@ -79,4 +79,28 @@ build {
       "scripts/packer-virt-sysprep/sysprep-op-tmp-files.sh"
     ]
   }
+
+  post-processor "shell-local" {
+    inline = [<<EOT
+      curl --silent --insecure \
+        ${var.proxmox_url}/nodes/${var.proxmox_node}/qemu/${var.vm_id_base}/migrate \
+        --header "Authorization: PVEAPIToken=${var.proxmox_username}=${var.proxmox_token}" \
+        --data-urlencode target="spsrv" \
+        --data-urlencode targetstorage="spsrv-proxmox"
+    EOT
+    ]
+    only = ["proxmox-clone.base"]
+  }
+
+  post-processor "shell-local" {
+    inline = [<<EOT
+      curl --silent --insecure \
+        ${var.proxmox_url}/nodes/${var.proxmox_node}/qemu/${var.vm_id_k8s}/migrate \
+        --header "Authorization: PVEAPIToken=${var.proxmox_username}=${var.proxmox_token}" \
+        --data-urlencode target="spsrv" \
+        --data-urlencode targetstorage="spsrv-proxmox"
+    EOT
+    ]
+    only = ["proxmox-clone.k8s"]
+  }
 }

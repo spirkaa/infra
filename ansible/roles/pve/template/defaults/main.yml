@@ -7,10 +7,10 @@ pve_template_description: Built with Ansible
 pve_template_cores: 2
 pve_template_memory: 2048
 pve_template_disk_size: 5
-# pve_template_disk_storage: local-lvm
-# pve_template_disk_name: "{{ pve_template_disk_storage }}:vm-{{ pve_template_vmid }}-disk-0"
-pve_template_disk_storage: spsrv-proxmox
-pve_template_disk_name: "{{ pve_template_disk_storage }}:{{ pve_template_vmid }}/vm-{{ pve_template_vmid }}-disk-0.qcow2"
+pve_template_disk_storage: local-lvm
+pve_template_disk_name: "{{ pve_template_disk_storage }}:vm-{{ pve_template_vmid }}-disk-0"
+# pve_template_disk_storage: spsrv-proxmox
+# pve_template_disk_name: "{{ pve_template_disk_storage }}:{{ pve_template_vmid }}/vm-{{ pve_template_vmid }}-disk-0.qcow2"
 pve_template_net_br: vmbr1
 pve_template_net_vlan: 13
 

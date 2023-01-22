@@ -13,7 +13,7 @@ containerd_version: v1.6.15
 containerd_url: https://github.com/containerd/containerd/releases/download/{{ containerd_version }}/containerd-{{ containerd_version[1:] }}-linux-amd64.tar.gz
 containerd_cfg_dir: /etc/containerd
 # renovate: depName=kubernetes-sigs/cri-tools
-crictl_version: v1.24.2
+crictl_version: v1.25.0
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-linux-amd64.tar.gz
 # renovate: depName=containerd/nerdctl
 nerdctl_version: v1.1.0

@@ -1,1 +1,1 @@
-spsrv ansible_user=root
+sppve ansible_user=root

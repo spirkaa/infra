@@ -7,36 +7,37 @@ locals {
 
   k8s_common = {
     gw              = "192.168.13.1"
-    bus_id          = "scsi0"
+    ci_disk         = "ide2"
+    boot_disk       = "scsi0"
     storage_move_to = "local-lvm"
     clone_k8s       = "${var.template_name}-k8s"
     clone_base      = "${var.template_name}-base"
   }
 
   k8s_controlplane = {
-    k8s-controlplane-04 = {
+    k8s-controlplane-01 = {
       target_node      = "spmini"
       storage_clone_to = "spsrv-proxmox"
-      vmid             = 8104
-      ip               = "192.168.13.204"
+      vmid             = 8101
+      ip               = "192.168.13.201"
       cores            = 2
       memory           = 4096
       disk             = "20G"
     },
-    k8s-controlplane-05 = {
+    k8s-controlplane-02 = {
       target_node      = "sppve"
       storage_clone_to = "spsrv-proxmox"
-      vmid             = 8105
-      ip               = "192.168.13.205"
+      vmid             = 8102
+      ip               = "192.168.13.202"
       cores            = 2
       memory           = 4096
       disk             = "20G"
     },
-    k8s-controlplane-06 = {
+    k8s-controlplane-03 = {
       target_node      = "spsrv"
       storage_clone_to = "local-lvm"
-      vmid             = 8106
-      ip               = "192.168.13.206"
+      vmid             = 8103
+      ip               = "192.168.13.203"
       cores            = 2
       memory           = 4096
       disk             = "20G"
@@ -44,32 +45,32 @@ locals {
   }
 
   k8s_worker = {
-    k8s-worker-04 = {
+    k8s-worker-01 = {
       target_node      = "spmini"
       storage_clone_to = "spsrv-proxmox"
-      vmid             = 8114
-      ip               = "192.168.13.214"
-      ip_data          = "10.10.20.214"
+      vmid             = 8111
+      ip               = "192.168.13.211"
+      ip_data          = "10.10.20.211"
       cores            = 6
       memory           = 16384
       disk             = "50G"
     },
-    k8s-worker-05 = {
+    k8s-worker-02 = {
       target_node      = "sppve"
       storage_clone_to = "spsrv-proxmox"
-      vmid             = 8115
-      ip               = "192.168.13.215"
-      ip_data          = "10.10.20.215"
+      vmid             = 8112
+      ip               = "192.168.13.212"
+      ip_data          = "10.10.20.212"
       cores            = 6
       memory           = 16384
       disk             = "50G"
     },
-    k8s-worker-06 = {
+    k8s-worker-03 = {
       target_node      = "spsrv"
       storage_clone_to = "local-lvm"
-      vmid             = 8116
-      ip               = "192.168.13.216"
-      ip_data          = "10.10.20.216"
+      vmid             = 8113
+      ip               = "192.168.13.213"
+      ip_data          = "10.10.20.213"
       cores            = 4
       memory           = 16384
       disk             = "50G"

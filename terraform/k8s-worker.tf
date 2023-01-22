@@ -83,17 +83,17 @@ resource "proxmox_vm_qemu" "k8s_worker" {
     }
   }
 
-  # Move disk from shared to local storage
+  # Move disks from shared to local storage
   provisioner "local-exec" {
     command = <<EOT
-      curl --silent --insecure \
-        ${var.proxmox_url}/nodes/${each.value.target_node}/qemu/${each.value.vmid}/move_disk \
-        --header "Authorization: PVEAPIToken=${var.proxmox_username}=${var.proxmox_token}" \
-        --data-urlencode node="${each.value.target_node}" \
-        --data-urlencode vmid=${each.value.vmid} \
-        --data-urlencode disk="${local.k8s_common.bus_id}" \
-        --data-urlencode storage="${local.k8s_common.storage_move_to}" \
-        --data-urlencode delete=1
+      for disk in ${local.k8s_common.ci_disk} ${local.k8s_common.boot_disk}; do
+        curl --silent --insecure \
+          ${var.proxmox_url}/nodes/${each.value.target_node}/qemu/${each.value.vmid}/move_disk \
+          --header "Authorization: PVEAPIToken=${var.proxmox_username}=${var.proxmox_token}" \
+          --data-urlencode disk="$disk" \
+          --data-urlencode storage="${local.k8s_common.storage_move_to}" \
+          --data-urlencode delete=1
+      done
     EOT
   }
 }
