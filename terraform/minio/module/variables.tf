@@ -15,6 +15,12 @@ variable "bucket_force_destroy" {
   default     = false
 }
 
+variable "bucket_iam_policy" {
+  description = "Bucket IAM Policy"
+  type        = string
+  default     = ""
+}
+
 variable "bucket_ilm_policy" {
   description = "Bucket lifecycle management policy list"
   type = list(object({

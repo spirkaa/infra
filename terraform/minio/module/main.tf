@@ -1,8 +1,9 @@
 terraform {
+  required_version = "~> 1.3"
   required_providers {
     minio = {
       source  = "aminueza/minio"
-      version = ">= 1.10.0"
+      version = "~> 1.10.0"
     }
   }
 }
@@ -23,34 +24,12 @@ resource "minio_iam_group" "this" {
 }
 
 resource "minio_iam_policy" "this" {
-  name   = var.bucket
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "s3:ListBucket"
-      ],
-      "Resource": [
-        "${minio_s3_bucket.this.arn}"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "s3:DeleteObject",
-        "s3:GetObject",
-        "s3:PutObject"
-      ],
-      "Resource": [
-        "${minio_s3_bucket.this.arn}/*"
-      ]
-    }
-  ]
-}
-EOF
+  name = var.bucket
+  policy = (
+    var.bucket_iam_policy == "" ?
+    local.default_iam_policy :
+    var.bucket_iam_policy
+  )
 }
 
 resource "minio_iam_group_user_attachment" "this" {
@@ -76,4 +55,34 @@ resource "minio_ilm_policy" "this" {
       filter     = rule.value.filter
     }
   }
+}
+
+locals {
+  default_iam_policy = <<-EOT
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:ListBucket"
+          ],
+          "Resource": [
+            "arn:aws:s3:::${var.bucket}"
+          ]
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:DeleteObject",
+            "s3:GetObject",
+            "s3:PutObject"
+          ],
+          "Resource": [
+            "arn:aws:s3:::${var.bucket}/*"
+          ]
+        }
+      ]
+    }
+  EOT
 }
