@@ -2,6 +2,8 @@ thanos:
   existingObjstoreSecret: thanos-objstore
   query:
     enabled: true
+    extraFlags:
+      - --alert.query-url=https://thanos.k8s.devmem.ru
     replicaLabels:
       - replica
     dnsDiscovery:
