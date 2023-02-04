@@ -50,6 +50,12 @@
       "matchDatasources": ["docker", "helm"],
       "groupName": "consul",
       "matchPackagePatterns": ["consul"]
+    },
+    {
+      "description": "Thanos images and charts",
+      "matchDatasources": ["docker", "github-releases", "helm"],
+      "groupName": "thanos",
+      "matchPackagePatterns": ["thanos"]
     }
   ],
   "ansible": {
