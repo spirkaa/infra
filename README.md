@@ -47,7 +47,7 @@
   * Intel Xeon E3-1230 v5
   * 64GB DDR4 ECC UDIMM
   * 512GB NVMe SSD (LVM)
-  * 10x 8 TB HDD ([MergerFS](https://perfectmediaserver.com/tech-stack/mergerfs/) + [SnapRAID](https://perfectmediaserver.com/tech-stack/snapraid/))
+  * 3x 18 TB, 4x 8 TB HDD ([MergerFS](https://perfectmediaserver.com/tech-stack/mergerfs/) + [SnapRAID](https://perfectmediaserver.com/tech-stack/snapraid/))
   * 2x 12 TB HDD (ZFS mirror)
 * 2x Lenovo IdeaCentre G5-14IMB05
   * Intel Core i5-10400
