@@ -41,7 +41,7 @@ thanos:
     persistence:
       enabled: true
       storageClass: longhorn
-      size: 10Gi
+      size: 40Gi
   storegateway:
     enabled: true
     persistence:
