@@ -1,7 +1,7 @@
 jackett:
   image:
     repository: ghcr.io/spirkaa/jackett
-    tag: 0.20.3521
+    tag: 0.20.3579
   env:
     TZ: Europe/Moscow
   ingress:
