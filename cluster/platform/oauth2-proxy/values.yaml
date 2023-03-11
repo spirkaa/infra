@@ -1,4 +1,5 @@
 oauth2-proxy:
+  revisionHistoryLimit: 3
   config:
     existingSecret: oauth2-proxy
   ingress:
