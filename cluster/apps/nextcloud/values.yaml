@@ -1,7 +1,7 @@
 nextcloud:
   fullnameOverride: nextcloud
   image:
-    repository: nextcloud
+    repository: git.devmem.ru/projects/nextcloud
     tag: 25.0.4-fpm-alpine
     pullPolicy: Always
     pullSecrets:
@@ -66,7 +66,7 @@ nextcloud:
       zz-php-fpm.conf: |
         [www]
         pm = dynamic
-        pm.max_children = 50
+        pm.max_children = 75
         pm.start_servers = 12
         pm.min_spare_servers = 6
         pm.max_spare_servers = 18
@@ -76,6 +76,7 @@ nextcloud:
         php_admin_value[upload_max_filesize] = 10G
         php_admin_value[max_execution_time] = 10800
         php_admin_value[max_input_time] = 3600
+        php_admin_value[memory_limit] = 1024M
     configs:
       zz-custom.config.php: |-
         <?php
@@ -85,17 +86,37 @@ nextcloud:
             0 => 'localhost',
             1 => 'cloud.devmem.ru',
           ),
-          'trusted_proxies' => array(
+          'trusted_proxies' => array (
             0 => '127.0.0.1',
             1 => '10.244.0.0/16',
           ),
           'overwriteprotocol' => 'https',
           'default_phone_region' => 'RU',
+          'share_folder' => '/Shared',
+          'enabledPreviewProviders' => array (
+            'OC\\Preview\\Image',
+            'OC\\Preview\\HEIC',
+            'OC\\Preview\\TIFF',
+            'OC\\Preview\\Movie',
+            'OC\\Preview\\MKV',
+            'OC\\Preview\\MP4',
+            'OC\\Preview\\AVI',
+            'OC\\Preview\\MP3',
+            'OC\\Preview\\TXT',
+            'OC\\Preview\\MarkDown',
+            'OC\\Preview\\OpenDocument',
+          ),
           'preview_max_x' => '2048',
           'preview_max_y' => '2048',
           'jpeg_quality' => '65',
           'trashbin_retention_obligation' => 'auto, 365',
         );
+    extraVolumes:
+      - name: tmp
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: tmp
+        mountPath: /tmp
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000
@@ -151,7 +172,7 @@ nextcloud:
     image:
       registry: docker.io
       repository: bitnami/postgresql
-      tag: 14.6.0-debian-11-r17
+      tag: 14.7.0-debian-11-r10
     architecture: standalone
     auth:
       username: nextcloud
@@ -164,6 +185,14 @@ nextcloud:
       persistence:
         enabled: true
         storageClass: longhorn
-        size: 2Gi
+        size: 4Gi
       nodeSelector:
         devmem.ru/pve-host: spsrv
+    metrics:
+      enabled: true
+      image:
+        registry: docker.io
+        repository: bitnami/postgres-exporter
+        tag: 0.11.1-debian-11-r68
+      serviceMonitor:
+        enabled: true
