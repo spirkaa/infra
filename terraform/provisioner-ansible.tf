@@ -24,12 +24,12 @@ resource "local_file" "ansible_inventory_file" {
   filename = local.ansible_inventory
 }
 
-resource "null_resource" "ansible" {
+resource "terraform_data" "ansible" {
   depends_on = [
     local_file.ansible_inventory_file
   ]
 
-  triggers = {
+  triggers_replace = {
     always_run = timestamp()
   }
 
