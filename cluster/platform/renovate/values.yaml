@@ -10,8 +10,16 @@ renovate:
         "printConfig": false,
         "dependencyDashboard": true,
         "dependencyDashboardTitle": "Renovate Dashboard",
+        "detectHostRulesFromEnv": true,
+        "commitBodyTable": true,
         "pre-commit": {
           "enabled": true
-        }
+        },
+        "packageRules": [
+          {
+            "matchManagers": ["pre-commit"],
+            "groupName": "pre-commit"
+          }
+        ]
       }
   existingSecret: renovate

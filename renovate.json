@@ -2,10 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": ["pre-commit"],
-      "groupName": "pre-commit"
-    },
-    {
       "matchDatasources": ["helm"],
       "schedule": "on saturday",
       "automerge": true,

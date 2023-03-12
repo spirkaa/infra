@@ -63,7 +63,11 @@ vault_secrets:
   - path: secret/renovate
     kv: "gitea-token={{ lookup('env', 'RENOVATE_GITEA_TOKEN') }}
       github-token={{ lookup('env', 'RENOVATE_GITHUB_TOKEN') }}
-      git-private-key={{ lookup('env', 'RENOVATE_GIT_PRIVATE_KEY') }}"
+      git-private-key={{ lookup('env', 'RENOVATE_GIT_PRIVATE_KEY') }}
+      docker-username={{ lookup('env', 'RENOVATE_DOCKER_USERNAME') }}
+      docker-password={{ lookup('env', 'RENOVATE_DOCKER_PASSWORD') }}
+      gitea-username={{ lookup('env', 'RENOVATE_GITEA_USERNAME') }}
+      gitea-password={{ lookup('env', 'RENOVATE_GITEA_PASSWORD') }}"
   - path: secret/k8s-registry-auth
     kv: dockerconfigjson={{ lookup('env', 'K8S_REGISTRY_AUTH') }}
   - path: secret/samgrabby
