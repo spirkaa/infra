@@ -52,6 +52,12 @@
       "matchDatasources": ["docker", "github-releases", "helm"],
       "groupName": "thanos",
       "matchPackagePatterns": ["thanos"]
+    },
+    {
+      "description": "Velero images and charts",
+      "matchDatasources": ["docker", "helm"],
+      "groupName": "velero",
+      "matchPackagePatterns": ["velero"]
     }
   ],
   "ansible": {

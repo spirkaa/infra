@@ -4,11 +4,14 @@ renovate:
   renovate:
     config: |
       {
+        "extends": [
+          "config:base",
+          ":disableRateLimiting"
+        ],
         "platform": "gitea",
         "endpoint": "https://git.devmem.ru/",
         "autodiscover": true,
         "printConfig": false,
-        "dependencyDashboard": true,
         "dependencyDashboardTitle": "Renovate Dashboard",
         "detectHostRulesFromEnv": true,
         "commitBodyTable": true,
