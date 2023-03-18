@@ -17,7 +17,6 @@ spec:
       name: {{ `"{{path.basename}}"` }}
       annotations:
         argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-        argocd.argoproj.io/manifest-generate-paths: {{ `"{{path}}"` }}
     spec:
       project: default
       source:
