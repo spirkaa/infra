@@ -2,5 +2,5 @@ snapshot-controller:
   fullnameOverride: snapshot-controller
   controller:
     image:
-      repository: k8s.gcr.io/sig-storage/snapshot-controller
+      repository: registry.k8s.io/sig-storage/snapshot-controller
       tag: v6.0.1
