@@ -6,4 +6,4 @@ exclude_paths:
 skip_list:
   - meta-no-info
   - name[casing]
-  - schema
+  - role-name[path]

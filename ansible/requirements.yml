@@ -1,9 +1,9 @@
 ---
 roles:
-  - spirkaa.nano
-  - spirkaa.zsh_prezto
+  - name: spirkaa.nano
+  - name: spirkaa.zsh_prezto
 
 collections:
-  - ansible.posix
-  - community.general
-  - kubernetes.core
+  - name: ansible.posix
+  - name: community.general
+  - name: kubernetes.core

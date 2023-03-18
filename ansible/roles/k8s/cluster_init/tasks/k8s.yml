@@ -32,6 +32,7 @@
         kubeadm init
           --config {{ k8s_cluster_kubeadm_config }}
       become: true
+      changed_when: true
       when: not k8s_cluster_admin_conf.stat.exists
 
     - name: kubeconfig - create user dir
@@ -118,6 +119,7 @@
     --control-plane
     --certificate-key {{ k8s_cluster_certs_key }}
   become: true
+  changed_when: true
   when:
     - inventory_hostname != groups[k8s_cluster_controlplane_group][0]
     - k8s_cluster_controlplane_group in group_names
@@ -127,6 +129,7 @@
   ansible.builtin.command: >
     {{ k8s_cluster_join_command }}
   become: true
+  changed_when: true
   when:
     - k8s_cluster_workers_group in group_names
     - not k8s_cluster_kubelet_conf.stat.exists
