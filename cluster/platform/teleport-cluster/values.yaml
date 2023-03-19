@@ -1,7 +1,10 @@
 teleport-cluster:
-  chartMode: custom
+  chartMode: standalone
   clusterName: tele.devmem.ru
   kubeClusterName: infra
+  authentication:
+    type: local
+    secondFactor: otp
   proxyListenerMode: multiplex
   persistence:
     enabled: true
@@ -16,8 +19,7 @@ teleport-cluster:
     type: LoadBalancer
     spec:
       loadBalancerIP: 192.168.13.241
-  authenticationType: local
-  authenticationSecondFactor:
-    secondFactor: otp
   podSecurityPolicy:
     enabled: false
+  podMonitor:
+    enabled: true
