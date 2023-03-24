@@ -13,6 +13,7 @@ pve_api_role_privs: >
   Pool.Allocate
   Pool.Audit
   Sys.Audit
+  Sys.Console
   Sys.Modify
   VM.Allocate
   VM.Audit
