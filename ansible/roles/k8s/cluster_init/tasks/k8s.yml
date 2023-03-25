@@ -80,7 +80,7 @@
         mode: 0644
       register: _download_manifest
 
-    - name: pod network - apply kustomized manifest to cluster
+    - name: pod network - apply kustomized manifest to cluster  # noqa no-handler
       ansible.builtin.command: >
         kubectl apply --kustomize {{ k8s_cluster_pod_network_manifest_dir }}/
       register: k8s_cluster_network_result

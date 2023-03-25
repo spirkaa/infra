@@ -1,9 +1,11 @@
 ---
-- import_playbook: packer_provisioner_base.yml
+- name: import packer_provisioner_base.yml
+  ansible.builtin.import_playbook: packer_provisioner_base.yml
   tags:
     - base
     - k8s
 
-- import_playbook: packer_provisioner_k8s.yml
+- name: import packer_provisioner_k8s.yml
+  ansible.builtin.import_playbook: packer_provisioner_k8s.yml
   tags:
     - k8s

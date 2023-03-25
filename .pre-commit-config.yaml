@@ -7,12 +7,12 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.29.0
+    rev: v1.30.0
     hooks:
       - id: yamllint
         args: [--strict]
   - repo: https://github.com/ansible/ansible-lint
-    rev: v6.14.2
+    rev: v6.14.3
     hooks:
       - id: ansible-lint
   - repo: https://github.com/antonbabenko/pre-commit-terraform
