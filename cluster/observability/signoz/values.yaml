@@ -13,6 +13,7 @@ signoz:
       endpoint: https://s3.home.devmem.ru/signoz/data/
       accessKey: <path:secret/data/signoz#s3-key>
       secretAccess: <path:secret/data/signoz#s3-key-secret>
+      defaultKeepFreeSpaceBytes: "2147483648"
     zookeeper:
       persistence:
         enabled: true
