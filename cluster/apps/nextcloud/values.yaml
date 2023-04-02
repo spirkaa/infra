@@ -110,6 +110,12 @@ nextcloud:
           'preview_max_y' => '2048',
           'jpeg_quality' => '65',
           'trashbin_retention_obligation' => 'auto, 365',
+          'log.condition' => [
+            'apps' => ['admin_audit'],
+          ],
+          'log_type_audit' => 'errorlog',
+          'log_type' => 'errorlog',
+          'loglevel' => 2,
         );
     extraVolumes:
       - name: tmp
