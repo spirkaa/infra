@@ -116,6 +116,7 @@ nextcloud:
           'log_type_audit' => 'errorlog',
           'log_type' => 'errorlog',
           'loglevel' => 2,
+          'memories.exiftool' => '/var/www/html/custom_apps/memories/exiftool-bin/exiftool-amd64-glibc',
         );
     extraVolumes:
       - name: tmp
