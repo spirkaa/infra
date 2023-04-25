@@ -3,5 +3,5 @@ name: velero
 version: 0.0.0
 dependencies:
   - name: velero
-    version: 3.1.6
+    version: 3.2.0
     repository: https://vmware-tanzu.github.io/helm-charts
