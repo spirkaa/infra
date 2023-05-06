@@ -15,18 +15,20 @@ velero:
   configuration:
     extraEnvVars:
       TZ: "Europe/Moscow"
-    provider: aws
     backupStorageLocation:
-      bucket: velero
-      config:
-        region: main
-        s3ForcePathStyle: true
-        s3Url: https://s3.home.devmem.ru
-        publicUrl: https://s3.devmem.ru
+      - name: backups-primary
+        provider: aws
+        bucket: velero
+        config:
+          region: main
+          s3ForcePathStyle: true
+          s3Url: https://s3.home.devmem.ru
+          publicUrl: https://s3.devmem.ru
     volumeSnapshotLocation:
-      name: default
-      config:
-        region: main
+      - name: default
+        provider: aws
+        config:
+          region: main
     features: EnableCSI
   credentials:
     useSecret: true
@@ -35,3 +37,10 @@ velero:
     enabled: true
     serviceMonitor:
       enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
