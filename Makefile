@@ -152,4 +152,4 @@ test-show:
 	@cd terraform/test; terraform show
 
 change:
-	@cd terraform; terraform apply -target=proxmox_vm_qemu.k8s_controlplane[\"k8s-controlplane-03\"]
+	@cd terraform; terraform apply -target=proxmox_vm_qemu.k8s_worker[\"k8s-worker-03\"]

@@ -36,7 +36,7 @@ resource "proxmox_vm_qemu" "k8s_worker" {
     slot    = 1
     type    = "scsi"
     storage = "local-lvm"
-    size    = "150G"
+    size    = "200G"
     discard = "on"
     ssd     = 1
   }
