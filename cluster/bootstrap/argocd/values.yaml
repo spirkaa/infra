@@ -16,13 +16,13 @@ argo-cd:
         emptyDir: {}
     initContainers:
       - name: argocd-lovely-plugin-download
-        image: ghcr.io/crumbhole/argocd-lovely-plugin:0.17.0
+        image: ghcr.io/crumbhole/argocd-lovely-plugin:0.18.0
         imagePullPolicy: Always
         volumeMounts:
           - mountPath: /custom-tools
             name: custom-tools
       - name: download-tools
-        image: alpine:3.17
+        image: alpine:3.18
         command: [sh, -c]
         env:
           - name: AVP_VERSION
