@@ -1,7 +1,7 @@
 sonarr:
   image:
     repository: ghcr.io/onedr0p/sonarr-develop
-    tag: 4.0.0.507
+    tag: 4.0.0.526
   env:
     TZ: Europe/Moscow
   ingress:
