@@ -5,12 +5,16 @@ gitlab-runner:
   concurrent: 5
   rbac:
     create: true
+    rules:
+      - apiGroups: [""]
+        resources: ["*"]
+        verbs: ["*"]
   runners:
     secret: gitlab-runner
     config: |
       [[runners]]
         [runners.kubernetes]
-          image = "alpine:3.16"
+          image = "alpine:3.18"
         [runners.cache]
           Type = "s3"
           Path = "gitlab-runner"
@@ -19,5 +23,5 @@ gitlab-runner:
             ServerAddress = "s3.home.devmem.ru"
             BucketName = "gitlab"
             BucketLocation = "main"
-    cache:
-      secretName: s3access
+  secrets:
+    - name: s3access
