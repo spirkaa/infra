@@ -30,46 +30,46 @@ authentik:
     AK_ADMIN_PASS:
       secretKeyRef:
         key: ak-admin-password
-        name: authentik
+        name: authentik-vault
     AK_ADMIN_TOKEN:
       secretKeyRef:
         key: ak-admin-token
-        name: authentik
+        name: authentik-vault
     AUTHENTIK_SECRET_KEY:
       secretKeyRef:
         key: secret-key
-        name: authentik
+        name: authentik-vault
     AUTHENTIK_POSTGRESQL__PASSWORD:
       secretKeyRef:
         key: postgresql-password
-        name: authentik
+        name: authentik-vault
     AUTHENTIK_EMAIL__HOST:
       secretKeyRef:
         key: email-host
-        name: authentik
+        name: authentik-vault
     AUTHENTIK_EMAIL__PORT:
       secretKeyRef:
         key: email-port
-        name: authentik
+        name: authentik-vault
     AUTHENTIK_EMAIL__USERNAME:
       secretKeyRef:
         key: email-username
-        name: authentik
+        name: authentik-vault
     AUTHENTIK_EMAIL__PASSWORD:
       secretKeyRef:
         key: email-password
-        name: authentik
+        name: authentik-vault
     AUTHENTIK_EMAIL__FROM:
       secretKeyRef:
         key: email-username
-        name: authentik
+        name: authentik-vault
   env:
     AUTHENTIK_DEFAULT_USER_CHANGE_NAME: false
     AUTHENTIK_DEFAULT_USER_CHANGE_EMAIL: false
     AUTHENTIK_DEFAULT_USER_CHANGE_USERNAME: false
   postgresql:
     enabled: true
-    existingSecret: authentik
+    existingSecret: authentik-vault
     persistence:
       enabled: true
       storageClass: longhorn
