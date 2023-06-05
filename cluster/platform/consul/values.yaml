@@ -10,7 +10,7 @@ consul:
       enabled: true
       enableAgentMetrics: true
   server:
-    enalbed: true
+    enabled: true
     replicas: 3
     storage: 1Gi
     storageClass: longhorn-sts
@@ -30,7 +30,7 @@ consul:
         }
       }
   ui:
-    enalbed: true
+    enabled: true
     ingress:
       enabled: true
       ingressClassName: nginx
