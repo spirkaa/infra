@@ -2,15 +2,20 @@ longhorn:
   defaultSettings:
     defaultReplicaCount: 2
     nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+    fastReplicaRebuildEnabled: true
     replicaAutoBalance: best-effort
+    removeSnapshotsDuringFilesystemTrim: true
     concurrentAutomaticEngineUpgradePerNodeLimit: 1
     backupTarget: s3://longhorn@minio/
     backupTargetCredentialSecret: longhorn-backup
+    # Node Drain Policy: allow-if-replica-is-stopped
   persistence:
     defaultClass: true
     defaultClassReplicaCount: 2
     reclaimPolicy: Retain
-    removeSnapshotsDuringFilesystemTrim: enabled
+    recurringJobSelector:
+      enable: true
+      jobList: '[{"name": "snapshot-default", "isGroup": false}, {"name": "backup-default", "isGroup": false}]'
   longhornUI:
     replicas: 1
   ingress:
