@@ -179,7 +179,7 @@ nextcloud:
     image:
       registry: docker.io
       repository: bitnami/postgresql
-      tag: 14.7.0-debian-11-r10
+      tag: 14.8.0-debian-11-r10
     architecture: standalone
     auth:
       username: nextcloud
