@@ -3,5 +3,5 @@ name: gitlab-runner
 version: 0.0.0
 dependencies:
   - name: gitlab-runner
-    version: 0.53.1
+    version: 0.53.2
     repository: https://charts.gitlab.io
