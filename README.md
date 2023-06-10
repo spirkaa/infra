@@ -46,12 +46,14 @@
 * 1x Custom NAS (Fractal Design Define R6, Corsair RM650x)
   * Intel Xeon E3-1230 v5
   * 64GB DDR4 ECC UDIMM
+  * 1TB NVMe SSD (LVM)
   * 512GB NVMe SSD (LVM)
-  * 3x 18 TB, 4x 8 TB HDD ([MergerFS](https://perfectmediaserver.com/tech-stack/mergerfs/) + [SnapRAID](https://perfectmediaserver.com/tech-stack/snapraid/))
-  * 2x 12 TB HDD (ZFS mirror)
+  * 2x 20TB, 3x 18TB HDD ([MergerFS](https://perfectmediaserver.com/tech-stack/mergerfs/) + [SnapRAID](https://perfectmediaserver.com/tech-stack/snapraid/))
+  * 2x 12TB HDD (ZFS mirror)
 * 2x Lenovo IdeaCentre G5-14IMB05
   * Intel Core i5-10400
   * 32GB DDR4
+  * 1TB NVMe SSD (LVM)
   * 512GB NVMe SSD (LVM)
 * 1x Ubiquiti EdgeRouter X
 * 1x Ubiquiti EdgeSwitch 24 Lite
