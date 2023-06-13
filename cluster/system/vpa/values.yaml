@@ -17,3 +17,7 @@ vpa:
       container-name-label: container
   updater:
     enabled: false
+  admissionController:
+    enabled: false
+  metrics-server:
+    enabled: false
