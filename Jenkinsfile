@@ -34,7 +34,7 @@ pipeline {
     SSH_PUB_KEY_1 = credentials('ssh-pub-key-spirkaa-sphome-fc')
     SSH_PUB_KEY_2 = credentials('ssh-pub-key-jenkins-ci')
 
-    PROXMOX_NODE = 'spsrv'
+    PROXMOX_NODE = 'sppve'
     TF_VAR_proxmox_url = "https://${PROXMOX_NODE}:8006/api2/json"
     TF_VAR_template_name = 'tpl-ubuntu-2204'
 
@@ -105,7 +105,7 @@ pipeline {
       steps {
         sh '''#!/bin/bash
           cd ansible
-          ansible-playbook pve_template_build.yml --private-key ~/.ssh/id_rsa
+          ansible-playbook pve_template_build.yml --private-key ~/.ssh/id_rsa -e "pve_host=$PROXMOX_NODE"
         '''
       }
     }
