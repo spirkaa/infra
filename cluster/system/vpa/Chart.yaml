@@ -3,5 +3,5 @@ name: vpa
 version: 0.0.0
 dependencies:
   - name: vpa
-    version: 2.1.0
+    version: 2.1.1
     repository: https://charts.fairwinds.com/stable
