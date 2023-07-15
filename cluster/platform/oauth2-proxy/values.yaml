@@ -29,6 +29,9 @@ oauth2-proxy:
     pass-user-headers: true
     set-authorization-header: true
     set-xauthrequest: true
+  initContainers:
+    waitForRedis:
+      enabled: false
   sessionStorage:
     type: redis
   redis:
