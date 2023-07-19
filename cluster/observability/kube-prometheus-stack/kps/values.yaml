@@ -1,4 +1,6 @@
 kube-prometheus-stack:
+  crds:
+    enabled: false
   fullnameOverride: kps
   alertmanager:
     externalUrl: https://alertmanager.k8s.devmem.ru
