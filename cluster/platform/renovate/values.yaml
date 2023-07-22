@@ -5,7 +5,7 @@ renovate:
     config: |
       {
         "extends": [
-          "config:base",
+          "config:recommended",
           ":disableRateLimiting"
         ],
         "platform": "gitea",
