@@ -8,7 +8,7 @@ longhorn:
     concurrentAutomaticEngineUpgradePerNodeLimit: 1
     backupTarget: s3://longhorn@minio/
     backupTargetCredentialSecret: longhorn-backup
-    # Node Drain Policy: allow-if-replica-is-stopped
+    nodeDrainPolicy: allow-if-replica-is-stopped
   persistence:
     defaultClass: true
     defaultClassReplicaCount: 2
