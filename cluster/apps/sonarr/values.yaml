@@ -29,7 +29,7 @@ sonarr:
       type: pvc
       accessMode: ReadWriteOnce
       storageClass: longhorn
-      size: 1Gi
+      size: 2Gi
     nfs-downloads:
       enabled: true
       existingClaim: nfs-downloads-pvc
