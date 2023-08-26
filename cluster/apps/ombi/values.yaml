@@ -1,7 +1,7 @@
 ombi:
   image:
     repository: ghcr.io/spirkaa/ombi
-    tag: 4.39.1
+    tag: 4.43.5
   env:
     TZ: Europe/Moscow
   envFrom:
