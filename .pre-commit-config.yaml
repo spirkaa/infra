@@ -12,11 +12,11 @@ repos:
       - id: yamllint
         args: [--strict]
   - repo: https://github.com/ansible/ansible-lint
-    rev: v6.17.2
+    rev: v6.18.0
     hooks:
       - id: ansible-lint
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.82.0
+    rev: v1.83.0
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
