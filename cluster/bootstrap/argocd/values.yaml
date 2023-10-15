@@ -16,7 +16,7 @@ argo-cd:
         emptyDir: {}
     initContainers:
       - name: argocd-lovely-plugin-download
-        image: ghcr.io/crumbhole/argocd-lovely-plugin:0.21.0
+        image: ghcr.io/crumbhole/argocd-lovely-plugin:0.21.1
         imagePullPolicy: Always
         volumeMounts:
           - mountPath: /custom-tools
