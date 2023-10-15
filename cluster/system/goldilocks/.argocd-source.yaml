@@ -1,5 +1,0 @@
-plugin:
-  name: kustomized-helm
-  env:
-    - name: HELM_ARGS
-      value: "--include-crds"
