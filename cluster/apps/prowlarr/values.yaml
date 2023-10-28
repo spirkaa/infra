@@ -1,7 +1,7 @@
 prowlarr:
   image:
     repository: ghcr.io/onedr0p/prowlarr-nightly
-    tag: 1.10.0.4046
+    tag: 1.10.1.4059
   env:
     TZ: Europe/Moscow
   ingress:
