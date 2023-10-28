@@ -119,8 +119,9 @@ kube-prometheus-stack:
       thanos:
         image: quay.io/thanos/thanos:v0.32.5
         objectStorageConfig:
-          name: thanos-objstore
-          key: objstore.yml
+          existingSecret:
+            name: thanos-objstore
+            key: objstore.yml
       storageSpec:
         volumeClaimTemplate:
           spec:
