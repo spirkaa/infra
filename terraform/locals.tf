@@ -53,7 +53,7 @@ locals {
       ip_data          = "10.10.20.211"
       cores            = 6
       memory           = 16384
-      disk             = "50G"
+      disk             = "60G"
     },
     k8s-worker-02 = {
       target_node      = "sppve"
@@ -63,7 +63,7 @@ locals {
       ip_data          = "10.10.20.212"
       cores            = 6
       memory           = 16384
-      disk             = "50G"
+      disk             = "60G"
     },
     k8s-worker-03 = {
       target_node      = "spsrv"
@@ -71,16 +71,6 @@ locals {
       vmid             = 8113
       ip               = "192.168.13.213"
       ip_data          = "10.10.20.213"
-      cores            = 4
-      memory           = 16384
-      disk             = "50G"
-    },
-    k8s-worker-04 = {
-      target_node      = "spsrv"
-      storage_clone_to = "local-lvm"
-      vmid             = 8114
-      ip               = "192.168.13.214"
-      ip_data          = "10.10.20.214"
       cores            = 4
       memory           = 16384
       disk             = "60G"

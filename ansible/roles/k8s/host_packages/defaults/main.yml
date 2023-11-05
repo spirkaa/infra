@@ -13,15 +13,15 @@ containerd_version: v1.7.8
 containerd_url: https://github.com/containerd/containerd/releases/download/{{ containerd_version }}/containerd-{{ containerd_version[1:] }}-linux-amd64.tar.gz
 containerd_cfg_dir: /etc/containerd
 # renovate: depName=kubernetes-sigs/cri-tools
-crictl_version: v1.25.0
+crictl_version: v1.28.0
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-linux-amd64.tar.gz
 # renovate: depName=containerd/nerdctl
-nerdctl_version: v1.6.2
+nerdctl_version: v1.7.0
 nerdctl_url: https://github.com/containerd/nerdctl/releases/download/{{ nerdctl_version }}/nerdctl-{{ nerdctl_version[1:] }}-linux-amd64.tar.gz
 nerdctl_cfg_dir: /etc/nerdctl
 
 kubernetes_version: "{{ inventory__kubernetes_version }}"
-kubernetes_repo: https://storage.googleapis.com/kubernetes-release/release/{{ kubernetes_version }}/bin/linux/amd64
+kubernetes_repo: https://dl.k8s.io/release/{{ kubernetes_version }}/bin/linux/amd64
 kubernetes_bins:
   - "{{ kubernetes_repo }}/kubelet"
   - "{{ kubernetes_repo }}/kubectl"

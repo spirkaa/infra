@@ -62,7 +62,7 @@ resource "proxmox_vm_qemu" "k8s_lb" {
     connection {
       host        = self.default_ipv4_address
       user        = local.vm_user
-      timeout     = "10s"
+      timeout     = "60s"
       private_key = file("~/.ssh/id_rsa")
     }
   }
