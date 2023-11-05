@@ -5,6 +5,8 @@ metadata:
   name: deluge
   labels:
     app.kubernetes.io/name: deluge
+  annotations:
+    secret.reloader.stakater.com/reload: "deluge"
 spec:
   replicas: 1
   revisionHistoryLimit: 3
