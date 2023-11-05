@@ -9,6 +9,8 @@ remote_state {
     region                      = "main"
     bucket                      = "terraform"
     key                         = "minio/${path_relative_to_include()}/terraform.tfstate"
+    skip_requesting_account_id  = true
+    skip_s3_checksum            = true
     skip_credentials_validation = true
     skip_region_validation      = true
     skip_metadata_api_check     = true

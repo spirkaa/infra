@@ -1,11 +1,31 @@
-terraform {
-  required_version = "~> 1.4"
-  required_providers {
-    minio = {
-      source  = "aminueza/minio"
-      version = "~> 1.15"
+locals {
+  default_iam_policy = <<-EOT
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:ListBucket"
+          ],
+          "Resource": [
+            "arn:aws:s3:::${var.bucket}"
+          ]
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:DeleteObject",
+            "s3:GetObject",
+            "s3:PutObject"
+          ],
+          "Resource": [
+            "arn:aws:s3:::${var.bucket}/*"
+          ]
+        }
+      ]
     }
-  }
+  EOT
 }
 
 resource "minio_s3_bucket" "this" {
@@ -55,34 +75,4 @@ resource "minio_ilm_policy" "this" {
       filter     = rule.value.filter
     }
   }
-}
-
-locals {
-  default_iam_policy = <<-EOT
-    {
-      "Version": "2012-10-17",
-      "Statement": [
-        {
-          "Effect": "Allow",
-          "Action": [
-            "s3:ListBucket"
-          ],
-          "Resource": [
-            "arn:aws:s3:::${var.bucket}"
-          ]
-        },
-        {
-          "Effect": "Allow",
-          "Action": [
-            "s3:DeleteObject",
-            "s3:GetObject",
-            "s3:PutObject"
-          ],
-          "Resource": [
-            "arn:aws:s3:::${var.bucket}/*"
-          ]
-        }
-      ]
-    }
-  EOT
 }

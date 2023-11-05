@@ -41,7 +41,7 @@ locals {
       cores            = 2
       memory           = 4096
       disk             = "20G"
-    }
+    },
   }
 
   k8s_worker = {
@@ -74,7 +74,17 @@ locals {
       cores            = 4
       memory           = 16384
       disk             = "50G"
-    }
+    },
+    k8s-worker-04 = {
+      target_node      = "spsrv"
+      storage_clone_to = "local-lvm"
+      vmid             = 8114
+      ip               = "192.168.13.214"
+      ip_data          = "10.10.20.214"
+      cores            = 4
+      memory           = 16384
+      disk             = "60G"
+    },
   }
 
   k8s_lb = {
@@ -95,6 +105,6 @@ locals {
       cores            = 2
       memory           = 1024
       disk             = "10G"
-    }
+    },
   }
 }
