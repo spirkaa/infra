@@ -4,30 +4,20 @@ argo-cd:
       create: true
       name: argocd-repo-server
       automountServiceAccountToken: true
-    volumeMounts:
-      - name: custom-tools
-        mountPath: /usr/local/bin/argocd-lovely-plugin
-        subPath: argocd-lovely-plugin
-      - name: custom-tools
-        mountPath: /usr/local/bin/argocd-vault-plugin
-        subPath: argocd-vault-plugin
     volumes:
+      - name: argocd-cmp-cm
+        configMap:
+          name: argocd-cmp-cm
       - name: custom-tools
         emptyDir: {}
     initContainers:
-      - name: argocd-lovely-plugin-download
-        image: ghcr.io/crumbhole/argocd-lovely-plugin:0.22.1
-        imagePullPolicy: Always
-        volumeMounts:
-          - mountPath: /custom-tools
-            name: custom-tools
-      - name: download-tools
+      - name: avp-download
         image: alpine:3.18
-        command: [sh, -c]
         env:
           - name: AVP_VERSION
             # renovate: depName=argoproj-labs/argocd-vault-plugin
             value: "v1.16.1"
+        command: [sh, -c]
         args:
           - >-
             set -eux &&
@@ -36,17 +26,53 @@ argo-cd:
             chmod +x argocd-vault-plugin &&
             mv argocd-vault-plugin /custom-tools/
         volumeMounts:
-          - mountPath: /custom-tools
-            name: custom-tools
-    env:
-      - name: VAULT_ADDR
-        value: http://vault.vault:8200
-      - name: AVP_TYPE
-        value: vault
-      - name: AVP_AUTH_TYPE
-        value: k8s
-      - name: AVP_K8S_ROLE
-        value: argocd-repo-server
+          - name: custom-tools
+            mountPath: /custom-tools
+    extraContainers:
+      - name: kustomized-helm
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: "{{ default .Values.global.image.repository .Values.repoServer.image.repository }}:{{ default (include \"argo-cd.defaultTag\" .) .Values.repoServer.image.tag }}"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        volumeMounts:
+          - name: var-files
+            mountPath: /var/run/argocd
+          - name: plugins
+            mountPath: /home/argocd/cmp-server/plugins
+          - name: tmp
+            mountPath: /tmp
+          - name: argocd-cmp-cm
+            mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: kustomized-helm.yaml
+      - name: avp-kustomized-helm
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: "{{ default .Values.global.image.repository .Values.repoServer.image.repository }}:{{ default (include \"argo-cd.defaultTag\" .) .Values.repoServer.image.tag }}"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        volumeMounts:
+          - name: var-files
+            mountPath: /var/run/argocd
+          - name: plugins
+            mountPath: /home/argocd/cmp-server/plugins
+          - name: tmp
+            mountPath: /tmp
+          - name: argocd-cmp-cm
+            mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: avp-kustomized-helm.yaml
+          - name: custom-tools
+            mountPath: /usr/local/bin/argocd-vault-plugin
+            subPath: argocd-vault-plugin
+        env:
+          - name: VAULT_ADDR
+            value: http://vault.vault:8200
+          - name: AVP_TYPE
+            value: vault
+          - name: AVP_AUTH_TYPE
+            value: k8s
+          - name: AVP_K8S_ROLE
+            value: argocd-repo-server
     metrics:
       enabled: true
       serviceMonitor:
@@ -70,42 +96,6 @@ argo-cd:
         issuer: https://dex.auth.devmem.ru
         clientID: argocd
         clientSecret: $oidc.dex.clientSecret
-      configManagementPlugins: |
-        - name: argocd-lovely-plugin
-          generate:
-            command: ["argocd-lovely-plugin"]
-        - name: argocd-vault-plugin-helm
-          init:
-            command: ["sh", "-c"]
-            args: ["helm dependency build || true"]
-          generate:
-            command: ["sh", "-c"]
-            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - | argocd-vault-plugin generate -"]
-        - name: argocd-vault-plugin-kustomized-helm
-          init:
-            command: ["sh", "-c"]
-            args: ["helm dependency build || true"]
-          generate:
-            command: ["sh", "-c"]
-            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build | argocd-vault-plugin generate -"]
-        - name: kustomized-helm
-          init:
-            command: ["sh", "-c"]
-            args: ["helm dependency build || true"]
-          generate:
-            command: ["sh", "-c"]
-            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - > all.yaml && kustomize build"]
-        - name: helm
-          init:
-            command: ["sh", "-c"]
-            args: ["helm dependency build || true"]
-          generate:
-            command: ["sh", "-c"]
-            args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f -"]
-        - name: kustomize
-          generate:
-            command: ["sh", "-c"]
-            args: ["kustomize build ."]
       statusbadge.enabled: "true"
       server.rbac.log.enforce.enable: "true"
       exec.enabled: "true"
@@ -146,6 +136,38 @@ argo-cd:
     rbac:
       policy.csv: |
         g, argocd_admins, role:admin
+    cmp:
+      create: true
+      plugins:
+        kustomized-helm:
+          init:
+            command:
+              - sh
+              - "-c"
+              - >-
+                helm dependency build || true
+          generate:
+            command:
+              - sh
+              - "-c"
+              - >-
+                echo "$ARGOCD_ENV_HELM_VALUES" |
+                helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS . -f - >all.yaml && kustomize build
+        avp-kustomized-helm:
+          init:
+            command:
+              - sh
+              - "-c"
+              - >-
+                helm dependency build || true
+          generate:
+            command:
+              - sh
+              - "-c"
+              - >-
+                echo "$ARGOCD_ENV_HELM_VALUES" |
+                helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS . -f - >all.yaml && kustomize build |
+                argocd-vault-plugin generate -
   server:
     ingress:
       enabled: true

@@ -115,7 +115,7 @@
 
 ### CI/CD, GitOps
 
-* [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-lovely-plugin](https://github.com/crumbhole/argocd-lovely-plugin) + [argocd-vault-plugin](https://github.com/argoproj-labs/argocd-vault-plugin)
+* [ArgoCD](https://github.com/argoproj/argo-cd) + [argocd-vault-plugin](https://github.com/argoproj-labs/argocd-vault-plugin)
 * [Renovate](https://github.com/renovatebot/renovate)
 * [gitlab-runner](https://gitlab.com/gitlab-org/charts/gitlab-runner)
 * [jenkins k8s agent](https://github.com/jenkinsci/jenkins)

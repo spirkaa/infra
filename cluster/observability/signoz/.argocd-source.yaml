@@ -1,5 +1,5 @@
 plugin:
-  name: argocd-vault-plugin-kustomized-helm
+  name: avp-kustomized-helm
   env:
     - name: HELM_ARGS
       value: "--include-crds"
