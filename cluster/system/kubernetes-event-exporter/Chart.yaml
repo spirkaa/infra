@@ -3,5 +3,5 @@ name: kubernetes-event-exporter
 version: 0.0.0
 dependencies:
   - name: kubernetes-event-exporter
-    version: 2.8.2
+    version: 2.8.3
     repository: https://charts.bitnami.com/bitnami
