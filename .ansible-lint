@@ -7,3 +7,4 @@ skip_list:
   - meta-no-info
   - name[casing]
   - role-name[path]
+  - var-naming[no-role-prefix]
