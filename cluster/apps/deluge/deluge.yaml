@@ -24,7 +24,7 @@ spec:
         devmem.ru/pve-host: spsrv
       containers:
         - name: deluge
-          image: binhex/arch-delugevpn:2.1.1-3-06
+          image: binhex/arch-delugevpn:2.1.1-4-05
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
@@ -42,7 +42,7 @@ spec:
           startupProbe:
             tcpSocket:
               port: http
-            failureThreshold: 20
+            failureThreshold: 30
             periodSeconds: 10
           volumeMounts:
             - name: config
@@ -51,10 +51,10 @@ spec:
               mountPath: /downloads
           resources:
             requests:
-              cpu: 600m
+              cpu: 300m
               memory: 1280Mi
             limits:
-              cpu: 1100m
+              cpu: 2000m
               memory: 1536Mi
           securityContext:
             privileged: true
