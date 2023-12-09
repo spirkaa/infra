@@ -1,7 +1,7 @@
 vikunja:
   image:
     repository: caddy
-    tag: 2.6.4-alpine
+    tag: 2.7.6-alpine
   ingress:
     main:
       enabled: true
