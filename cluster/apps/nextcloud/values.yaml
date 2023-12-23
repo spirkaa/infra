@@ -2,7 +2,7 @@ nextcloud:
   fullnameOverride: nextcloud
   image:
     repository: git.devmem.ru/projects/nextcloud
-    tag: 25.0.13-fpm
+    tag: 26.0.10-fpm
     pullPolicy: Always
     pullSecrets:
       - regcred
@@ -179,7 +179,7 @@ nextcloud:
     image:
       registry: docker.io
       repository: bitnami/postgresql
-      tag: 14.10.0-debian-11-r12
+      tag: 14.10.0-debian-11-r18
     architecture: standalone
     auth:
       username: nextcloud
