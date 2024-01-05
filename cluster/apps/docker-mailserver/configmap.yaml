@@ -56,19 +56,7 @@ data:
       }
     }
 
-    service lmtp {
-      unix_listener lmtp {
-        mode = 0660
-        group = postfix
-      }
-
-      # Create inet listener only if you can't use the above UNIX socket
-      #inet_listener lmtp {
-        # Avoid making LMTP visible for the entire internet
-        #address =
-        #port =
-      #}
-    }
+    !include lmtp-master.inc
 
     service imap {
       # Most of the memory goes to mmap()ing files. You may need to increase this
@@ -111,10 +99,10 @@ data:
       }
 
       # Postfix smtp-auth
-      unix_listener /var/spool/postfix/private/auth {
-        mode = 0666
-        user = docker
-        group = docker
+      unix_listener /dev/shm/sasl-auth.sock {
+        mode = 0660
+        user = postfix
+        group = postfix
       }
 
       # Auth process is run as this user.
@@ -137,6 +125,8 @@ data:
         #group =
       }
     }
+
+    !include chroot.inc
   15-mailboxes.conf: |
     ##
     ## Mailbox definitions
@@ -197,14 +187,14 @@ data:
     [DEFAULT]
 
     # "bantime" is the number of seconds that a host is banned.
-    bantime = 3h
+    bantime = 1w
 
     # A host is banned if it has generated "maxretry" during the last "findtime"
     # seconds.
-    findtime = 10m
+    findtime = 1w
 
     # "maxretry" is the number of failures before a host get banned.
-    maxretry = 3
+    maxretry = 6
 
     # "ignoreip" can be a list of IP addresses, CIDR masks or DNS hosts. Fail2ban
     # will not ban a host which matches an address in this list. Several addresses
@@ -221,6 +211,9 @@ data:
 
     [postfix]
     enabled = true
+    # For a reference on why this mode was chose, see
+    # https://github.com/docker-mailserver/docker-mailserver/issues/3256#issuecomment-1511188760
+    mode = extra
 
     [postfix-sasl]
     enabled = true
