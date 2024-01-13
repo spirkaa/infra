@@ -48,7 +48,7 @@ prometheus-consul-exporter:
   fullnameOverride: consul-exporter
   image:
     repository: prom/consul-exporter
-    tag: v0.10.0
+    tag: v0.11.0
   consulServer: consul-server:8500
   serviceMonitor:
     enabled: true
