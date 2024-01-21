@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: deluge
   annotations:
-    secret.reloader.stakater.com/reload: "deluge"
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -27,7 +27,7 @@ spec:
           image: binhex/arch-delugevpn:2.1.1-4-05
           imagePullPolicy: IfNotPresent
           envFrom:
-            - secretRef:
+            - configMapRef:
                 name: deluge
           ports:
             - name: http
@@ -45,6 +45,8 @@ spec:
             failureThreshold: 30
             periodSeconds: 10
           volumeMounts:
+            - name: wireguard
+              mountPath: /config/wireguard
             - name: config
               mountPath: /config
             - name: nfs-downloads
@@ -69,6 +71,9 @@ spec:
                     iptables -A INPUT -s 10.244.0.0/16 -i eth0 -p tcp -m tcp --dport 58846 -j ACCEPT
                     iptables -A OUTPUT -d 10.244.0.0/16 -o eth0 -p tcp -m tcp --sport 58846 -j ACCEPT
       volumes:
+        - name: wireguard
+          secret:
+            secretName: deluge-wireguard
         - name: config
           persistentVolumeClaim:
             claimName: deluge-config
@@ -81,96 +86,3 @@ spec:
         sysctls:
           - name: net.ipv4.conf.all.src_valid_mark
             value: "1"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: deluge-config
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: longhorn
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: deluge
-  labels:
-    app.kubernetes.io/name: deluge
-spec:
-  type: ClusterIP
-  ports:
-    - port: 8112
-      targetPort: http
-      protocol: TCP
-      name: http
-    - port: 58846
-      targetPort: daemon
-      protocol: TCP
-      name: daemon
-  selector:
-    app.kubernetes.io/name: deluge
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: deluge
-  labels:
-    app.kubernetes.io/name: deluge
-  annotations:
-    kubernetes.io/tls-acme: "true"
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: &host deluge.home.devmem.ru
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: deluge
-                port:
-                  number: 8112
-  tls:
-    - hosts:
-        - *host
----
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: deluge
-spec:
-  secretStoreRef:
-    kind: ClusterSecretStore
-    name: vault-backend
-  target:
-    template:
-      data:
-        VPN_ENABLED: "yes"
-        VPN_USER: "{{ .vpnUser }}"
-        VPN_PASS: "{{ .vpnPass }}"
-        VPN_PROV: pia
-        VPN_CLIENT: wireguard
-        STRICT_PORT_FORWARD: "yes"
-        ENABLE_PRIVOXY: "no"
-        LAN_NETWORK: 10.244.0.0/16,192.168.0.0/16
-        NAME_SERVERS: 84.200.69.80,37.235.1.174,1.1.1.1,37.235.1.177,84.200.70.40,1.0.0.1
-        DELUGE_DAEMON_LOG_LEVEL: info
-        DELUGE_WEB_LOG_LEVEL: info
-        DEBUG: "false"
-        UMASK: "022"
-        PUID: "1000"
-        PGID: "1000"
-  data:
-    - secretKey: vpnUser
-      remoteRef:
-        key: secret/deluge
-        property: vpn-user
-    - secretKey: vpnPass
-      remoteRef:
-        key: secret/deluge
-        property: vpn-pass

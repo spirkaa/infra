@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: deluge
+  labels:
+    app.kubernetes.io/name: deluge
+data:
+  VPN_ENABLED: "yes"
+  VPN_PROV: custom
+  VPN_CLIENT: wireguard
+  ENABLE_PRIVOXY: "no"
+  LAN_NETWORK: 10.244.0.0/16,192.168.0.0/16
+  NAME_SERVERS: 84.200.69.80,37.235.1.174,1.1.1.1,37.235.1.177,84.200.70.40,1.0.0.1
+  DELUGE_DAEMON_LOG_LEVEL: info
+  DELUGE_WEB_LOG_LEVEL: info
+  DEBUG: "false"
+  UMASK: "022"
+  PUID: "1000"
+  PGID: "1000"

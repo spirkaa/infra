@@ -95,8 +95,7 @@ vault_secrets:
       ldap-bind-dn={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_DN') }}
       ldap-bind-password={{ lookup('env', 'VAULTWARDEN_LDAP_BIND_PASSWORD') }}"
   - path: secret/deluge
-    kv: "vpn-user={{ lookup('env', 'DELUGE_VPN_USER') }}
-      vpn-pass={{ lookup('env', 'DELUGE_VPN_PASS') }}"
+    kv: wg-private-key={{ lookup('env', 'DELUGE_WG_PRIVATE_KEY') }}
   - path: secret/nextcloud
     kv: "admin-user={{ lookup('env', 'NEXTCLOUD_ADMIN_USER') }}
       admin-password={{ lookup('env', 'NEXTCLOUD_ADMIN_PASSWORD') }}

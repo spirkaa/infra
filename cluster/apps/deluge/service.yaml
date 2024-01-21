@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deluge
+  labels:
+    app.kubernetes.io/name: deluge
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8112
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 58846
+      targetPort: daemon
+      protocol: TCP
+      name: daemon
+  selector:
+    app.kubernetes.io/name: deluge
