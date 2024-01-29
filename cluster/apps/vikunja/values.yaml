@@ -34,7 +34,7 @@ vikunja:
           cpu: 100m
           memory: 64Mi
     - name: frontend
-      image: vikunja/frontend:0.20.3
+      image: vikunja/frontend:0.22.1
       imagePullPolicy: Always
       resources:
         requests:
