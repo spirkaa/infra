@@ -6,5 +6,5 @@ dependencies:
     version: 56.6.1
     repository: https://prometheus-community.github.io/helm-charts
   - name: prometheus-blackbox-exporter
-    version: 8.10.0
+    version: 8.10.1
     repository: https://prometheus-community.github.io/helm-charts
