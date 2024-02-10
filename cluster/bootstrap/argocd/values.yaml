@@ -176,13 +176,8 @@ argo-cd:
         nginx.ingress.kubernetes.io/ssl-passthrough: "true"
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       ingressClassName: nginx
-      https: true
-      hosts:
-        - argocd.k8s.devmem.ru
-      tls:
-        - hosts:
-            - argocd.k8s.devmem.ru
-          secretName: argocd-server-tls
+      hostname: argocd.k8s.devmem.ru
+      tls: true
     metrics:
       enabled: true
       serviceMonitor:
