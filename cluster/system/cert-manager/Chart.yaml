@@ -6,5 +6,5 @@ dependencies:
     version: v1.14.2
     repository: https://charts.jetstack.io
   - name: cert-manager-webhook-selectel
-    version: 1.2.5
+    version: 1.2.4
     repository: https://selectel.github.io/cert-manager-webhook-selectel
