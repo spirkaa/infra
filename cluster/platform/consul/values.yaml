@@ -9,6 +9,7 @@ consul:
     metrics:
       enabled: true
       enableAgentMetrics: true
+      disableAgentHostName: true
   server:
     enabled: true
     replicas: 3
@@ -23,11 +24,7 @@ consul:
         memory: 256Mi
     extraConfig: |
       {
-        "leave_on_terminate": true,
-        "telemetry": {
-          "prometheus_retention_time": "1m",
-          "disable_hostname": true
-        }
+        "leave_on_terminate": true
       }
   ui:
     enabled: true
