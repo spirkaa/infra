@@ -1,4 +1,6 @@
 argo-cd:
+  global:
+    domain: argocd.k8s.devmem.ru
   repoServer:
     serviceAccount:
       create: true
@@ -89,7 +91,6 @@ argo-cd:
                     - spsrv
   configs:
     cm:
-      url: https://argocd.k8s.devmem.ru
       admin.enabled: "false"
       oidc.config: |
         name: Dex
@@ -176,7 +177,6 @@ argo-cd:
         nginx.ingress.kubernetes.io/ssl-passthrough: "true"
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       ingressClassName: nginx
-      hostname: argocd.k8s.devmem.ru
       tls: true
     metrics:
       enabled: true
@@ -193,7 +193,6 @@ argo-cd:
       serviceMonitor:
         enabled: true
   notifications:
-    argocdUrl: https://argocd.k8s.devmem.ru
     secret:
       create: false
     notifiers:
