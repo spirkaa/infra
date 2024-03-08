@@ -1,7 +1,7 @@
 syncthing:
   image:
     repository: syncthing/syncthing
-    tag: 1.27.3
+    tag: 1.27.4
   env:
     TZ: Europe/Moscow
   service:
