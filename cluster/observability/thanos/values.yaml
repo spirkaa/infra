@@ -2,6 +2,7 @@ thanos:
   existingObjstoreSecret: thanos-objstore
   query:
     enabled: true
+    resourcesPreset: none
     replicaLabels:
       - replica
     dnsDiscovery:
@@ -21,6 +22,7 @@ thanos:
     enabled: false
   bucketweb:
     enabled: true
+    resourcesPreset: none
     ingress:
       enabled: true
       hostname: &host thanos-bucketweb.k8s.devmem.ru
@@ -33,6 +35,7 @@ thanos:
           secretName: null
   compactor:
     enabled: true
+    resourcesPreset: none
     retentionResolutionRaw: 30d
     retentionResolution5m: 30d
     retentionResolution1h: 30d
@@ -42,6 +45,7 @@ thanos:
       size: 40Gi
   storegateway:
     enabled: true
+    resourcesPreset: none
     persistence:
       enabled: true
       storageClass: longhorn
