@@ -97,7 +97,7 @@ argo-cd:
         issuer: https://dex.auth.devmem.ru
         clientID: argocd
         clientSecret: $oidc.dex.clientSecret
-      statusbadge.enabled: "true"
+      statusbadge.enabled: true
       server.rbac.log.enforce.enable: "true"
       exec.enabled: "true"
       resource.customizations.health.argoproj.io_Application: |
