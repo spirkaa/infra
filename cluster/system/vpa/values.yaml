@@ -2,7 +2,7 @@ vpa:
   recommender:
     image:
       repository: registry.k8s.io/autoscaling/vpa-recommender
-      tag: 1.1.0
+      tag: 1.1.1
     extraArgs:
       pod-recommendation-min-cpu-millicores: 10
       pod-recommendation-min-memory-mb: 10
