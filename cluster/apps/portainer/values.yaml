@@ -1,7 +1,7 @@
 portainer:
   image:
     repository: portainer/portainer-ce
-    tag: 2.20.1
+    tag: 2.20.2
   service:
     type: ClusterIP
   ingress:
@@ -24,7 +24,7 @@ portainer:
   resources:
     requests:
       cpu: 10m
-      memory: 64Mi
-    limits:
-      cpu: 100m
       memory: 128Mi
+    limits:
+      cpu: 1000m
+      memory: 256Mi
