@@ -24,7 +24,7 @@ spec:
         devmem.ru/pve-host: spsrv
       containers:
         - name: deluge
-          image: binhex/arch-delugevpn:2.1.1-4-09
+          image: binhex/arch-delugevpn:2.1.1-5-01
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
