@@ -90,3 +90,4 @@ spec:
   tls:
     - hosts:
         - *host
+      secretName: kuard-tls
