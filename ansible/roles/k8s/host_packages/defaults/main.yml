@@ -4,7 +4,7 @@ bin_dir: /usr/local/bin
 runc_version: v1.1.12
 runc_url: https://github.com/opencontainers/runc/releases/download/{{ runc_version }}/runc.amd64
 # renovate: depName=containernetworking/plugins
-cni_version: v1.4.1
+cni_version: v1.5.0
 cni_url: https://github.com/containernetworking/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-amd64-{{ cni_version }}.tgz
 cni_bin_dir: /opt/cni/bin
 cni_cfg_dir: /etc/cni/net.d
@@ -13,7 +13,7 @@ containerd_version: v1.7.17
 containerd_url: https://github.com/containerd/containerd/releases/download/{{ containerd_version }}/containerd-{{ containerd_version[1:] }}-linux-amd64.tar.gz
 containerd_cfg_dir: /etc/containerd
 # renovate: depName=kubernetes-sigs/cri-tools
-crictl_version: v1.28.0
+crictl_version: v1.29.0
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-linux-amd64.tar.gz
 # renovate: depName=containerd/nerdctl
 nerdctl_version: v1.7.6
