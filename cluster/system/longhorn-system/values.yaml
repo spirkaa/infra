@@ -15,7 +15,7 @@ longhorn:
     reclaimPolicy: Retain
     recurringJobSelector:
       enable: true
-      jobList: '[{"name": "snapshot-default", "isGroup": false}, {"name": "backup-default", "isGroup": false}]'
+      jobList: '[{"name": "snapshot-default", "isGroup": false}, {"name": "backup-default", "isGroup": false}, {"name": "fs-trim-default", "isGroup": false}]'
   longhornUI:
     replicas: 1
   ingress:
@@ -27,3 +27,6 @@ longhorn:
     host: longhorn.k8s.devmem.ru
     tls: true
     tlsSecret: null
+  metrics:
+    serviceMonitor:
+      enabled: true

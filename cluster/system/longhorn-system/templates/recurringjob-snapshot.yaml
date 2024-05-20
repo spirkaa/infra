@@ -4,7 +4,7 @@ metadata:
   name: snapshot-default
 spec:
   cron: "*/15 * * * *"
-  task: "snapshot"
+  task: snapshot
   retain: 4
   concurrency: 5
   labels:
