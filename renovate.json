@@ -58,6 +58,12 @@
       "matchDatasources": ["docker", "helm"],
       "groupName": "velero",
       "matchPackagePatterns": ["velero"]
+    },
+    {
+      "description": "Cert-manager charts",
+      "matchDatasources": ["helm"],
+      "groupName": "cert-manager",
+      "matchPackagePatterns": ["cert-manager"]
     }
   ],
   "ansible": {
