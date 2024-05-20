@@ -17,9 +17,8 @@ spec:
             groupName: acme.selectel.ru
             solverName: selectel
             config:
-              apiKeySecretRef:
-                name: selectel-api-key
-                key: api-key
+              dnsSecretRef:
+                name: selectel-dns-credentials
         selector:
           dnsZones:
             - "devmem.ru"

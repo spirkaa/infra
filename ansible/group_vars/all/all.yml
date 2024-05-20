@@ -9,7 +9,10 @@ vault_secrets:
     kv: "s3-key={{ lookup('env', 'LONGHORN_S3_KEY') }}
       s3-key-secret={{ lookup('env', 'LONGHORN_S3_SECRET') }}"
   - path: secret/cert-manager
-    kv: selectel-api-key={{ lookup('env', 'SELECTEL_API_KEY') }}
+    kv: "selectel-username={{ lookup('env', 'SELECTEL_USERNAME') }}
+      selectel-password={{ lookup('env', 'SELECTEL_PASSWORD') }}
+      selectel-account-id={{ lookup('env', 'SELECTEL_ACCOUNT_ID') }}
+      selectel-project-id={{ lookup('env', 'SELECTEL_PROJECT_ID') }}"
   - path: secret/common/smtp
     kv: "host={{ lookup('env', 'SMTP_HOST') }}
       port={{ lookup('env', 'SMTP_PORT') }}

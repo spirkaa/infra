@@ -10,22 +10,3 @@ generatorOptions:
   disableNameSuffixHash: true
   labels:
     grafana_dashboard: "1"
-patchesJson6902:
-  - target:
-      group: cert-manager.io
-      version: v1
-      kind: Certificate
-      name: cert-manager-webhook-selectel-ca
-    patch: |-
-      - op: replace
-        path: /spec/duration
-        value: 43800h0m0s
-  - target:
-      group: cert-manager.io
-      version: v1
-      kind: Certificate
-      name: cert-manager-webhook-selectel-webhook-tls
-    patch: |-
-      - op: replace
-        path: /spec/duration
-        value: 8760h0m0s
