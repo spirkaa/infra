@@ -1,4 +1,4 @@
-.PHONY: all help tools init fmt validate cleanup pve-api-user stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy plan apply refresh destroy show cluster
+.PHONY: all help cluster tools init init-upgrade cleanup fmt validate pve-api-user stage0-build stage0-destroy stage0-build-force stage1-build stage1-destroy stage1-build-force build build-force templates-destroy change plan apply refresh show destroy
 
 ifneq (,$(wildcard ./.env))
 sinclude .env
@@ -10,37 +10,28 @@ K8S_IPS = 01 02 03 11 12 13 21 22 40 54
 
 all: help
 
-help:
-	@echo "    cluster                        All-in-one command for cluster deployment"
-	@echo ""
-	@echo "    tools                          Build local docker image 'infra-tools' and start container"
-	@echo "    init                           Init environment of Ansible, Packer and Terraform"
-	@echo "    init-upgrade                   Init/upgrade environment of Ansible, Packer and Terraform"
-	@echo "    fmt                            Format Packer and Terraform files"
-	@echo "    validate                       Validate Packer and Terraform files, lint Ansible files"
-	@echo "    cleanup                        Cleanup init"
-	@echo ""
-	@echo "    pve-api-user                   Create Proxmox API user for Packer and Terraform"
-	@echo "    stage0-build                   Build stage0 Proxmox template from cloud-init image"
-	@echo "    stage0-destroy                 ! Destroy stage0 template"
-	@echo "    stage0-build-force             Recreate (Destroy + Build) stage0 template"
-	@echo "    stage1-build                   Build stage1 Proxmox templates with Packer"
-	@echo "    stage1-destroy                 ! Destroy stage1 templates"
-	@echo "    stage1-build-force             Recreate (Destroy + Build) stage1 templates"
-	@echo "    build                          Build all templates"
-	@echo "    build-force                    Recreate (Destroy + Build) all templates"
-	@echo "    templates-destroy              ! Destroy all templates"
-	@echo ""
-	@echo "    plan                           [terraform] Show changes required by the current configuration"
-	@echo "    apply                          [terraform] Create or update infrastructure"
-	@echo "    refresh                        [terraform] Update the state to match remote systems"
-	@echo "    destroy                        [terraform] Destroy previously-created infrastructure"
-	@echo "    show                           [terraform] Show the current state or a saved plan"
+help: ## Show this help
+	@echo "Usage: make [target]"
+	@echo "Targets:"
+	@awk '/^[a-zA-Z0-9_-]+:.*?##/ { \
+		helpMessage = match($$0, /## (.*)/); \
+		if (helpMessage) { \
+			target = $$1; \
+			sub(/:/, "", target); \
+			printf "  \033[36m%-20s\033[0m %s\n", target, substr($$0, RSTART + 3, RLENGTH); \
+		} \
+	}' $(MAKEFILE_LIST)
 
-tools:
+cluster:  ## All-in-one command for cluster deployment
+	@make init --no-print-directory
+	@make build --no-print-directory
+	@sleep 10
+	@cd terraform; terraform apply -auto-approve && terraform refresh
+
+tools:  ## Build local docker image 'infra-tools' and start container
 	@make -C tools --no-print-directory
 
-init:
+init:  ## Init environment of Ansible, Packer and Terraform
 	@packer version
 	@terraform version
 	@ansible --version
@@ -49,7 +40,7 @@ init:
 	@cd packer; packer init .
 	@cd terraform; terraform init -backend-config="access_key=${TF_ACCESS_KEY}" -backend-config="secret_key=${TF_SECRET_KEY}"
 
-init-upgrade:
+init-upgrade:  ## Init/upgrade environment of Ansible, Packer and Terraform
 	@packer version
 	@terraform version
 	@ansible --version
@@ -58,98 +49,79 @@ init-upgrade:
 	@cd packer; packer init -upgrade .
 	@cd terraform; terraform init -upgrade -backend-config="access_key=${TF_ACCESS_KEY}" -backend-config="secret_key=${TF_SECRET_KEY}"
 
-fmt:
-	@cd packer; packer fmt .
-	@cd terraform; terraform fmt
-
-validate:
-	@cd ansible; ansible-lint
-	@cd packer; packer validate .
-	@cd terraform; terraform validate
-
-cleanup:
+cleanup:  ## Cleanup environment of Ansible, Packer and Terraform
 	@rm -rf ~/.ansible/roles
 	@rm -rf ~/.ansible/collections
 	@rm -rf terraform/.terraform
 	@rm -rf ~/.config/packer
 
-pve-api-user:
+fmt:  ## Format Packer and Terraform files
+	@cd packer; packer fmt .
+	@cd terraform; terraform fmt
+
+validate:  ## Validate Packer and Terraform files, lint Ansible files
+	@cd ansible; ansible-lint
+	@cd packer; packer validate .
+	@cd terraform; terraform validate
+
+pve-api-user:  ## Create Proxmox API user for Packer and Terraform
 	@cd ansible; ansible-playbook pve_api_user.yml -e "pve_host=${PROXMOX_NODE}"
 
-stage0-build:
+stage0-build:  ## Build stage0 Proxmox template from cloud-init image
 	@cd ansible; ansible-playbook pve_template_build.yml -e "pve_host=${PROXMOX_NODE}"
 
-stage0-destroy:
+stage0-destroy:  ## Destroy stage0 template
 	@cd ansible; ansible-playbook pve_template_destroy.yml -e "pve_host=${PROXMOX_NODE}" -e "pve_template_vmid=${STAGE0_VM_ID}"
 
-stage0-build-force: stage0-destroy
+stage0-build-force: stage0-destroy  ## Recreate (Destroy + Build) stage0 template
 	@make stage0-build --no-print-directory
 
-stage1-build:
+stage1-build:  ## Build stage1 Proxmox templates with Packer
 	@cd packer; packer build .
 
-stage1-destroy:
+stage1-destroy:  ## Destroy stage1 templates
 	@cd ansible; ansible-playbook pve_template_destroy.yml -e "pve_host=${PROXMOX_NODE}" -e "pve_template_vmid=${STAGE1_VM_ID_BASE}"
 	@cd ansible; ansible-playbook pve_template_destroy.yml -e "pve_host=${PROXMOX_NODE}" -e "pve_template_vmid=${STAGE1_VM_ID_K8S}"
 
-stage1-build-force: stage1-destroy
+stage1-build-force: stage1-destroy  ## Recreate (Destroy + Build) stage1 templates
 	@make stage1-build --no-print-directory
 
-build:
+build:  ## Build all templates
 	@make pve-api-user --no-print-directory
 	@make stage0-build --no-print-directory
 	@make stage1-build --no-print-directory
 
-build-force:
+build-force:  ## Recreate (Destroy + Build) all templates
 	@make stage0-build-force --no-print-directory
 	@make stage1-build-force --no-print-directory
 
-templates-destroy:
+templates-destroy:  ## Destroy all templates
 	@make stage0-destroy --no-print-directory
 	@make stage1-destroy --no-print-directory
 
-plan:
+change:  ## [terraform] Apply changes to specific target
+	@cd terraform; terraform apply -target=proxmox_vm_qemu.k8s_worker[\"k8s-worker-03\"]
+
+plan:  ## [terraform] Show changes required by the current configuration
 	@cd terraform; terraform plan
 
-apply:
+apply:  ## [terraform] Create or update infrastructure
 	@cd terraform; terraform apply && terraform refresh
 
-refresh:
+refresh:  ## [terraform] Update the state to match remote systems
 	@cd terraform; terraform refresh
 
-destroy:
-	@cd terraform; terraform destroy
-	@for name in $(K8S_NAMES); do \
-		ssh-keygen -f ~/.ssh/known_hosts -R $$name; \
-	done
-	@for ip in $(K8S_IPS); do \
-		ssh-keygen -f ~/.ssh/known_hosts -R 192.168.13.2$$ip; \
-	done
-
-show:
+show:  ## [terraform] Show the current state or a saved plan
 	@cd terraform; terraform show
 
-cluster:
-	@make init --no-print-directory
-	@make build --no-print-directory
-	@sleep 10
-	@cd terraform; terraform apply -auto-approve && terraform refresh
-
-cluster-upgrade:
-	@cd ansible; ansible-playbook -i inventories/k8s -f 1 playbooks/k8s_cluster_upgrade.yml -v
-
-test-plan:
-	@cd terraform/test; terraform plan
-
-test-apply:
-	@cd terraform/test; terraform apply
-
-test-destroy:
-	@cd terraform/test; terraform destroy
-	@ssh-keygen -f ~/.ssh/known_hosts -R 192.168.13.91
-
-test-show:
-	@cd terraform/test; terraform show
-
-change:
-	@cd terraform; terraform apply -target=proxmox_vm_qemu.k8s_worker[\"k8s-worker-03\"]
+destroy:  ## [terraform] Destroy previously-created infrastructure
+	@echo "! ! ! THIS IS A DANGEROUS ACTION ! ! !"
+	@echo "If you know 100% what are you doing, edit the Makefile and uncomment these lines:"
+	@echo ""
+	# @cd terraform; terraform destroy
+	# @for name in $(K8S_NAMES); do \
+		# ssh-keygen -f ~/.ssh/known_hosts -R $$name; \
+	# done
+	# @for ip in $(K8S_IPS); do \
+		# ssh-keygen -f ~/.ssh/known_hosts -R 192.168.13.2$$ip; \
+	# done
