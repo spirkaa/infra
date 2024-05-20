@@ -23,22 +23,34 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   ipconfig1      = "ip=${each.value.ip_data}/24"
   sshkeys        = var.ssh_pub_keys
 
-  disk {
-    slot    = 0
-    type    = "scsi"
-    storage = each.value.storage_clone_to
-    size    = each.value.disk
-    discard = "on"
-    ssd     = 1
-  }
-
-  disk {
-    slot    = 1
-    type    = "scsi"
-    storage = "local-lvm"
-    size    = "200G"
-    discard = "on"
-    ssd     = 1
+  disks {
+    ide {
+      ide2 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          storage    = each.value.storage_clone_to
+          size       = each.value.disk
+          discard    = true
+          emulatessd = true
+          replicate  = true
+        }
+      }
+      scsi1 {
+        disk {
+          storage    = "local-lvm"
+          size       = "200G"
+          discard    = true
+          emulatessd = true
+          replicate  = true
+        }
+      }
+    }
   }
 
   network {
@@ -68,7 +80,7 @@ resource "proxmox_vm_qemu" "k8s_worker" {
       clone,
       pool,
       ciuser,
-      disk[0].storage
+      disks[0].scsi[0].scsi0[0].disk[0].storage,
     ]
   }
 

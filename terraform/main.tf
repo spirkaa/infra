@@ -2,12 +2,12 @@ terraform {
   required_version = "~> 1.4"
   required_providers {
     proxmox = {
-      source  = "Telmate/proxmox"
-      version = "~> 2.9.14"
+      source  = "telmate/proxmox"
+      version = "= 3.0.1-rc2"
     }
     local = {
       source  = "hashicorp/local"
-      version = "~> 2.4"
+      version = "~> 2.5"
     }
   }
 }

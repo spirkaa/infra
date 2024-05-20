@@ -30,6 +30,7 @@ pve_api_role_privs: >
   VM.Migrate
   VM.Monitor
   VM.PowerMgmt
+  SDN.Use
 
 pve_api_token_dest_file: ../.env
 pve_api_token_id_env: TF_VAR_proxmox_username
