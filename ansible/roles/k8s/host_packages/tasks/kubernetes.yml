@@ -8,7 +8,7 @@
   ansible.builtin.get_url:
     url: "{{ item }}"
     dest: "{{ bin_dir }}"
-    mode: 0755
+    mode: "0755"
     owner: root
     group: root
   loop: "{{ kubernetes_bins }}"
@@ -18,7 +18,7 @@
   ansible.builtin.template:
     src: kubelet.service.j2
     dest: /etc/systemd/system/kubelet.service
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root
   notify: kubelet - restart
@@ -33,7 +33,7 @@
   ansible.builtin.template:
     src: 10-kubeadm.conf.j2
     dest: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root
   notify: kubelet - restart

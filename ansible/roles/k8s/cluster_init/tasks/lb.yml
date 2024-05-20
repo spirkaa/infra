@@ -20,7 +20,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0644
+    mode: "0644"
   loop:
     - { src: haproxy.cfg.j2, dest: /etc/haproxy/haproxy.cfg }
     - { src: keepalived.conf.j2, dest: /etc/keepalived/keepalived.conf }

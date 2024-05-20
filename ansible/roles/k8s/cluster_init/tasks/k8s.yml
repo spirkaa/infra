@@ -17,14 +17,14 @@
       ansible.builtin.file:
         path: "{{ k8s_cluster_kubeadm_config | dirname }}"
         state: directory
-        mode: 0755
+        mode: "0755"
       become: true
 
     - name: kubeadm - copy config
       ansible.builtin.template:
         src: kubeadm-config.yml.j2
         dest: "{{ k8s_cluster_kubeadm_config }}"
-        mode: 0644
+        mode: "0644"
       become: true
 
     - name: kubeadm - init cluster
@@ -39,13 +39,13 @@
       ansible.builtin.file:
         path: "{{ k8s_cluster_user_home }}"
         state: directory
-        mode: 0700
+        mode: "0700"
 
     - name: kubeconfig - copy admin.conf to user dir
       ansible.builtin.copy:
         src: /etc/kubernetes/admin.conf
         dest: "{{ k8s_cluster_kubeconfig_remote }}"
-        mode: 0600
+        mode: "0600"
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         remote_src: true
@@ -61,13 +61,13 @@
       ansible.builtin.file:
         path: "{{ k8s_cluster_pod_network_manifest_dir }}"
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: pod network - copy kustomization
       ansible.builtin.template:
         src: calico/{{ item }}.j2
         dest: "{{ k8s_cluster_pod_network_manifest_dir }}/{{ item }}"
-        mode: 0644
+        mode: "0644"
       register: _copy_kustomization
       loop:
         - kustomization.yaml
@@ -77,7 +77,7 @@
       ansible.builtin.get_url:
         url: "{{ k8s_cluster_pod_network_manifest_url }}"
         dest: "{{ k8s_cluster_pod_network_manifest }}"
-        mode: 0644
+        mode: "0644"
       register: _download_manifest
 
     - name: pod network - apply kustomized manifest to cluster  # noqa no-handler

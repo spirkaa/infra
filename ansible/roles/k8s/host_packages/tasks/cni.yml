@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ cni_bin_dir }}"
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: root
     group: root
     recurse: true
@@ -12,7 +12,7 @@
   ansible.builtin.unarchive:
     src: "{{ cni_url }}"
     dest: "{{ cni_bin_dir }}"
-    mode: 0755
+    mode: "0755"
     owner: root
     group: root
     remote_src: true

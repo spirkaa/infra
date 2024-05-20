@@ -15,7 +15,7 @@
       ansible.builtin.get_url:
         url: "{{ pve_template_image_url }}"
         dest: "{{ pve_template_image_path }}"
-        mode: 0644
+        mode: "0644"
       register: _get_url_result
       retries: 3
       delay: 5

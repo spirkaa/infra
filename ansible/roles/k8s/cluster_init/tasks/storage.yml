@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ k8s_cluster_storage_mount }}"
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: root
     group: root
   become: true
