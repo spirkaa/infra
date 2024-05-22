@@ -208,7 +208,7 @@ kube-prometheus-stack:
       targetPort: 2381
 alertmanagernotifier:
   name: alertmanager-notifier
-  image: ghcr.io/ix-ai/alertmanager-notifier:v0.4.4
+  image: ghcr.io/ix-ai/alertmanager-notifier:v0.5.1
   port: 8899
 prometheus-blackbox-exporter:
   fullnameOverride: blackbox-exporter
