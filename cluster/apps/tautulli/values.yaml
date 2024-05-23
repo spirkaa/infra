@@ -32,10 +32,7 @@ tautulli:
   persistence:
     config:
       enabled: true
-      type: pvc
-      accessMode: ReadWriteOnce
-      storageClass: longhorn
-      size: 2Gi
+      existingClaim: tautulli-config
   resources:
     requests:
       cpu: 50m
