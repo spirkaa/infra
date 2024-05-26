@@ -14,7 +14,7 @@ argo-cd:
         emptyDir: {}
     initContainers:
       - name: avp-download
-        image: alpine:3.19
+        image: alpine:3.20
         env:
           - name: AVP_VERSION
             # renovate: depName=argoproj-labs/argocd-vault-plugin
