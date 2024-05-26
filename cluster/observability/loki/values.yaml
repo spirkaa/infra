@@ -1,0 +1,110 @@
+loki:
+  deploymentMode: SingleBinary
+  loki:
+    auth_enabled: false
+    server:
+      grpc_server_max_recv_msg_size: 8388608
+      grpc_server_max_send_msg_size: 8388608
+    limits_config:
+      retention_period: 30d
+      allow_structured_metadata: false
+    commonConfig:
+      replication_factor: 1
+    storage:
+      type: s3
+      bucketNames:
+        chunks: loki
+        ruler: loki
+        admin: loki
+      s3:
+        endpoint: s3.home.devmem.ru
+        accessKeyId: ${LOKI_S3_KEY}
+        secretAccessKey: ${LOKI_S3_SECRET}
+        s3ForcePathStyle: true
+    schemaConfig:
+      configs:
+        - from: "2020-10-24"
+          store: boltdb-shipper
+          object_store: s3
+          schema: v12
+          index:
+            prefix: v12_index_
+            period: 24h
+        - from: "2024-05-27"
+          store: tsdb
+          object_store: s3
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
+    compactor:
+      retention_enabled: true
+      delete_request_store: s3
+  gateway:
+    enabled: false
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+    hosts:
+      - &host loki.k8s.devmem.ru
+    tls:
+      - hosts:
+          - *host
+        secretName: null
+  singleBinary:
+    replicas: 1
+    extraArgs:
+      - -config.expand-env=true
+    extraEnvFrom:
+      - secretRef:
+          name: loki
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 5Gi
+  read:
+    replicas: 0
+  backend:
+    replicas: 0
+  write:
+    replicas: 0
+  resultsCache:
+    enabled: false
+  chunksCache:
+    enabled: false
+  monitoring:
+    dashboards:
+      enabled: true
+      annotations:
+        grafana_folder: Loki
+    rules:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+      metricsInstance:
+        enabled: false
+  test:
+    enabled: false
+  lokiCanary:
+    enabled: false
+  extraObjects:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: loki-datasource
+        labels:
+          grafana_datasource: "1"
+      data:
+        loki-datasource.yaml: |-
+          apiVersion: 1
+          datasources:
+          - name: Loki
+            type: loki
+            access: proxy
+            url: http://loki:3100
+            version: 1
+            isDefault: false
+            jsonData:
+              {}
