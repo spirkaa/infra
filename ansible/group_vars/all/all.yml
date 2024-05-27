@@ -55,12 +55,6 @@ vault_secrets:
     kv: "clickhouse-password={{ lookup('env', 'SIGNOZ_CLICKHOUSE_PASSWORD') }}
       s3-key={{ lookup('env', 'SIGNOZ_S3_KEY') }}
       s3-key-secret={{ lookup('env', 'SIGNOZ_S3_SECRET') }}"
-  - path: secret/authentik
-    kv: "ak-admin-password={{ lookup('env', 'AUTHENTIK_AK_ADMIN_PASS') }}
-      ak-admin-token={{ lookup('env', 'AUTHENTIK_AK_ADMIN_TOKEN') }}
-      secret-key={{ lookup('env', 'AUTHENTIK_SECRET_KEY') }}
-      postgresql-postgres-password={{ lookup('env', 'AUTHENTIK_POSTGRESQL_POSTGRES_PASSWORD') }}
-      postgresql-password={{ lookup('env', 'AUTHENTIK_POSTGRESQL_PASSWORD') }}"
   - path: secret/ingress-nginx
     kv: maxmind-license-key={{ lookup('env', 'INGRESS_NGINX_MAXMIND_LICENSE_KEY') }}
   - path: secret/renovate

@@ -184,9 +184,6 @@ kube-prometheus-stack:
             - source_labels: [__meta_kubernetes_ingress_name]
               regex: (dex|loki|reverse-proxy-minio|reverse-proxy-jenkins)
               action: drop
-            - source_labels: [__meta_kubernetes_ingress_path]
-              regex: (/outpost.goauthentik.io|/notifications.*)
-              action: drop
     ingress:
       enabled: true
       ingressClassName: nginx
