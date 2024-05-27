@@ -22,28 +22,37 @@ spec:
     spec:
       containers:
         - name: dashy
-          image: lissy93/dashy:2.1.2
+          image: ghcr.io/lissy93/dashy:3.1.0
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 10
-          readinessProbe:
+          startupProbe:
             exec:
               command:
-                - "/bin/sh"
-                - "-c"
-                - "test -d /app/dist"
-            initialDelaySeconds: 25
-            periodSeconds: 2
-            failureThreshold: 10
+                - yarn
+                - health-check
+            failureThreshold: 3
+            timeoutSeconds: 10
+            periodSeconds: 90
+            initialDelaySeconds: 40
+          livenessProbe:
+            exec:
+              command:
+                - yarn
+                - health-check
+            failureThreshold: 3
+            timeoutSeconds: 10
+            periodSeconds: 90
+          readinessProbe:
+            httpGet:
+              port: 80
+            failureThreshold: 3
+            timeoutSeconds: 10
+            periodSeconds: 90
           volumeMounts:
-            - mountPath: /app/public/conf.yml
+            - mountPath: /app/user-data/conf.yml
               name: dashy-config
               subPath: conf.yml
           resources:
@@ -67,7 +76,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 80
+    - port: 8080
       targetPort: http
       protocol: TCP
       name: http
@@ -94,7 +103,7 @@ spec:
               service:
                 name: dashy
                 port:
-                  number: 80
+                  number: 8080
   tls:
     - hosts:
         - *host
