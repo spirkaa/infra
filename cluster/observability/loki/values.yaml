@@ -2,14 +2,16 @@ loki:
   deploymentMode: SingleBinary
   loki:
     auth_enabled: false
+    commonConfig:
+      replication_factor: 1
     server:
       grpc_server_max_recv_msg_size: 8388608
       grpc_server_max_send_msg_size: 8388608
     limits_config:
       retention_period: 30d
-      allow_structured_metadata: false
-    commonConfig:
-      replication_factor: 1
+    compactor:
+      retention_enabled: true
+      delete_request_store: s3
     storage:
       type: s3
       bucketNames:
@@ -37,9 +39,6 @@ loki:
           index:
             prefix: loki_index_
             period: 24h
-    compactor:
-      retention_enabled: true
-      delete_request_store: s3
   gateway:
     enabled: false
   ingress:
