@@ -10,7 +10,7 @@ flaresolverr:
   resources:
     requests:
       cpu: 10m
-      memory: 64Mi
+      memory: 128Mi
     limits:
-      cpu: 1000m
+      cpu: 2000m
       memory: 1024Mi
