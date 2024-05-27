@@ -1,7 +1,0 @@
-apiVersion: v2
-name: vikunja
-version: 0.0.0
-dependencies:
-  - name: vikunja
-    version: 6.1.2
-    repository: https://k8s-at-home.com/charts/

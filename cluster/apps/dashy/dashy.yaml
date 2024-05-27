@@ -359,18 +359,14 @@ data:
             icon: hl-nextcloud
             url: https://cloud.devmem.ru
             id: 0_503_nextcloud
-          - title: Vikunja
-            icon: hl-vikunja
-            url: https://tasks.devmem.ru
-            id: 1_503_vikunja
-          - title: Vaultwarden
-            icon: hl-bitwarden
-            url: https://vaultwarden.devmem.ru
-            id: 2_503_vaultwarden
           - title: Syncthing
             icon: hl-syncthing
             url: https://syncthing.home.devmem.ru
             id: 3_503_syncthing
+          - title: Vaultwarden
+            icon: hl-bitwarden
+            url: https://vaultwarden.devmem.ru
+            id: 2_503_vaultwarden
       - name: HW
         displayData:
           sortBy: default

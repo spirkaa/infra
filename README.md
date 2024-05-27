@@ -154,9 +154,9 @@
 ### Частное облако
 
 * [Nextcloud](https://github.com/nextcloud/server)
+* [Syncthing](https://github.com/syncthing/syncthing)
 * [docker-mailserver](https://github.com/docker-mailserver/docker-mailserver)
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
-* [Vikunja](https://vikunja.io/)
 
 ### Медиа-сервер
 
