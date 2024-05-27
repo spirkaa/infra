@@ -27,7 +27,7 @@ vaultwarden:
             - path: /
               pathType: Prefix
               service:
-                port: http
+                port: 80
       tls:
         - hosts:
             - *host
