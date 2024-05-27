@@ -1,14 +1,21 @@
 vaultwarden:
   image:
     repository: vaultwarden/server
-    tag: 1.28.1-alpine
+    tag: 1.30.5-alpine
   env:
     DATA_FOLDER: data
   envFrom:
     - secretRef:
         name: vaultwarden
+  service:
+    main:
+      ports:
+        websocket:
+          enabled: false
   ingress:
     main:
+      enabled: false
+    simple:
       enabled: true
       ingressClassName: nginx
       annotations:
@@ -20,15 +27,7 @@ vaultwarden:
             - path: /
               pathType: Prefix
               service:
-                port: 80
-            - path: /notifications/hub/negotiate
-              pathType: Prefix
-              service:
-                port: 80
-            - path: /notifications/hub
-              pathType: Prefix
-              service:
-                port: 3012
+                port: http
       tls:
         - hosts:
             - *host
