@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/prometheus-community/helm-charts
     # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
-    targetRevision: kube-prometheus-stack-58.7.2
+    targetRevision: kube-prometheus-stack-59.0.0
     path: charts/kube-prometheus-stack/charts/crds/crds/
     directory:
       recurse: true
