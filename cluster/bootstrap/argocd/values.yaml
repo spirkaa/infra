@@ -18,7 +18,7 @@ argo-cd:
         env:
           - name: AVP_VERSION
             # renovate: depName=argoproj-labs/argocd-vault-plugin
-            value: "v1.18.0"
+            value: "v1.18.1"
         command: [sh, -c]
         args:
           - >-
