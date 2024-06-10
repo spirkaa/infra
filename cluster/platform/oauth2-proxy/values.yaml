@@ -44,3 +44,12 @@ oauth2-proxy:
       persistence:
         enabled: false
         medium: Memory
+      resources:
+        limits:
+          cpu: "1"
+          ephemeral-storage: 1Gi
+          memory: 192Mi
+        requests:
+          cpu: 10m
+          ephemeral-storage: 50Mi
+          memory: 64Mi
