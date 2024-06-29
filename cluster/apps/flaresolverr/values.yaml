@@ -1,7 +1,7 @@
 flaresolverr:
   image:
     repository: flaresolverr/flaresolverr
-    tag: v3.3.19
+    tag: v3.3.21
   env:
     TZ: Europe/Moscow
     LOG_LEVEL: info
