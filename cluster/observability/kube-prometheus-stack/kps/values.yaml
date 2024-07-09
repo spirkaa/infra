@@ -75,7 +75,10 @@ kube-prometheus-stack:
           url: https://grafana.com/api/dashboards/1860/revisions/22/download
           datasource: Prometheus
         ingress-nginx:
-          url: https://grafana.com/api/dashboards/9614/revisions/1/download
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/grafana/dashboards/nginx.json
+          datasource: Prometheus
+        ingress-nginx-request-handling-performance:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
         ingress-nginx-nextgen:
           url: https://grafana.com/api/dashboards/14314/revisions/2/download
