@@ -136,8 +136,8 @@ kube-prometheus-stack:
         - job_name: consul-sd
           scheme: https
           consul_sd_configs:
-            - server: consul.k8s.devmem.ru
-              scheme: https
+            - server: consul-server.consul:8500
+              scheme: http
               tags:
                 - metrics
           relabel_configs:
@@ -160,11 +160,9 @@ kube-prometheus-stack:
             - role: ingress
           relabel_configs:
             - source_labels:
-                [
-                  __meta_kubernetes_ingress_scheme,
-                  __address__,
-                  __meta_kubernetes_ingress_path,
-                ]
+                - __meta_kubernetes_ingress_scheme
+                - __address__
+                - __meta_kubernetes_ingress_path
               regex: (.+);(.+);(.+)
               replacement: ${1}://${2}${3}
               target_label: __param_target
@@ -187,6 +185,25 @@ kube-prometheus-stack:
             - source_labels: [__meta_kubernetes_ingress_name]
               regex: (dex|loki|reverse-proxy-minio|reverse-proxy-jenkins)
               action: drop
+        - job_name: blackbox-static
+          scrape_timeout: 15s
+          metrics_path: /probe
+          params:
+            module: [http_2xx]
+          static_configs:
+            - targets: [192.168.20.45]
+              labels:
+                app: zhabridge
+            - targets: [192.168.20.48]
+              labels:
+                app: esphome
+          relabel_configs:
+            - source_labels: [__address__]
+              target_label: __param_target
+            - source_labels: [__param_target]
+              target_label: instance
+            - target_label: __address__
+              replacement: blackbox-exporter:9115
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -251,10 +268,8 @@ prometheus-blackbox-exporter:
         labels:
           severity: critical
         annotations:
-          summary:
-            Blackbox probe failed.
-          description:
-            The host {{ $labels.instance }} is currently unreachable.
+          summary: Blackbox probe failed.
+          description: The host {{ $labels.instance }} is currently unreachable.
       - alert: BlackboxSlowProbe
         expr: |-
           avg_over_time(probe_duration_seconds[5m]) > 2
@@ -262,10 +277,8 @@ prometheus-blackbox-exporter:
         labels:
           severity: warning
         annotations:
-          summary:
-            Blackbox slow probe.
-          description:
-            Blackbox probe on {{ $labels.instance }} took more than 1s to complete.
+          summary: Blackbox slow probe.
+          description: Blackbox probe on {{ $labels.instance }} took more than 1s to complete.
       - alert: BlackboxSslCertExpiringSoon
         expr: |-
           probe_ssl_earliest_cert_expiry - time() < 86400 * 3
@@ -273,10 +286,8 @@ prometheus-blackbox-exporter:
         labels:
           severity: warning
         annotations:
-          summary:
-            SSL certificate is about to expire.
-          description:
-            SSL certificate for {{ $labels.instance }} will expire in less than 3 days.
+          summary: SSL certificate is about to expire.
+          description: SSL certificate for {{ $labels.instance }} will expire in less than 3 days.
       - alert: BlackboxSslCertExpired
         expr: |-
           probe_ssl_earliest_cert_expiry - time() <= 0
@@ -284,7 +295,5 @@ prometheus-blackbox-exporter:
         labels:
           severity: critical
         annotations:
-          summary:
-            SSL certificate has expired.
-          description:
-            SSL certificate for {{ $labels.instance }} has expired.
+          summary: SSL certificate has expired.
+          description: SSL certificate for {{ $labels.instance }} has expired.
