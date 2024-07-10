@@ -102,9 +102,10 @@
 ### Observability (логи, метрики, трейсы, алерты)
 
 * [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts)
-  * [Prometheus](https://github.com/prometheus/prometheus) + [Blackbox Exporter](https://github.com/prometheus/blackbox_exporter)
-  * [Alertmanager](https://github.com/prometheus/alertmanager) + [alertmanager-notifier](https://github.com/ix-ai/alertmanager-notifier)
+  * [Prometheus](https://github.com/prometheus/prometheus)
+  * [Alertmanager](https://github.com/prometheus/alertmanager)
   * [Grafana](https://github.com/grafana/grafana)
+* [Blackbox Exporter](https://github.com/prometheus/blackbox_exporter)
 * [Thanos](https://github.com/thanos-io/thanos)
 * [Loki](https://github.com/grafana/loki)
 * [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/)
