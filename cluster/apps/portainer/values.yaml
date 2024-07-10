@@ -27,4 +27,4 @@ portainer:
       memory: 128Mi
     limits:
       cpu: 1000m
-      memory: 256Mi
+      memory: 512Mi
