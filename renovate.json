@@ -24,7 +24,7 @@
         "ghcr.io/onedr0p/prowlarr-nightly",
         "ghcr.io/onedr0p/radarr-nightly",
         "ghcr.io/onedr0p/sonarr-develop",
-        "ghcr.io/onedr0p/tautulli",
+        "ghcr.io/tautulli/tautulli",
         "ghcr.io/spirkaa/jackett",
         "ghcr.io/spirkaa/ombi"
       ]
