@@ -1,6 +1,6 @@
 flaresolverr:
   image:
-    repository: flaresolverr/flaresolverr
+    repository: ghcr.io/flaresolverr/flaresolverr
     tag: v3.3.21
   env:
     TZ: Europe/Moscow

@@ -18,7 +18,7 @@
       "ignoreTests": true,
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
-        "flaresolverr/flaresolverr",
+        "ghcr.io/flaresolverr/flaresolverr",
         "ghcr.io/onedr0p/bazarr",
         "ghcr.io/onedr0p/lidarr-nightly",
         "ghcr.io/onedr0p/prowlarr-nightly",
