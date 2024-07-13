@@ -33,7 +33,7 @@ vaultwarden:
             - *host
   additionalContainers:
     - name: vaultwarden-ldap
-      image: vividboarder/vaultwarden_ldap:1.0.0-alpine
+      image: vividboarder/vaultwarden_ldap:1.0.1-alpine
       imagePullPolicy: Always
       volumeMounts:
         - name: config
