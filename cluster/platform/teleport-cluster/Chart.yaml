@@ -3,5 +3,5 @@ name: teleport-cluster
 version: 0.0.0
 dependencies:
   - name: teleport-cluster
-    version: 16.0.4
+    version: 16.1.0
     repository: https://charts.releases.teleport.dev
