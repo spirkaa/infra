@@ -1,7 +1,7 @@
 radarr:
   image:
     repository: ghcr.io/onedr0p/radarr-nightly
-    tag: 5.9.0.9010
+    tag: 5.9.0.9055
   env:
     TZ: Europe/Moscow
   ingress:
