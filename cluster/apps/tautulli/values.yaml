@@ -1,7 +1,7 @@
 tautulli:
   image:
     repository: ghcr.io/tautulli/tautulli
-    tag: v2.14.3
+    tag: v2.14.4
   env:
     TZ: Europe/Moscow
   envFrom:
