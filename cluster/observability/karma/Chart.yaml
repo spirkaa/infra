@@ -3,5 +3,5 @@ name: karma
 version: 0.0.0
 dependencies:
 - name: karma
-  version: 2.8.0
+  version: 2.9.1
   repository: https://wiremind.github.io/wiremind-helm-charts
