@@ -3,7 +3,7 @@ name: kps
 version: 0.0.0
 dependencies:
   - name: kube-prometheus-stack
-    version: 62.3.1
+    version: 62.4.0
     repository: https://prometheus-community.github.io/helm-charts
   - name: prometheus-blackbox-exporter
     version: 9.0.0
