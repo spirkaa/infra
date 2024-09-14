@@ -64,6 +64,12 @@
       "matchDatasources": ["helm"],
       "groupName": "cert-manager",
       "matchPackagePatterns": ["cert-manager"]
+    },
+    {
+      "description": "Portainer images and charts",
+      "matchDatasources": ["docker", "helm"],
+      "groupName": "portainer",
+      "matchPackagePatterns": ["portainer"]
     }
   ],
   "ansible": {
