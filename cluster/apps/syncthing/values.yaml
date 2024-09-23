@@ -42,6 +42,7 @@ syncthing:
       ingressClassName: nginx
       annotations:
         kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/whitelist-source-range: "10.244.0.0/16,192.168.0.0/16"
       hosts:
         - host: &host syncthing.home.devmem.ru
           paths:
