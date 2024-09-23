@@ -24,6 +24,7 @@ longhorn:
     annotations:
       nginx.ingress.kubernetes.io/proxy-body-size: "10G"
       nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+      nginx.ingress.kubernetes.io/whitelist-source-range: "10.244.0.0/16,192.168.0.0/16"
     host: longhorn.k8s.devmem.ru
     tls: true
     tlsSecret: null
