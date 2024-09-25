@@ -12,16 +12,16 @@ repos:
       - id: yamllint
         args: [--strict]
   - repo: https://github.com/ansible/ansible-lint
-    rev: v24.5.0
+    rev: v24.9.2
     hooks:
       - id: ansible-lint
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.90.0
+    rev: v1.96.1
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
   - repo: https://github.com/cisagov/pre-commit-packer
-    rev: v0.0.2
+    rev: v0.1.0
     hooks:
       - id: packer_fmt
       # - id: packer_validate
