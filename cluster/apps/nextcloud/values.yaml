@@ -200,6 +200,6 @@ nextcloud:
       image:
         registry: docker.io
         repository: bitnami/postgres-exporter
-        tag: 0.13.2-debian-11-r30
+        tag: 0.15.0-debian-12-r44
       serviceMonitor:
         enabled: true
