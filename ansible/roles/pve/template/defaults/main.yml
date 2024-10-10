@@ -1,5 +1,5 @@
 ---
-pve_template_image_url: https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.img
+pve_template_image_url: https://cloud-images.ubuntu.com/releases/noble/release/ubuntu-24.04-server-cloudimg-amd64.img
 pve_template_image_path: /tmp/{{ pve_template_image_url | basename }}
 pve_template_vmid: "{{ lookup('env', 'STAGE0_VM_ID') }}"
 pve_template_name: "{{ lookup('env', 'STAGE0_VM_NAME') }}"
@@ -13,5 +13,6 @@ pve_template_disk_name: "{{ pve_template_disk_storage }}:vm-{{ pve_template_vmid
 # pve_template_disk_name: "{{ pve_template_disk_storage }}:{{ pve_template_vmid }}/vm-{{ pve_template_vmid }}-disk-0.qcow2"
 pve_template_net_br: vmbr1
 pve_template_net_vlan: 13
+pve_template_net_tag: "{{ ',tag=' ~ pve_template_net_vlan if pve_template_net_vlan else '' }}"  # ~ (tilde) Converts all operands into strings and concatenates them.
 
 pve_template_destroy: false

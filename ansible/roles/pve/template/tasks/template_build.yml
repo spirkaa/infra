@@ -38,7 +38,7 @@
           --memory {{ pve_template_memory }}
           --ostype l26
           --agent 1,fstrim_cloned_disks=1
-          --net0 virtio,bridge={{ pve_template_net_br }},tag={{ pve_template_net_vlan }}
+          --net0 virtio,bridge={{ pve_template_net_br }}{{ pve_template_net_tag }}
           --ipconfig0 ip=dhcp
       changed_when: true
 
