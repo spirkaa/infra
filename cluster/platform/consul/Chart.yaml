@@ -3,7 +3,7 @@ name: consul
 version: 0.0.0
 dependencies:
   - name: consul
-    version: 1.5.3
+    version: 1.6.0
     repository: https://helm.releases.hashicorp.com
   - name: prometheus-consul-exporter
     version: 1.0.0
