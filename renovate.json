@@ -2,21 +2,33 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchDatasources": ["helm"],
+      "matchDatasources": [
+        "helm"
+      ],
       "schedule": "on saturday",
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true,
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["renovate"]
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": [
+        "renovate"
+      ]
     },
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "schedule": "on saturday",
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true,
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "matchPackageNames": [
         "ghcr.io/flaresolverr/flaresolverr",
         "ghcr.io/onedr0p/bazarr",
@@ -30,61 +42,105 @@
       ]
     },
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "versioning": "loose",
-      "matchPackageNames": ["binhex/arch-delugevpn"]
+      "matchPackageNames": [
+        "binhex/arch-delugevpn"
+      ]
     },
     {
-      "matchDatasources": ["github-releases"],
+      "matchDatasources": [
+        "github-releases"
+      ],
       "groupName": "kubernetes",
       "additionalBranchPrefix": "",
       "separateMinorPatch": true,
-      "matchPackageNames": ["kubernetes/kubernetes"]
+      "matchPackageNames": [
+        "kubernetes/kubernetes"
+      ]
     },
     {
       "description": "Consul images and charts",
-      "matchDatasources": ["docker", "helm"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "groupName": "consul",
-      "matchPackagePatterns": ["consul"]
+      "matchPackageNames": [
+        "/consul/"
+      ]
     },
     {
       "description": "Thanos images and charts",
-      "matchDatasources": ["docker", "github-releases", "helm"],
+      "matchDatasources": [
+        "docker",
+        "github-releases",
+        "helm"
+      ],
       "groupName": "thanos",
-      "matchPackagePatterns": ["thanos"]
+      "matchPackageNames": [
+        "/thanos/"
+      ]
     },
     {
       "description": "Velero images and charts",
-      "matchDatasources": ["docker", "helm"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "groupName": "velero",
-      "matchPackagePatterns": ["velero"]
+      "matchPackageNames": [
+        "/velero/"
+      ]
     },
     {
       "description": "Cert-manager charts",
-      "matchDatasources": ["helm"],
+      "matchDatasources": [
+        "helm"
+      ],
       "groupName": "cert-manager",
-      "matchPackagePatterns": ["cert-manager"]
+      "matchPackageNames": [
+        "/cert-manager/"
+      ]
     },
     {
       "description": "Portainer images and charts",
-      "matchDatasources": ["docker", "helm"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "groupName": "portainer",
-      "matchPackagePatterns": ["portainer"]
+      "matchPackageNames": [
+        "/portainer/"
+      ]
     }
   ],
   "ansible": {
-    "fileMatch": ["ansible/.+\\.ya?ml$"]
+    "fileMatch": [
+      "ansible/.+\\.ya?ml$"
+    ]
   },
   "argocd": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"],
-    "ignorePaths": ["templates/"]
+    "fileMatch": [
+      "cluster/.+\\.ya?ml$"
+    ],
+    "ignorePaths": [
+      "templates/"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"],
-    "ignorePaths": ["templates/"]
+    "fileMatch": [
+      "cluster/.+\\.ya?ml$"
+    ],
+    "ignorePaths": [
+      "templates/"
+    ]
   },
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": [
         "ansible/.+\\.ya?ml$",
         "cluster/.+\\.ya?ml$"
@@ -98,6 +154,7 @@
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
     {
+      "customType": "regex",
       "fileMatch": [
         "cluster/observability/kube-prometheus-stack/.+\\.yaml$"
       ],
