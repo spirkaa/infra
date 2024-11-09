@@ -1,9 +1,9 @@
 consul:
   global:
     name: consul
-    image: hashicorp/consul:1.20.0
+    image: hashicorp/consul:1.20.1
     # renovate: datasource=docker versioning=docker
-    imageK8S: hashicorp/consul-k8s-control-plane:1.6.0
+    imageK8S: hashicorp/consul-k8s-control-plane:1.6.1
     acls:
       manageSystemACLs: true
     metrics:
@@ -43,7 +43,7 @@ prometheus-consul-exporter:
   fullnameOverride: consul-exporter
   image:
     repository: prom/consul-exporter
-    tag: v0.12.1
+    tag: v0.13.0
   consulServer: consul-server:8500
   serviceMonitor:
     enabled: true
