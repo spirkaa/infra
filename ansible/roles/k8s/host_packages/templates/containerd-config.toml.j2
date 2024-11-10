@@ -1,6 +1,6 @@
-version = 2
-root = "/var/lib/containerd"
-state = "/run/containerd"
+version = 3
+root = '/var/lib/containerd'
+state = '/run/containerd'
 oom_score = 0
 
 [grpc]
@@ -8,28 +8,28 @@ oom_score = 0
   max_send_message_size = 16777216
 
 [debug]
-  level = "info"
+  level = 'info'
 
 [metrics]
-  address = ""
+  address = ''
   grpc_histogram = false
 
 [plugins]
-  [plugins."io.containerd.grpc.v1.cri"]
-    max_container_log_line_size = -1
-    [plugins."io.containerd.grpc.v1.cri".containerd]
-      default_runtime_name = "runc"
-      snapshotter = "overlayfs"
-      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
-        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-          runtime_type = "io.containerd.runc.v2"
-          runtime_engine = ""
-          runtime_root = ""
-          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+  [plugins.'io.containerd.cri.v1.images']
+    snapshotter = 'overlayfs'
+
+    [plugins.'io.containerd.cri.v1.images'.registry]
+      config_path = '{{ containerd_cfg_dir }}/certs.d'
+
+  [plugins.'io.containerd.cri.v1.runtime']
+    max_container_log_line_size = 16384
+
+    [plugins.'io.containerd.cri.v1.runtime'.containerd]
+      default_runtime_name = 'runc'
+
+      [plugins.'io.containerd.cri.v1.runtime'.containerd.runtimes]
+        [plugins.'io.containerd.cri.v1.runtime'.containerd.runtimes.runc]
+          runtime_type = 'io.containerd.runc.v2'
+
+          [plugins.'io.containerd.cri.v1.runtime'.containerd.runtimes.runc.options]
             SystemdCgroup = true
-    [plugins."io.containerd.grpc.v1.cri".registry]
-      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
-          endpoint = ["https://mirror.gcr.io", "https://registry-1.docker.io"]
-  [plugins."io.containerd.nri.v1.nri"]
-    disable = false

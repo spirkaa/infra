@@ -12,6 +12,18 @@ cni_cfg_dir: /etc/cni/net.d
 containerd_version: v2.0.0
 containerd_url: https://github.com/containerd/containerd/releases/download/{{ containerd_version }}/containerd-{{ containerd_version[1:] }}-linux-amd64.tar.gz
 containerd_cfg_dir: /etc/containerd
+containerd_registries_mirrors:
+  - prefix: docker.io
+    mirrors:
+      - host: https://mirror.gcr.io
+        capabilities: ["pull", "resolve"]
+        skip_verify: false
+      - host: https://registry-1.docker.io
+        capabilities: ["pull", "resolve"]
+        skip_verify: false
+containerd_utils_packages:
+  - pigz
+  - isal
 # renovate: depName=kubernetes-sigs/cri-tools
 crictl_version: v1.29.0
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-linux-amd64.tar.gz
