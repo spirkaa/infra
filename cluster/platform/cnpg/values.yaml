@@ -1,4 +1,5 @@
 cloudnative-pg:
+  fullnameOverride: cnpg
   monitoring:
     podMonitorEnabled: true
     grafanaDashboard:
