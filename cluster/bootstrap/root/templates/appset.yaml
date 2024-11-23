@@ -26,6 +26,13 @@ spec:
       destination:
         name: in-cluster
         namespace: {{ default `"{{path.basename}}"` $appset.namespace }}
+      # https://github.com/argoproj/argo-cd/issues/11143
+      ignoreDifferences:
+        - group: apps
+          kind: StatefulSet
+          jqPathExpressions:
+            - .spec.volumeClaimTemplates[].apiVersion
+            - .spec.volumeClaimTemplates[].kind
       syncPolicy:
         automated:
           prune: true
