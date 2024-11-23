@@ -12,12 +12,6 @@ syncthing:
         metallb.universe.tf/allow-shared-ip: syncthing
       loadBalancerIP: 192.168.13.244
       externalTrafficPolicy: Local
-      ports:
-        listen-tcp:
-          enabled: true
-          port: 22000
-          protocol: TCP
-          targetPort: 22000
     udp:
       enabled: true
       type: LoadBalancer
@@ -26,11 +20,6 @@ syncthing:
       loadBalancerIP: 192.168.13.244
       externalTrafficPolicy: Local
       ports:
-        discovery:
-          enabled: true
-          port: 21027
-          protocol: UDP
-          targetPort: 21027
         listen-udp:
           enabled: true
           port: 22000
