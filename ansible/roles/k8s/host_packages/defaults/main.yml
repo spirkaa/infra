@@ -25,7 +25,7 @@ containerd_utils_packages:
   - pigz
   - isal
 # renovate: depName=kubernetes-sigs/cri-tools
-crictl_version: v1.29.0
+crictl_version: v1.31.1
 crictl_url: https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-linux-amd64.tar.gz
 # renovate: depName=containerd/nerdctl
 nerdctl_version: v2.0.0
