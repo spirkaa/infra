@@ -102,6 +102,9 @@ templates-destroy:  ## Destroy all templates
 change:  ## [terraform] Apply changes to specific target
 	@cd terraform; terraform apply -target=proxmox_vm_qemu.k8s_worker[\"k8s-worker-03\"]
 
+replace:  ## [terraform] Replace specific target
+	@cd terraform; terraform apply -replace=proxmox_vm_qemu.k8s_worker[\"k8s-worker-03\"]
+
 plan:  ## [terraform] Show changes required by the current configuration
 	@cd terraform; terraform plan
 
