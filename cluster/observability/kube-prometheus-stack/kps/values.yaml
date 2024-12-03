@@ -120,7 +120,7 @@ kube-prometheus-stack:
       retention: 2d
       retentionSize: "4GB"
       thanos:
-        image: quay.io/thanos/thanos:v0.36.1
+        image: quay.io/thanos/thanos:v0.37.0
         objectStorageConfig:
           existingSecret:
             name: thanos-objstore
