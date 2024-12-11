@@ -81,7 +81,7 @@ vault_secrets:
     kv: "s3-key={{ lookup('env', 'VELERO_S3_KEY') }}
       s3-key-secret={{ lookup('env', 'VELERO_S3_SECRET') }}"
   - path: secret/gitlab-runner
-    kv: "runner-registration-token={{ lookup('env', 'GITLAB_RUNNER_REGISTRATION_TOKEN') }}
+    kv: "runner-token={{ lookup('env', 'GITLAB_RUNNER_TOKEN') }}
       s3-key={{ lookup('env', 'GITLAB_RUNNER_S3_KEY') }}
       s3-key-secret={{ lookup('env', 'GITLAB_RUNNER_S3_SECRET') }}"
   - path: secret/vaultwarden
