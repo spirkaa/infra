@@ -26,10 +26,7 @@ sonarr:
   persistence:
     config:
       enabled: true
-      type: pvc
-      accessMode: ReadWriteOnce
-      storageClass: longhorn
-      size: 2Gi
+      existingClaim: sonarr-config
     nfs-downloads:
       enabled: true
       existingClaim: nfs-downloads-pvc
