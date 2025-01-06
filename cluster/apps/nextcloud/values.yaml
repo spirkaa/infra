@@ -2,7 +2,7 @@ nextcloud:
   fullnameOverride: nextcloud
   image:
     repository: git.devmem.ru/projects/nextcloud
-    tag: 28.0.14-fpm
+    tag: 29.0.10-fpm
     pullPolicy: Always
     pullSecrets:
       - regcred
