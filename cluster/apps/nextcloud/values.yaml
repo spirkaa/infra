@@ -81,6 +81,7 @@ nextcloud:
       zz-custom.config.php: |-
         <?php
         $CONFIG = array (
+          'maintenance_window_start' => 1,
           'check_data_directory_permissions' => false,
           'trusted_domains' => array (
             0 => 'localhost',
@@ -106,8 +107,8 @@ nextcloud:
             'OC\\Preview\\MarkDown',
             'OC\\Preview\\OpenDocument',
           ),
-          'preview_max_x' => '2048',
-          'preview_max_y' => '2048',
+          'preview_max_x' => 2048,
+          'preview_max_y' => 2048,
           'jpeg_quality' => '65',
           'trashbin_retention_obligation' => 'auto, 365',
           'log.condition' => [
