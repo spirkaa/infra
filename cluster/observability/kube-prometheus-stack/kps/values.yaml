@@ -72,7 +72,7 @@ kube-prometheus-stack:
           url: https://grafana.com/api/dashboards/13032/revisions/6/download
           datasource: Prometheus
         node-exporter-full:
-          url: https://grafana.com/api/dashboards/1860/revisions/22/download
+          url: https://grafana.com/api/dashboards/1860/revisions/37/download
           datasource: Prometheus
         ingress-nginx:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/grafana/dashboards/nginx.json
@@ -204,6 +204,11 @@ kube-prometheus-stack:
               target_label: instance
             - target_label: __address__
               replacement: blackbox-exporter:9115
+        - job_name: openwrt-node-exporter
+          static_configs:
+            - targets:
+                - 192.168.10.99:9100
+                - 192.168.20.99:9100
     ingress:
       enabled: true
       ingressClassName: nginx
