@@ -1,7 +1,7 @@
 unifi:
   image:
     repository: jacobalberty/unifi
-    tag: v8.6.9
+    tag: v9.0.108
   env:
     TZ: Europe/Moscow
   service:
