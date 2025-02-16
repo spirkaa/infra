@@ -70,11 +70,11 @@ signoz:
         metallb.universe.tf/loadBalancerIPs: 192.168.13.243
       type: LoadBalancer
     resources:
+      limits:
+        cpu: '2'
+        memory: 512Mi
       requests:
         cpu: 200m
-        memory: 400Mi
-      limits:
-        cpu: '1'
-        memory: 2Gi
+        memory: 512Mi
   k8s-infra:
     enabled: false
