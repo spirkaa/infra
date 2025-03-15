@@ -21,14 +21,7 @@ signoz:
         accessModes:
           - ReadWriteOnce
         size: 1Gi
-  queryService:
-    persistence:
-      enabled: true
-      storageClass: longhorn
-      accessModes:
-        - ReadWriteOnce
-      size: 1Gi
-  frontend:
+  signoz:
     ingress:
       enabled: true
       className: nginx
@@ -39,22 +32,7 @@ signoz:
           paths:
             - path: /
               pathType: Prefix
-              port: 3301
-      tls:
-        - hosts:
-            - *host
-  alertmanager:
-    ingress:
-      enabled: true
-      className: nginx
-      annotations:
-        kubernetes.io/tls-acme: "true"
-      hosts:
-        - host: &host signoz-am.k8s.devmem.ru
-          paths:
-            - path: /
-              pathType: Prefix
-              port: 9093
+              port: 8080
       tls:
         - hosts:
             - *host
@@ -63,7 +41,7 @@ signoz:
       storageClass: longhorn
       accessModes:
         - ReadWriteOnce
-      size: 100Mi
+      size: 1Gi
   otelCollector:
     service:
       annotations:
@@ -76,5 +54,3 @@ signoz:
       requests:
         cpu: 200m
         memory: 512Mi
-  k8s-infra:
-    enabled: false
