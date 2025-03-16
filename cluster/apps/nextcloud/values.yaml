@@ -168,7 +168,7 @@ nextcloud:
         cpu: 10m
         memory: 32Mi
       limits:
-        cpu: 100m
+        cpu: '2'
         memory: 64Mi
   internalDatabase:
     enabled: false
