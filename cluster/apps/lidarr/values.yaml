@@ -1,7 +1,7 @@
 lidarr:
   image:
-    repository: ghcr.io/onedr0p/lidarr-nightly
-    tag: 2.6.0.4342
+    repository: ghcr.io/home-operations/lidarr
+    tag: 2.10.1.4589
   env:
     TZ: Europe/Moscow
   ingress:

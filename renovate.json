@@ -31,11 +31,11 @@
       ],
       "matchPackageNames": [
         "ghcr.io/flaresolverr/flaresolverr",
-        "ghcr.io/onedr0p/bazarr",
-        "ghcr.io/onedr0p/lidarr-nightly",
-        "ghcr.io/onedr0p/prowlarr-nightly",
-        "ghcr.io/onedr0p/radarr-nightly",
-        "ghcr.io/onedr0p/sonarr-develop",
+        "ghcr.io/home-operations/bazarr",
+        "ghcr.io/home-operations/lidarr",
+        "ghcr.io/home-operations/prowlarr",
+        "ghcr.io/home-operations/radarr",
+        "ghcr.io/home-operations/sonarr",
         "ghcr.io/tautulli/tautulli",
         "ghcr.io/spirkaa/jackett",
         "ghcr.io/spirkaa/ombi"
@@ -114,6 +114,17 @@
       "groupName": "portainer",
       "matchPackageNames": [
         "/portainer/"
+      ]
+    },
+    {
+      "description": "Karma images and charts",
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "groupName": "karma",
+      "matchPackageNames": [
+        "/karma/"
       ]
     }
   ],

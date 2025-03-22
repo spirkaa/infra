@@ -1,6 +1,6 @@
 bazarr:
   image:
-    repository: ghcr.io/onedr0p/bazarr
+    repository: ghcr.io/home-operations/bazarr
     tag: 1.5.1
   env:
     TZ: Europe/Moscow
