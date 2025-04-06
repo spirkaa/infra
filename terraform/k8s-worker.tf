@@ -7,10 +7,10 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   clone       = local.k8s_common.clone_k8s
   vmid        = each.value.vmid
 
-  cpu     = "host"
-  sockets = 1
-  cores   = each.value.cores
-  memory  = each.value.memory
+  cpu_type = "host"
+  sockets  = 1
+  cores    = each.value.cores
+  memory   = each.value.memory
 
   os_type = "cloud-init"
   qemu_os = "l26"
@@ -54,12 +54,14 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   }
 
   network {
+    id     = 0
     model  = "virtio"
     bridge = "vmbr1"
     tag    = 13
   }
 
   network {
+    id     = 1
     model  = "virtio"
     bridge = "vmbr1"
     tag    = 20
