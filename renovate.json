@@ -129,21 +129,21 @@
     }
   ],
   "ansible": {
-    "fileMatch": [
-      "ansible/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/ansible/.+\\.ya?ml$/"
     ]
   },
   "argocd": {
-    "fileMatch": [
-      "cluster/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/cluster/.+\\.ya?ml$/"
     ],
     "ignorePaths": [
       "templates/"
     ]
   },
   "kubernetes": {
-    "fileMatch": [
-      "cluster/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/cluster/.+\\.ya?ml$/"
     ],
     "ignorePaths": [
       "templates/"
@@ -152,9 +152,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "ansible/.+\\.ya?ml$",
-        "cluster/.+\\.ya?ml$"
+      "managerFilePatterns": [
+        "/ansible/.+\\.ya?ml$/",
+        "/cluster/.+\\.ya?ml$/"
       ],
       "matchStrings": [
         "depName=(?<depName>.*?)( datasource=(?<datasource>.*?))?( versioning=(?<versioning>.*?))?\n.*?_version: (?<currentValue>.*)\n",
@@ -166,8 +166,8 @@
     },
     {
       "customType": "regex",
-      "fileMatch": [
-        "cluster/observability/kube-prometheus-stack/.+\\.yaml$"
+      "managerFilePatterns": [
+        "/cluster/observability/kube-prometheus-stack/.+\\.yaml$/"
       ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *targetRevision: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n"
