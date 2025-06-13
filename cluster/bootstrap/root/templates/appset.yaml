@@ -38,6 +38,10 @@ spec:
           jqPathExpressions:
             - .spec.template.spec.containers[].env[].valueFrom.resourceFieldRef.divisor
             - .spec.template.spec.initContainers[].env[].valueFrom.resourceFieldRef.divisor
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          jqPathExpressions:
+            - .spec.preserveUnknownFields
       syncPolicy:
         automated:
           prune: true
