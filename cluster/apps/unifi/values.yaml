@@ -8,7 +8,7 @@ unifi:
     main:
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: unifi
+        metallb.io/allow-shared-ip: unifi
       loadBalancerIP: 192.168.13.250
       externalTrafficPolicy: Local
       ports:
@@ -22,7 +22,7 @@ unifi:
       enabled: true
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: unifi
+        metallb.io/allow-shared-ip: unifi
       loadBalancerIP: 192.168.13.250
       externalTrafficPolicy: Local
       ports:

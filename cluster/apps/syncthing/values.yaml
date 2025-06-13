@@ -9,14 +9,14 @@ syncthing:
       enabled: true
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: syncthing
+        metallb.io/allow-shared-ip: syncthing
       loadBalancerIP: 192.168.13.244
       externalTrafficPolicy: Local
     udp:
       enabled: true
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: syncthing
+        metallb.io/allow-shared-ip: syncthing
       loadBalancerIP: 192.168.13.244
       externalTrafficPolicy: Local
       ports:
