@@ -1,14 +1,15 @@
 velero:
   initContainers:
     - name: velero-plugin-for-aws
-      image: velero/velero-plugin-for-aws:v1.12.0
+      image: velero/velero-plugin-for-aws:v1.12.1
       imagePullPolicy: IfNotPresent
       volumeMounts:
         - mountPath: /target
           name: plugins
   configuration:
     extraEnvVars:
-      TZ: "Europe/Moscow"
+      - name: TZ
+        value: "Europe/Moscow"
     backupStorageLocation:
       - name: backups-primary
         provider: aws
@@ -36,12 +37,12 @@ velero:
       cpu: 50m
       memory: 128Mi
     limits:
-      cpu: 1000m
+      cpu: '2'
       memory: 512Mi
   upgradeJobResources:
     requests:
       cpu: 50m
       memory: 128Mi
     limits:
-      cpu: 1000m
+      cpu: '2'
       memory: 512Mi
