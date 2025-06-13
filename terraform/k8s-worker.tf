@@ -7,11 +7,6 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   clone       = local.k8s_common.clone_k8s
   vmid        = each.value.vmid
 
-  cpu_type = "host"
-  sockets  = 1
-  cores    = each.value.cores
-  memory   = each.value.memory
-
   os_type = "cloud-init"
   qemu_os = "l26"
   agent   = 1
@@ -22,6 +17,14 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   ipconfig0      = "ip=${each.value.ip}/24,gw=${local.k8s_common.gw}"
   ipconfig1      = "ip=${each.value.ip_data}/24"
   sshkeys        = var.ssh_pub_keys
+
+  memory = each.value.memory
+
+  cpu {
+    cores   = each.value.cores
+    sockets = 1
+    type    = "host"
+  }
 
   disks {
     ide {
