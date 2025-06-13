@@ -3,7 +3,7 @@ name: cert-manager
 version: 0.0.0
 dependencies:
   - name: cert-manager
-    version: v1.17.2
+    version: v1.18.0
     repository: https://charts.jetstack.io
   - name: cert-manager-webhook-selectel
     version: 1.4.0
