@@ -1,9 +1,9 @@
 consul:
   global:
     name: consul
-    image: hashicorp/consul:1.20.5
+    image: hashicorp/consul:1.21.1
     # renovate: datasource=docker versioning=docker
-    imageK8S: hashicorp/consul-k8s-control-plane:1.6.3
+    imageK8S: hashicorp/consul-k8s-control-plane:1.7.1
     acls:
       manageSystemACLs: true
     metrics:
