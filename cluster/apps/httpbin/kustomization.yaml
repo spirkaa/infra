@@ -8,4 +8,4 @@ resources:
   - resources.yaml
 images:
   - name: ghcr.io/mccutchen/go-httpbin
-    newTag: "2.18.2"
+    newTag: "2.18.3"
