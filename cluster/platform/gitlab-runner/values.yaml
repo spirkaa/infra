@@ -10,7 +10,7 @@ gitlab-runner:
     config: |
       [[runners]]
         [runners.kubernetes]
-          image = "alpine:3.18"
+          image = "alpine:3.22"
         [runners.cache]
           Type = "s3"
           Path = "gitlab-runner"
@@ -19,5 +19,6 @@ gitlab-runner:
             ServerAddress = "s3.home.devmem.ru"
             BucketName = "gitlab"
             BucketLocation = "main"
+            PathStyle = true
     cache:
       secretName: s3access
