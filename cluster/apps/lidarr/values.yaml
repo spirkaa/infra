@@ -1,7 +1,7 @@
 lidarr:
   image:
     repository: ghcr.io/home-operations/lidarr
-    tag: 2.12.1.4636
+    tag: 2.12.4.4658
   env:
     TZ: Europe/Moscow
   ingress:
