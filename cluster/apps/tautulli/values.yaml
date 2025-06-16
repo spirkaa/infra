@@ -46,7 +46,7 @@ tautulli:
   resources:
     requests:
       cpu: 50m
-      memory: 256Mi
-    limits:
-      cpu: 1000m
       memory: 512Mi
+    limits:
+      cpu: '2'
+      memory: 1Gi

@@ -12,5 +12,5 @@ flaresolverr:
       cpu: 10m
       memory: 128Mi
     limits:
-      cpu: 2000m
-      memory: 1024Mi
+      cpu: '2'
+      memory: 1Gi

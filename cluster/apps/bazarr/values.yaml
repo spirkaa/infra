@@ -39,5 +39,5 @@ bazarr:
       cpu: 20m
       memory: 512Mi
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: '2'
+      memory: 1Gi

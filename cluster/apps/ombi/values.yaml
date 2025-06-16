@@ -47,5 +47,5 @@ ombi:
       cpu: 50m
       memory: 384Mi
     limits:
-      cpu: 1000m
+      cpu: '2'
       memory: 512Mi

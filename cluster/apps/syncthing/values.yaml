@@ -62,7 +62,7 @@ syncthing:
       cpu: 50m
       memory: 128Mi
     limits:
-      cpu: 1000m
+      cpu: '2'
       memory: 256Mi
   nodeSelector:
     devmem.ru/pve-host: spsrv

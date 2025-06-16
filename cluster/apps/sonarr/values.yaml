@@ -36,5 +36,5 @@ sonarr:
       cpu: 50m
       memory: 768Mi
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: '2'
+      memory: 1Gi
