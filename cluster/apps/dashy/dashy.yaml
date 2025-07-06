@@ -263,10 +263,10 @@ data:
             icon: hl-bazarr
             url: https://bazarr.home.devmem.ru
             id: 10_389_bazarr
-          - title: Monitorrent
-            icon: generative
-            url: https://monitorrent.home.devmem.ru
-            id: 11_389_monitorrent
+          - title: Huntarr
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/huntarr.png
+            url: https://huntarr.home.devmem.ru
+            id: 11_389_huntarr
       - name: k8s
         displayData:
           sortBy: default
