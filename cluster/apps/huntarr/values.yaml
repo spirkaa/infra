@@ -1,0 +1,58 @@
+huntarr:
+  controllers:
+    main:
+      type: deployment
+      replicas: 1
+      strategy: Recreate
+      revisionHistoryLimit: 2
+      containers:
+        main:
+          image:
+            repository: ghcr.io/plexguide/huntarr
+            tag: 8.1.11
+            pullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Europe/Moscow
+          resources:
+            requests:
+              cpu: 10m
+              memory: 256Mi
+            limits:
+              cpu: '2'
+              memory: 512Mi
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 80
+          targetPort: 9705
+          protocol: HTTP
+  persistence:
+    config:
+      forceRename: huntarr-config
+      storageClass: longhorn
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        main:
+          main:
+            - path: /config
+              readOnly: false
+  ingress:
+    main:
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: &host huntarr.home.devmem.ru
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - hosts:
+            - *host
