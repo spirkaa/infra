@@ -19,6 +19,7 @@ ingress-nginx:
       proxy-body-size: 2G
       client-body-buffer-size: 128m
       proxy-buffer-size: 16k
+      proxy-busy-buffers-size: 16k
       annotations-risk-level: Critical
     metrics:
       enabled: true
