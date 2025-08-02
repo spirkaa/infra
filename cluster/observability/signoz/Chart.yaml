@@ -3,5 +3,5 @@ name: signoz
 version: 0.0.0
 dependencies:
 - name: signoz
-  version: 0.87.1
+  version: 0.88.1
   repository: https://charts.signoz.io
