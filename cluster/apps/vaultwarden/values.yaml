@@ -1,7 +1,7 @@
 vaultwarden:
   image:
     repository: vaultwarden/server
-    tag: 1.34.2-alpine
+    tag: 1.34.3-alpine
   env:
     DATA_FOLDER: data
   envFrom:
