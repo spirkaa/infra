@@ -1,5 +1,5 @@
 oauth2-proxy:
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: 2
   config:
     existingSecret: oauth2-proxy
   ingress:
@@ -36,17 +36,14 @@ oauth2-proxy:
     type: redis
   redis:
     enabled: true
-    architecture: standalone
-    auth:
+    fullnameOverride: oauth2-proxy-redis
+    auth: false
+    replicas: 1
+    persistentVolume:
       enabled: false
-    master:
-      kind: Deployment
-      persistence:
-        enabled: false
-        medium: Memory
+    redis:
       resources:
         limits:
-          cpu: "1"
           ephemeral-storage: 1Gi
           memory: 192Mi
         requests:
