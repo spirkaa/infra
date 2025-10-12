@@ -1,4 +1,9 @@
 thanos:
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/thanos
   existingObjstoreSecret: thanos-objstore
   query:
     enabled: true
