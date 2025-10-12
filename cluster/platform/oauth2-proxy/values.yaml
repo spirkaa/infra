@@ -42,6 +42,8 @@ oauth2-proxy:
     persistentVolume:
       enabled: false
     redis:
+      config:
+        min-replicas-to-write: 0
       resources:
         limits:
           ephemeral-storage: 1Gi
