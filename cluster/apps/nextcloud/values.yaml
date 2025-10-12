@@ -179,7 +179,7 @@ nextcloud:
     enabled: true
     image:
       registry: docker.io
-      repository: bitnami/postgresql
+      repository: bitnamilegacy/postgresql
       tag: 14.18.0-debian-12-r0
     architecture: standalone
     auth:
@@ -200,7 +200,7 @@ nextcloud:
       enabled: true
       image:
         registry: docker.io
-        repository: bitnami/postgres-exporter
+        repository: bitnamilegacy/postgres-exporter
         tag: 0.13.2-debian-11-r30
       serviceMonitor:
         enabled: true

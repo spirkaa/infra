@@ -1,4 +1,9 @@
 kubernetes-event-exporter:
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/kubernetes-event-exporter
   resources:
     limits:
       memory: 128Mi
