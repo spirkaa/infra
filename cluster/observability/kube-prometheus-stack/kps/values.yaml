@@ -209,7 +209,7 @@ kube-prometheus-stack:
             - targets:
                 - 192.168.10.99:9100
                 - 192.168.20.99:9100
-                - 192.168.40.1:8080
+                # - 192.168.40.1:8080
     ingress:
       enabled: true
       ingressClassName: nginx
