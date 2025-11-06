@@ -49,8 +49,7 @@ signoz:
       type: LoadBalancer
     resources:
       limits:
-        cpu: '2'
         memory: 1Gi
       requests:
         cpu: 200m
-        memory: 512Mi
+        memory: 1Gi
