@@ -1,7 +1,7 @@
 flaresolverr:
   image:
     repository: ghcr.io/flaresolverr/flaresolverr
-    tag: v3.4.3
+    tag: v3.4.4
   env:
     TZ: Europe/Moscow
     LOG_LEVEL: info
