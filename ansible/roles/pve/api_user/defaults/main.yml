@@ -28,7 +28,6 @@ pve_api_role_privs: >
   VM.Config.Options
   VM.Console
   VM.Migrate
-  VM.Monitor
   VM.PowerMgmt
   SDN.Use
 

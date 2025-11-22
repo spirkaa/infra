@@ -232,7 +232,7 @@
 
 Создать пользователя можно с помощью роли [pve/api_user](ansible/roles/pve/api_user) или вручную, выполнив команды в консоли сервера Proxmox и сохранив вывод последней. **Для работы с кластером Proxmox назначены дополнительные права, не указанные в документации провайдера [telmate/proxmox](https://github.com/Telmate/terraform-provider-proxmox/blob/master/docs/index.md#creating-the-proxmox-user-and-role-for-terraform)**
 
-`pveum role add Provisioner -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Pool.Audit Sys.Audit Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Console VM.Monitor VM.PowerMgmt"`
+`pveum role add Provisioner -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Pool.Audit Sys.Audit Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Console VM.PowerMgmt"`
 
 `pveum user add hashicorp@pve`
 
