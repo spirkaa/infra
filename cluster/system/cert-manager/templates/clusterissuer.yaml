@@ -25,3 +25,5 @@ spec:
             - "home.devmem.ru"
             - "k8s.devmem.ru"
             - "tele.devmem.ru"
+            - "auth.devmem.ru"
+            - "ai.devmem.ru"
