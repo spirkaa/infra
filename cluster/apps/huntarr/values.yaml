@@ -9,7 +9,7 @@ huntarr:
         main:
           image:
             repository: ghcr.io/plexguide/huntarr
-            tag: 8.2.10
+            tag: 8.2.11
             pullPolicy: IfNotPresent
           env:
             - name: TZ
