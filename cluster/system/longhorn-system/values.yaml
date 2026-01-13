@@ -1,4 +1,22 @@
 longhorn:
+  # https://github.com/longhorn/longhorn/releases/tag/v1.10.1
+  preUpgradeChecker:
+    upgradeVersionCheck: false
+  image:
+    longhorn:
+      engine:
+        tag: v1.10.1-hotfix-2
+      manager:
+        tag: v1.10.1-hotfix-2
+      ui:
+        tag: v1.10.1-hotfix-2
+      instanceManager:
+        tag: v1.10.1-hotfix-2
+      shareManager:
+        tag: v1.10.1-hotfix-2
+      backingImageManager:
+        tag: v1.10.1-hotfix-2
+
   defaultSettings:
     defaultReplicaCount: 2
     nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
