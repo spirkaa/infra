@@ -3,7 +3,7 @@
   ansible.builtin.include_tasks: util_resource_facts.yml
 
 - name: template tasks
-  when: not pve_resource_exists
+  when: not pve_resource_exists | length > 0
   block:
     - name: packages - install
       ansible.builtin.package:

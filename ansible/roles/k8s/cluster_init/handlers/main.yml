@@ -1,15 +1,32 @@
 ---
-- name: lb - restart services
+- name: Reload haproxy
   ansible.builtin.service:
-    name: "{{ item }}"
-    state: restarted
-  loop:
-    - haproxy
-    - keepalived
+    name: haproxy
+    state: reloaded
+  register: _haproxy_reload_result
+  retries: 12
+  delay: 5
+  until: _haproxy_reload_result is succeeded
   become: true
+  when:
+    - not ansible_check_mode
 
-- name: storage - restart multipathd
+- name: Reload keepalived
+  ansible.builtin.service:
+    name: keepalived
+    state: reloaded
+  register: _keepalived_restart_result
+  retries: 12
+  delay: 5
+  until: _keepalived_restart_result is succeeded
+  become: true
+  when:
+    - not ansible_check_mode
+
+- name: Restart multipathd
   ansible.builtin.service:
     name: multipathd
     state: restarted
   become: true
+  when:
+    - not ansible_check_mode

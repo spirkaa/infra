@@ -1,33 +1,38 @@
 ---
-- name: check if admin.conf exists (cluster initialized)
+- name: Init_cluster | Set fact first control plane node
+  ansible.builtin.set_fact:
+    k8s_cluster_first_controlplane: "{{ groups[k8s_cluster_controlplane_group][0] }}"
+  run_once: true
+
+- name: Init_cluster | Check if admin.conf exists (cluster initialized)
   ansible.builtin.stat:
     path: /etc/kubernetes/admin.conf
   register: k8s_cluster_admin_conf
 
-- name: check if kubelet.conf exists (node in cluster)
+- name: Init_cluster | Check if kubelet.conf exists (node in cluster)
   ansible.builtin.stat:
     path: /etc/kubernetes/kubelet.conf
   register: k8s_cluster_kubelet_conf
 
-- name: first control plane node - cluster init tasks
+- name: Init_cluster | First control plane node tasks
   run_once: true
-  when: inventory_hostname == groups[k8s_cluster_controlplane_group][0]
+  when: inventory_hostname == k8s_cluster_first_controlplane
   block:
-    - name: kubeadm - create dir
+    - name: Init_cluster | Create kubeadm config directory
       ansible.builtin.file:
         path: "{{ k8s_cluster_kubeadm_config | dirname }}"
         state: directory
         mode: "0755"
       become: true
 
-    - name: kubeadm - copy config
+    - name: Init_cluster | Copy kubeadm config
       ansible.builtin.template:
         src: kubeadm-config.yml.j2
         dest: "{{ k8s_cluster_kubeadm_config }}"
         mode: "0644"
       become: true
 
-    - name: kubeadm - init cluster
+    - name: Init_cluster | Run kubeadm init command
       ansible.builtin.command: >
         kubeadm init
           --config {{ k8s_cluster_kubeadm_config }}
@@ -35,13 +40,13 @@
       changed_when: true
       when: not k8s_cluster_admin_conf.stat.exists
 
-    - name: kubeconfig - create user dir
+    - name: Init_cluster | Create kubeconfig directory for user
       ansible.builtin.file:
         path: "{{ k8s_cluster_user_home }}"
         state: directory
         mode: "0700"
 
-    - name: kubeconfig - copy admin.conf to user dir
+    - name: Init_cluster | Copy kubeconfig to user's home
       ansible.builtin.copy:
         src: /etc/kubernetes/admin.conf
         dest: "{{ k8s_cluster_kubeconfig_remote }}"
@@ -51,19 +56,19 @@
         remote_src: true
       become: true
 
-    - name: kubeconfig - fetch to ansible host
+    - name: Init_cluster | Fetch kubeconfig to ansible host
       ansible.builtin.fetch:
         src: "{{ k8s_cluster_kubeconfig_remote }}"
         dest: "{{ k8s_cluster_kubeconfig_localhost }}"
         flat: true
 
-    - name: pod network - create dir
+    - name: Init_cluster | Create pod network manifest directory
       ansible.builtin.file:
         path: "{{ k8s_cluster_pod_network_manifest_dir }}"
         state: directory
         mode: "0755"
 
-    - name: pod network - copy kustomization
+    - name: Init_cluster | Copy calico kustomization
       ansible.builtin.template:
         src: calico/{{ item }}.j2
         dest: "{{ k8s_cluster_pod_network_manifest_dir }}/{{ item }}"
@@ -73,34 +78,36 @@
         - kustomization.yaml
         - patch.yaml
 
-    - name: pod network - download manifest
+    - name: Init_cluster | Download pod network manifest
       ansible.builtin.get_url:
         url: "{{ k8s_cluster_pod_network_manifest_url }}"
         dest: "{{ k8s_cluster_pod_network_manifest }}"
         mode: "0644"
       register: _download_manifest
 
-    - name: pod network - apply kustomized manifest to cluster  # noqa no-handler
+    - name: Init_cluster | Apply kustomized pod network manifest to cluster
       ansible.builtin.command: >
         kubectl apply --kustomize {{ k8s_cluster_pod_network_manifest_dir }}/
       register: k8s_cluster_network_result
-      changed_when: "'created' or 'configured' in k8s_cluster_network_result.stdout"
+      changed_when: >
+        ('created' in k8s_cluster_network_result.stdout)
+        or ('configured' in k8s_cluster_network_result.stdout)
       when: _copy_kustomization.changed or _download_manifest.changed
 
-    - name: kubeadm - register cluster join command
+    - name: Init_cluster | Get cluster join command
       ansible.builtin.command: >
         kubeadm token create --print-join-command
       changed_when: false
       register: k8s_cluster_join_command_result
 
-    - name: kubeadm - upload certs and register key
+    - name: Init_cluster | Upload certs and register key
       ansible.builtin.command: >
         kubeadm init phase upload-certs --upload-certs
       changed_when: false
       register: k8s_cluster_certs_key_result
       become: true
 
-- name: set kubeadm join command for all hosts
+- name: Init_cluster | Set join command and certs key facts
   ansible.builtin.set_fact:
     k8s_cluster_join_command: >-
       {{ k8s_cluster_join_command_result.stdout }}
@@ -113,7 +120,7 @@
     - k8s_cluster_join_command_result.stdout is defined
     - k8s_cluster_certs_key_result.stdout is defined
 
-- name: control plane nodes - join cluster
+- name: Init_cluster | Execute join command on control plane node
   ansible.builtin.command: >
     {{ k8s_cluster_join_command }}
     --control-plane
@@ -121,15 +128,18 @@
   become: true
   changed_when: true
   when:
-    - inventory_hostname != groups[k8s_cluster_controlplane_group][0]
+    - inventory_hostname != k8s_cluster_first_controlplane
     - k8s_cluster_controlplane_group in group_names
+    - k8s_cluster_join_command is defined
+    - k8s_cluster_certs_key is defined
     - not k8s_cluster_kubelet_conf.stat.exists
 
-- name: worker nodes - join cluster
+- name: Init_cluster | Execute join command on worker node
   ansible.builtin.command: >
     {{ k8s_cluster_join_command }}
   become: true
   changed_when: true
   when:
     - k8s_cluster_workers_group in group_names
+    - k8s_cluster_join_command is defined
     - not k8s_cluster_kubelet_conf.stat.exists

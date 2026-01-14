@@ -10,19 +10,20 @@ defaults
     timeout connect 5000
     timeout client 50000
     timeout server 50000
+    timeout tunnel 1h
 
-listen stats
-    bind *:9000
+frontend stats
+    bind :8404
     mode http
     stats enable
-    stats hide-version
     stats uri /stats
-    stats refresh 30s
+    stats refresh 10s
+    stats show-legends
     stats realm Haproxy\ Statistics
     stats auth Admin:Password
 
 frontend k8s-apiserver
-    bind *:6443
+    bind :6443
     mode tcp
     option tcplog
     default_backend k8s-apiserver
@@ -31,10 +32,9 @@ backend k8s-apiserver
     option httpchk GET /healthz
     http-check expect status 200
     mode tcp
-    option tcplog
     option tcp-check
     balance roundrobin
     default-server inter 10s downinter 5s rise 2 fall 2 slowstart 60s maxconn 250 maxqueue 256 weight 100
 {% for host in groups[k8s_cluster_controlplane_group] %}
-    server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_host'] }}:6443 check
+    server {{ hostvars[host]['ansible_facts']['hostname'] }} {{ hostvars[host]['ansible_host'] }}:6443 check
 {% endfor %}

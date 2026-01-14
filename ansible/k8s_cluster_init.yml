@@ -2,6 +2,7 @@
 - name: k8s cluster init
   hosts: all
   gather_facts: true
+  any_errors_fatal: true
 
   roles:
     - { role: k8s/cluster_init }
@@ -9,6 +10,7 @@
 - name: k8s apps
   hosts: localhost
   gather_facts: false
+  any_errors_fatal: true
 
   roles:
     - { role: k8s_apps/argocd }

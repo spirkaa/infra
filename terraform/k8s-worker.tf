@@ -3,7 +3,7 @@ resource "proxmox_vm_qemu" "k8s_worker" {
 
   name        = each.key
   target_node = each.value.target_node
-  desc        = "Kubernetes worker"
+  description = "Kubernetes worker"
   clone       = local.k8s_common.clone_k8s
   vmid        = each.value.vmid
 
@@ -11,7 +11,8 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   qemu_os = "l26"
   agent   = 1
   scsihw  = "virtio-scsi-pci"
-  onboot  = true
+
+  start_at_node_boot = true
 
   ssh_forward_ip = each.value.ip
   ipconfig0      = "ip=${each.value.ip}/24,gw=${local.k8s_common.gw}"
@@ -78,6 +79,12 @@ resource "proxmox_vm_qemu" "k8s_worker" {
   serial {
     id   = 0
     type = "socket"
+  }
+
+  startup_shutdown {
+    order            = -1
+    shutdown_timeout = -1
+    startup_delay    = -1
   }
 
   lifecycle {

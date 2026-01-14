@@ -1,5 +1,5 @@
 ---
-- name: storage - create mount directory
+- name: Storage | Create mount directory
   ansible.builtin.file:
     path: "{{ k8s_cluster_storage_mount }}"
     state: directory
@@ -8,7 +8,7 @@
     group: root
   become: true
 
-- name: storage - create partition
+- name: Storage | Create partition
   community.general.parted:
     device: "{{ k8s_cluster_storage_dev }}"
     number: "{{ k8s_cluster_storage_part_num }}"
@@ -16,20 +16,20 @@
     state: present
   become: true
 
-- name: storage - create filesystem
+- name: Storage | Create filesystem
   community.general.filesystem:
     dev: "{{ k8s_cluster_storage_part }}"
     fstype: "{{ k8s_cluster_storage_fstype }}"
   become: true
 
-- name: storage - get uuid
+- name: Storage | Get UUID
   ansible.builtin.command: >
     blkid -s UUID -o value {{ k8s_cluster_storage_part }}
   changed_when: false
   register: _get_uuid
   become: true
 
-- name: storage - mount partition
+- name: Storage | Mount partition
   ansible.posix.mount:
     path: "{{ k8s_cluster_storage_mount }}"
     src: UUID={{ _get_uuid.stdout }}
@@ -37,12 +37,12 @@
     state: mounted
   become: true
 
-- name: storage - configure multipathd to ignore local volumes
+- name: Storage | Configure multipathd to ignore local volumes
   ansible.builtin.blockinfile:
     path: /etc/multipath.conf
     block: |
       blacklist {
           devnode "^sd[a-z0-9]+"
       }
-  notify: storage - restart multipathd
   become: true
+  notify: Restart multipathd

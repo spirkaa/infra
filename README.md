@@ -1,6 +1,6 @@
 # Infra (Home Kubernetes)
 
-Конфигурация моего персонального кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://www.weave.works/technologies/gitops/).
+Конфигурация моего персонального кластера Kubernetes с использованием методологий [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) и [GitOps](https://codefresh.io/learn/gitops/).
 
 * Предыдущая версия на основе Docker внутри LXC, без k8s - [spirkaa/ansible-homelab](https://github.com/spirkaa/ansible-homelab).
 * Для вдохновения можно посмотреть, как делают другие - [k8s-at-home](https://github.com/topics/k8s-at-home).
@@ -41,15 +41,15 @@
 
 ### Железо
 
-Хосты работают на [Proxmox](https://www.proxmox.com/en/proxmox-ve) в составе кластера.
+Хосты работают на [Proxmox](https://www.proxmox.com/en/products/proxmox-virtual-environment/overview) в составе кластера.
 
 * 1x Custom NAS (Fractal Design Define R6, Corsair RM650x)
   * Intel Xeon E3-1230 v5
   * 64GB DDR4 ECC UDIMM
   * 1TB NVMe SSD (LVM)
   * 512GB NVMe SSD (LVM)
-  * 2x 20TB, 3x 18TB HDD ([MergerFS](https://perfectmediaserver.com/tech-stack/mergerfs/) + [SnapRAID](https://perfectmediaserver.com/tech-stack/snapraid/))
-  * 2x 12TB HDD (ZFS mirror)
+  * 2x 20TB, 3x 18TB HDD ([MergerFS](https://perfectmediaserver.com/02-tech-stack/mergerfs/) + [SnapRAID](https://perfectmediaserver.com/02-tech-stack/snapraid/))
+  * 2x 22TB HDD ([ZFS mirror](https://perfectmediaserver.com/02-tech-stack/zfs/))
 * 2x Lenovo IdeaCentre G5-14IMB05
   * Intel Core i5-10400
   * 32GB DDR4
@@ -69,7 +69,7 @@
 
 ## Компоненты кластера Kubernetes
 
-### Виртуальные машины Ubuntu 22.04
+### Виртуальные машины Ubuntu 24.04
 
 * 3x Control Plane (2 vCPU, 4 GB)
 * 3x Worker (4/6 vCPU, 16 GB)
@@ -244,7 +244,7 @@
 
 Подготовка выполняется в 2 этапа:
 
-1. [Ansible](https://www.ansible.com/) скачивает образ [Ubuntu Cloud](https://cloud-images.ubuntu.com/releases/jammy/), с помощью `virt-customize` устанавливает в образ пакет `qemu-guest-agent` и сбрасывает `machine-id`, создает ВМ в Proxmox и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
+1. [Ansible](https://www.ansible.com/) скачивает образ [Ubuntu Cloud](https://cloud-images.ubuntu.com/releases/noble/), с помощью `virt-customize` устанавливает в образ пакет `qemu-guest-agent` и сбрасывает `machine-id`, создает ВМ в Proxmox и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
 1. [Packer](https://www.packer.io/) клонирует шаблон из п.1, запускает ВМ, настраивает с помощью Ansible, преобразует в шаблон.
 
 Разворачивание ВМ из шаблона выполняется с помощью [Terraform](https://www.terraform.io/).
@@ -284,13 +284,13 @@
     Получить список и скопировать нужный <MEMBER_ID>
 
     ```bash
-    kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member list -w table'
+    kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member list -w table
     ```
 
     Удалить участника <MEMBER_ID>
 
     ```bash
-    kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member remove <MEMBER_ID>'
+    kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" member remove <MEMBER_ID>
     ```
 
 1. Удалить и добавить ноду через Terraform
@@ -300,5 +300,5 @@
 <https://etcd.io/docs/v3.5/op-guide/maintenance/#defragmentation>
 
 ```bash
-kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- sh -c 'ETCDCTL_API=3 etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" defrag --cluster'
+kubectl -n kube-system exec -it etcd-k8s-controlplane-04 -- etcdctl --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" defrag --cluster
 ```

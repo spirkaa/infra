@@ -6,4 +6,4 @@
   ansible.builtin.command: >
     pvesh delete /nodes/{{ pve_resource_exists[0]['node'] }}/{{ pve_resource_exists[0]['id'] }}
   changed_when: true
-  when: pve_resource_exists
+  when: pve_resource_exists | length > 0
