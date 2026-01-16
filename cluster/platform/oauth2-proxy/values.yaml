@@ -34,7 +34,7 @@ oauth2-proxy:
       enabled: false
   sessionStorage:
     type: redis
-  redis:
+  redis-ha:
     enabled: true
     fullnameOverride: oauth2-proxy-redis
     auth: false
