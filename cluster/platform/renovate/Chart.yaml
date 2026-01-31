@@ -3,5 +3,5 @@ name: renovate
 version: 0.0.0
 dependencies:
   - name: renovate
-    version: 45.85.4
+    version: 45.88.1
     repository: https://docs.renovatebot.com/helm-charts
