@@ -3,5 +3,5 @@ name: portainer
 version: 0.0.0
 dependencies:
 - name: portainer
-  version: 2.33.6
+  version: 2.33.7
   repository: https://portainer.github.io/k8s
