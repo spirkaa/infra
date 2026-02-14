@@ -8,5 +8,5 @@ data:
   HTTP_PROXY: *proxy
   https_proxy: *proxy
   HTTPS_PROXY: *proxy
-  no_proxy: &noproxy api.telegram.org,plex.tv,.devmem.ru,.home.devmem.ru,.k8s.devmem.ru,plex,radarr,sonarr,lidarr,10.244.0.0/16,192.168.0.0/16,localhost,127.0.0.1
+  no_proxy: &noproxy plex.tv,.devmem.ru,.home.devmem.ru,.k8s.devmem.ru,plex,radarr,sonarr,lidarr,10.244.0.0/16,192.168.0.0/16,localhost,127.0.0.1
   NO_PROXY: *noproxy
