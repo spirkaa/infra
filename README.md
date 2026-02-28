@@ -161,7 +161,6 @@
 
 ### Медиа-сервер
 
-* [Huntarr](https://github.com/plexguide/Huntarr.io)
 * [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr)
 * [Bazarr](https://github.com/morpheus65535/bazarr)
 * [Radarr](https://github.com/Radarr/Radarr)

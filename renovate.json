@@ -38,8 +38,7 @@
         "ghcr.io/home-operations/sonarr",
         "ghcr.io/tautulli/tautulli",
         "ghcr.io/spirkaa/jackett",
-        "ghcr.io/spirkaa/ombi",
-        "ghcr.io/plexguide/huntarr"
+        "ghcr.io/spirkaa/ombi"
       ]
     },
     {
