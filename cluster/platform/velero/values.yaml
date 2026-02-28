@@ -46,3 +46,6 @@ velero:
     limits:
       cpu: '2'
       memory: 512Mi
+  kubectl:
+    image:
+      repository: public.ecr.aws/bitnami/kubectl
