@@ -3,4 +3,4 @@ snapshot-controller:
   controller:
     image:
       repository: registry.k8s.io/sig-storage/snapshot-controller
-      tag: v8.4.0
+      tag: v8.5.0
