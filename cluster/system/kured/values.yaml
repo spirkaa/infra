@@ -1,7 +1,7 @@
 kured:
   configuration:
     prometheusUrl: http://kps-prometheus.observability.svc.cluster.local:9090
-    alertFilterRegexp: "^(RebootRequired|RebootScheduled|Watchdog|InfoInhibitor|LonghornVolumeActualSpaceUsedWarning)$"
+    alertFilterRegexp: "^(RebootRequired|RebootScheduled|Watchdog|InfoInhibitor|LonghornVolumeActualSpaceUsedWarning|AlertmanagerFailedToSendAlerts|AlertmanagerClusterFailedToSendAlerts)$"
     alertFiringOnly: true
     lockReleaseDelay: 15m
     lockTtl: 24h
