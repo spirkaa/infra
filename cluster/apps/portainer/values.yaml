@@ -1,7 +1,7 @@
 portainer:
   image:
     repository: portainer/portainer-ce
-    tag: 2.39.1
+    tag: 2.40.0
   service:
     type: ClusterIP
   ingress:
