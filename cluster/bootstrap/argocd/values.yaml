@@ -272,5 +272,8 @@ argo-cd:
         enabled: true
   dex:
     enabled: false
+  redis:
+    image:
+      repository: docker.io/library/redis
 
 externalsecret: true
