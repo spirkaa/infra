@@ -1,0 +1,22 @@
+ALTER TABLE system.asynchronous_metric_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.error_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.metric_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.query_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.session_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.text_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.trace_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.zookeeper_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.processors_profile_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.latency_log MODIFY TTL event_date + INTERVAL 3 DAY;
+
+ALTER TABLE system.asynchronous_insert_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.backup_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.query_metric_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.query_thread_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.query_views_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.part_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.crash_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.opentelemetry_span_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.background_schedule_pool_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.aggregated_zookeeper_log MODIFY TTL event_date + INTERVAL 3 DAY;
+ALTER TABLE system.zookeeper_connection_log MODIFY TTL event_date + INTERVAL 3 DAY;
