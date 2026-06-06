@@ -6,7 +6,7 @@ resources:
 configMapGenerator:
   - name: loki-promtail-dashboard
     files:
-      - loki-promtail-dashboard.json=https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/promtail/dashboards/promtail.json
+      - loki-promtail-dashboard.json=https://raw.githubusercontent.com/monitoring-mixins/website/320fa021f49cbe48e68f0c7e090fb5874aa7ab6a/assets/promtail/dashboards/promtail.json
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
