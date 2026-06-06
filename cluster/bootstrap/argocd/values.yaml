@@ -123,6 +123,16 @@ argo-cd:
           - '.spec.data[].remoteRef.decodingStrategy'
           - '.spec.data[].remoteRef.metadataPolicy'
           - '.spec.data[].remoteRef.nullBytePolicy'
+          - '.spec.dataFrom[].extract.conversionStrategy'
+          - '.spec.dataFrom[].extract.decodingStrategy'
+          - '.spec.dataFrom[].extract.metadataPolicy'
+          - '.spec.dataFrom[].extract.nullBytePolicy'
+      resource.customizations.ignoreDifferences.external-secrets.io_ClusterExternalSecret: |
+        jqPathExpressions:
+          - '.spec.externalSecretSpec.data[].remoteRef.conversionStrategy'
+          - '.spec.externalSecretSpec.data[].remoteRef.decodingStrategy'
+          - '.spec.externalSecretSpec.data[].remoteRef.metadataPolicy'
+          - '.spec.externalSecretSpec.data[].remoteRef.nullBytePolicy'
     rbac:
       policy.csv: |
         g, argocd_admins, role:admin
