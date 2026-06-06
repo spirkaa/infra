@@ -117,6 +117,12 @@ argo-cd:
         jqPathExpressions:
           - '.spec.conversion.webhook.clientConfig.caBundle'
           - '.spec.versions[]?.additionalPrinterColumns[]?.priority | select(. == 0)'
+      resource.customizations.ignoreDifferences.external-secrets.io_ExternalSecret: |
+        jqPathExpressions:
+          - '.spec.data[].remoteRef.conversionStrategy'
+          - '.spec.data[].remoteRef.decodingStrategy'
+          - '.spec.data[].remoteRef.metadataPolicy'
+          - '.spec.data[].remoteRef.nullBytePolicy'
     rbac:
       policy.csv: |
         g, argocd_admins, role:admin
