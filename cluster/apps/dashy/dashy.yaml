@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: dashy
-          image: ghcr.io/lissy93/dashy:4.2.4
+          image: ghcr.io/lissy93/dashy:4.2.7
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
