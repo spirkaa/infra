@@ -3,5 +3,5 @@ name: kured
 version: 0.0.0
 dependencies:
   - name: kured
-    version: 5.12.1
+    version: 6.0.0
     repository: https://kubereboot.github.io/charts
