@@ -1,7 +1,7 @@
 radarr:
   image:
     repository: ghcr.io/home-operations/radarr
-    tag: 6.2.1.10437
+    tag: 6.2.1.10461
   env:
     TZ: Europe/Moscow
   ingress:
