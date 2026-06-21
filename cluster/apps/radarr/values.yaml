@@ -29,7 +29,7 @@ radarr:
       type: pvc
       accessMode: ReadWriteOnce
       storageClass: longhorn
-      size: 5Gi
+      size: 10Gi
     nfs-downloads:
       enabled: true
       existingClaim: nfs-downloads-pvc
