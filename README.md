@@ -69,7 +69,7 @@
 
 ## Компоненты кластера Kubernetes
 
-### Виртуальные машины Ubuntu 24.04
+### Виртуальные машины Ubuntu Server LTS
 
 * 3x Control Plane (2 vCPU, 4 GB)
 * 3x Worker (4/6 vCPU, 16 GB)
@@ -243,8 +243,8 @@
 
 Подготовка выполняется в 2 этапа:
 
-1. [Ansible](https://www.ansible.com/) скачивает образ [Ubuntu Cloud](https://cloud-images.ubuntu.com/releases/noble/), с помощью `virt-customize` устанавливает в образ пакет `qemu-guest-agent` и сбрасывает `machine-id`, создает ВМ в Proxmox и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
-1. [Packer](https://www.packer.io/) клонирует шаблон из п.1, запускает ВМ, настраивает с помощью Ansible, преобразует в шаблон.
+1. [Ansible](https://www.ansible.com/) скачивает образ [Ubuntu Cloud](https://cloud-images.ubuntu.com/releases/), с помощью `virt-customize` устанавливает в образ пакет `qemu-guest-agent` и сбрасывает `machine-id`, создает ВМ в Proxmox и импортирует образ (но не запускает), преобразует ВМ в шаблон. Готовый шаблон должен оставаться в системе для идемпотентности.
+2. [Packer](https://www.packer.io/) клонирует шаблон из п.1, запускает ВМ, настраивает с помощью Ansible, преобразует в шаблон.
 
 Разворачивание ВМ из шаблона выполняется с помощью [Terraform](https://www.terraform.io/).
 

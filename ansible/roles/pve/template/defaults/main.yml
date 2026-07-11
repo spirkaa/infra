@@ -1,5 +1,5 @@
 ---
-pve_template_image_url: https://cloud-images.ubuntu.com/releases/noble/release/ubuntu-24.04-server-cloudimg-amd64.img
+pve_template_image_url: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-amd64.img
 pve_template_image_path: /tmp/{{ pve_template_image_url | basename }}
 pve_template_vmid: "{{ lookup('env', 'STAGE0_VM_ID') }}"
 pve_template_name: "{{ lookup('env', 'STAGE0_VM_NAME') }}"
