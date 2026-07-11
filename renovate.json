@@ -57,8 +57,10 @@
       "groupName": "kubernetes",
       "additionalBranchPrefix": "",
       "separateMinorPatch": true,
+      "separateMultipleMinor": true,
       "matchPackageNames": [
-        "kubernetes/kubernetes"
+        "kubernetes/kubernetes",
+        "kubernetes-sigs/cri-tools"
       ]
     },
     {
