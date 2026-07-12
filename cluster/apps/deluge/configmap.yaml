@@ -6,6 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: deluge
 data:
+  USERSPACE_WIREGUARD: "yes"
   VPN_ENABLED: "yes"
   VPN_PROV: custom
   VPN_CLIENT: wireguard
