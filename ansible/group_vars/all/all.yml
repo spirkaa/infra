@@ -1,6 +1,6 @@
 ---
 # renovate: depName=kubernetes/kubernetes
-inventory__kubernetes_version: v1.36.2
+inventory__kubernetes_version: v1.36.3
 
 vault_secrets:
   - path: secret/argocd
