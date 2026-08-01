@@ -1,7 +1,7 @@
 sonarr:
   image:
     repository: ghcr.io/home-operations/sonarr
-    tag: 4.0.18.2978
+    tag: 4.0.19.2995
   env:
     TZ: Europe/Moscow
   ingress:
