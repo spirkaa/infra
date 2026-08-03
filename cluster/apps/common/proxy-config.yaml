@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: proxy-config
 data:
-  http_proxy: &proxy http://192.168.13.2:3128
+  http_proxy: &proxy http://192.168.10.99:1080
   HTTP_PROXY: *proxy
   https_proxy: *proxy
   HTTPS_PROXY: *proxy
