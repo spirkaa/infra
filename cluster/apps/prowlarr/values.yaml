@@ -1,7 +1,7 @@
 prowlarr:
   image:
     repository: ghcr.io/home-operations/prowlarr
-    tag: 2.6.3.5592
+    tag: 2.6.5.5623
   env:
     TZ: Europe/Moscow
   ingress:
