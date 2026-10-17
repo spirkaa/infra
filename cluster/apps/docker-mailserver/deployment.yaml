@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: mailserver
-          image: ghcr.io/docker-mailserver/docker-mailserver:16.0.1
+          image: ghcr.io/docker-mailserver/docker-mailserver:15.1.0
           envFrom:
             - secretRef:
                 name: docker-mailserver
