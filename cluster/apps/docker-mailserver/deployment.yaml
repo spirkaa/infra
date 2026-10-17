@@ -5,6 +5,8 @@ metadata:
   name: docker-mailserver
   labels:
     app.kubernetes.io/name: docker-mailserver
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   revisionHistoryLimit: 3
