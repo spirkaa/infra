@@ -54,7 +54,7 @@ thanos:
     persistence:
       enabled: true
       storageClass: longhorn
-      size: 2Gi
+      size: 5Gi
   ruler:
     enabled: false
     queryURL: https://thanos.k8s.devmem.ru
