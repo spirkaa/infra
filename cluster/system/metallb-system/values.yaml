@@ -3,7 +3,7 @@ metallb:
     serviceAccount: kps-operator
     namespace: observability
     podMonitor:
-      enabled: true
+      enabled: false
     prometheusRule:
       enabled: true
 ipaddresspool:
