@@ -3,7 +3,8 @@ thanos:
     security:
       allowInsecureImages: true
   image:
-    repository: quay.io/thanos/thanos
+    registry: quay.io
+    repository: thanos/thanos
     tag: v0.42.4
   existingObjstoreSecret: thanos-objstore
   query:
