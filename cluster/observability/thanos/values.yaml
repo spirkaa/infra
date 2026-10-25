@@ -3,7 +3,8 @@ thanos:
     security:
       allowInsecureImages: true
   image:
-    repository: bitnamilegacy/thanos
+    repository: quay.io/thanos/thanos
+    tag: v0.42.4
   existingObjstoreSecret: thanos-objstore
   query:
     enabled: true
