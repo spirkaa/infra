@@ -1,5 +1,5 @@
 loki:
-  deploymentMode: SingleBinary
+  deploymentMode: Monolithic
   loki:
     auth_enabled: false
     commonConfig:
@@ -80,10 +80,10 @@ loki:
         grafana_folder: Loki
     rules:
       enabled: true
+    alerts:
+      enabled: true
     serviceMonitor:
       enabled: true
-      metricsInstance:
-        enabled: false
   test:
     enabled: false
   lokiCanary:
