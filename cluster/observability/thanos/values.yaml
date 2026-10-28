@@ -5,7 +5,7 @@ thanos:
   image:
     registry: quay.io
     repository: thanos/thanos
-    tag: v0.42.4
+    tag: v0.42.5
   existingObjstoreSecret: thanos-objstore
   query:
     enabled: true
